@@ -32,25 +32,35 @@
     <head>
         <title>Ruleta</title>
         <link rel="stylesheet" href="css/main.css" type="text/css" />
+        <link rel="stylesheet" href="css/main2.css" type="text/css" />
         <script type="text/javascript" src="js/Winwheel.js"></script>
-        <script type="text/javascript" src="js/ruleta2.js"></script>
+        <script type="text/javascript" src="js/Winwheel2.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <style>
+            body {
+                  /* The image used */
+                  background-image:url('https://i.ibb.co/vsStt90/BG-ruleta.png');
+                  background-size: cover;
+                  background-repeat:no-repeat;
+
+ 
+                }
+        </style>
     </head>
-    <body>
-        
-        <div class="container-fluid" style="">
+    <body onClick="startSpin();">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6 the_wheel" style="" align="center" valign="center" id="">
-                    <canvas id="canvas" width="315" height="418" >
+                    <canvas id="canvas" width="315" height="418" style="position: absolute; left: 320; top: 0; z-index: 0;">
                         <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
                     </canvas>
                 </div>
                 <div class="col-sm-6 the_wheel" style="" align="center" valign="center" id="">
-                    <canvas id="canvas" width="315" height="418" >
+                    <canvas id="canvas" width="315" height="418" style="left: 1000; top: 0; z-index: 0;">
                         <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
                     </canvas>
                 </div>
@@ -80,9 +90,9 @@
                                         </tr>
                                     </table>
                                     <br />
-                                    <button type="button" class="btn btn-danger" id="spin_button" alt="Spin" onClick="startSpin();">Jugar</button>
+                                    <button type="button" class="btn btn-danger" id="spin_button" alt="Spin" onClick="startSpin();" hidden>Jugar</button>
                                     
-                                    <a href="#" onClick="resetWheel(); return false;">Jugar de nuevo</a>
+                                    <a href="#" onClick="resetWheel(); return false;" hidden>Jugar de nuevo</a>
                                 </div>
                             </td>
                             <td width="318" height="418" class="the_wheel" align="center" valign="center" id="">
@@ -254,6 +264,55 @@
                 // Do basic alert of the segment text. You would probably want to do something more interesting with this information.
                 alert("Valor " + indicatedSegment.text);
             }
+
+            $('body').keyup(function(e) {
+		        if(e.which == 13){
+	
+                theWheel.stopAnimation(false);  // Stop the animation, false as param so does not call callback function.
+                theWheel.rotationAngle = 0;     // Re-set the wheel angle to 0 degrees.
+                theWheel.draw();                // Call draw to render changes to the wheel.
+
+                document.getElementById('pw1').className = "10";  // Remove all colours from the power level indicators.
+                document.getElementById('pw2').className = "10";
+                document.getElementById('pw3').className = "10";
+
+                wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
+            
+
+		        }
+	        });
+            $('body').keyup(function(e) {
+		        if(e.which == 32){
+	
+// Ensure that spinning can't be clicked again while already running.
+if (wheelSpinning == false) {
+                    // Based on the power level selected adjust the number of spins for the wheel, the more times is has
+                    // to rotate with the duration of the animation the quicker the wheel spins.
+                    if (wheelPower == 1) {
+                        theWheel.animation.spins = 2;
+                    } else if (wheelPower == 2) {
+                        theWheel.animation.spins = 5;
+                    } else if (wheelPower == 3) {
+                        theWheel.animation.spins = 8;
+                    }
+
+                    // Disable the spin button so can't click again while wheel is spinning.
+                    document.getElementById('spin_button').src       = "spin_off.png";
+                    document.getElementById('spin_button').className = "";
+
+                    // Begin the spin animation by calling startAnimation on the wheel object.
+                    theWheel.startAnimation();
+
+                    // Set to true so that power can't be changed and spin button re-enabled during
+                    // the current animation. The user will have to reset before spinning again.
+                    wheelSpinning = true;
+                }
+            
+
+		        }
+	        });
+            
+
 
         </script>
         </body>
