@@ -1,21 +1,16 @@
 <!--
     Winhweel.js basic code wheel example by Douglas McKechie @ www.dougtesting.net
     See website for tutorials and other documentation.
-
     The MIT License (MIT)
-
     Copyright (c) 2016 Douglas McKechie
-
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
     in the Software without restriction, including without limitation the rights
     to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
     copies of the Software, and to permit persons to whom the Software is
     furnished to do so, subject to the following conditions:
-
     The above copyright notice and this permission notice shall be included in all
     copies or substantial portions of the Software.
-
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,9 +27,7 @@
     <head>
         <title>Ruleta</title>
         <link rel="stylesheet" href="css/main.css" type="text/css" />
-        <link rel="stylesheet" href="css/main2.css" type="text/css" />
         <script type="text/javascript" src="js/Winwheel.js"></script>
-        <script type="text/javascript" src="js/Winwheel2.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -54,14 +47,16 @@
     <body onClick="startSpin();">
         <div class="container-fluid">
             <div class="row">
+                <!-- 1era Ruleta-->
                 <div class="col-sm-6 the_wheel" style="" align="center" valign="center" id="">
-                    <canvas id="canvas" width="315" height="418" style="position: absolute; left: 320; top: 0; z-index: 0;">
-                        <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
+                    <canvas id="canvas" width="315" height="418" style="position: relative;">
+                        
                     </canvas>
                 </div>
-                <div class="col-sm-6 the_wheel" style="" align="center" valign="center" id="">
-                    <canvas id="canvas" width="315" height="418" style="left: 1000; top: 0; z-index: 0;">
-                        <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
+                <!-- 2da Ruleta-->
+                <div class="col-sm-6 la_rueda" style=" " align="center" valign="center" id="">
+                    <canvas id="" width="315" height="418" style="">
+                        
                     </canvas>
                 </div>
             </div>
@@ -95,11 +90,7 @@
                                     <a href="#" onClick="resetWheel(); return false;" hidden>Jugar de nuevo</a>
                                 </div>
                             </td>
-                            <td width="318" height="418" class="the_wheel" align="center" valign="center" id="">
-                                <canvas id="canvas" width="315" height="418">
-                                    <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
-                                </canvas>
-                            </td>
+ 
                         </tr>
                     </table>
                 </div>

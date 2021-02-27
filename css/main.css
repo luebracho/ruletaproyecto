@@ -22,8 +22,13 @@ div.the_wheel
     background-image: url(../img/wheel_back.png);
     background-position: center;
     background-repeat: no-repeat;
-    position: absolute; 
-    z-index: 2;
+}
+
+div.la_rueda
+{
+    background-image: url(../img/wheel_back.png);
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 /* Do some css reset on selected elements */
