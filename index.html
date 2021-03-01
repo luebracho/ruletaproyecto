@@ -36,12 +36,13 @@
         <style>
             body {
                   /* The image used */
-                  background-image:url('https://i.ibb.co/vsStt90/BG-ruleta.png');
+                  background-image:url('https://i.ibb.co/VB7R0BX/BG-ruleta-1.png');
                   background-size: cover;
                   background-repeat:no-repeat;
 
  
                 }
+
         </style>
     </head>
     <body onClick="startSpin();">
@@ -49,13 +50,13 @@
             <div class="row">
                 <!-- 1era Ruleta-->
                 <div class="col-sm-6 the_wheel" style="" align="center" valign="center" id="">
-                    <canvas id="canvas" width="315" height="418" style="position: relative;">
+                    <canvas id="canvas" width="315" height="418" style="position: static; z-index: -1;">
                         
                     </canvas>
                 </div>
                 <!-- 2da Ruleta-->
-                <div class="col-sm-6 la_rueda" style=" " align="center" valign="center" id="">
-                    <canvas id="" width="315" height="418" style="">
+                <div class="col-sm-6 la_rueda" style="" align="center" valign="center" id="">
+                    <canvas id="" width="315" height="418" style="position: relative; z-index: 0; left: 300px;">
                         
                     </canvas>
                 </div>
