@@ -26,113 +26,113 @@
 */
 
 // ====================================================================================================================
-// The constructor for the WinWheel object, a JSON-like array of options can be passed in.
-// By default the wheel is drawn if canvas object exists on the page, but can pass false as second parameter if don't want this to happen.
+// The constructor for the WinWheel object, a JSON-like array of opciones can be passed in.
+// By default the wheel is drawn if canvas1 object exists on the page, but can pass false as second parameter if don't want this to happen.
 // ====================================================================================================================
-function Ruleta(options, drawWheel)
+function Ruleta(opciones, lienzoRuleta)
 {
-    defaultOptions = {
-        'canvasCc'          : 'canvas1',     // Id of the canvas which the wheel is to draw on to.
-        'centerX'           : null,         // X position of the center of the wheel. The default of these are null which means will be placed in center of the canvas.
-        'centerY'           : null,         // Y position of the wheel center. If left null at time of construct the center of the canvas is used.
-        'outerRadius'       : null,         // The radius of the outside of the wheel. If left null it will be set to the radius from the center of the canvas to its shortest side.
-        'innerRadius'       : 0,            // Normally 0. Allows the creation of rings / doughnuts if set to value > 0. Should not exceed outer radius.
-        'numSegments'       : 1,            // The number of segments. Need at least one to draw.
-        'drawMode'          : 'code',       // The draw mode. Possible values are 'code', 'image', 'segmentImage'. Default is code which means segments are drawn using canvas arc() function.
-        'rotationAngle'     : 0,            // The angle of rotation of the wheel - 0 is 12 o'clock position.
-        'textFontFamily'    : 'Arial',      // Segment text font, you should use web safe fonts.
-        'textFontSize'      : 20,           // Size of the segment text.
-        'textFontWeight'    : 'bold',       // Font weight.
-        'textOrientation'   : 'horizontal', // Either horizontal, vertical, or curved.
-        'textAlignment'     : 'center',     // Either center, inner, or outer.
-        'textDirection'     : 'normal',     // Either normal or reversed. In normal mode for horizontal text in segment at 3 o'clock is correct way up, in reversed text at 9 o'clock segment is correct way up.
-        'textMargin'        : null,         // Margin between the inner or outer of the wheel (depends on textAlignment).
-        'textFillStyle'     : 'black',      // This is basically the text colour.
-        'textStrokeStyle'   : null,         // Basically the line colour for segment text, only looks good for large text so off by default.
-        'textLineWidth'     : 1,            // Width of the lines around the text. Even though this defaults to 1, a line is only drawn if textStrokeStyle specified.
-        'fillStyle'         : 'silver',     // The segment background colour.
-        'strokeStyle'       : 'black',      // Segment line colour. Again segment lines only drawn if this is specified.
-        'lineWidth'         : 1,            // Width of lines around segments.
-        'clearTheCanvas'    : true,         // When set to true the canvas will be cleared before the wheel is drawn.
-        'imageOverlay'      : false,        // If set to true in image drawing mode the outline of the segments will be displayed over the image. Does nothing in code drawMode.
-        'drawText'          : true,         // By default the text of the segments is rendered in code drawMode and not in image drawMode.
-        'pointerAngle'      : 270,            // Location of the pointer that indicates the prize when wheel has stopped. Default is 0 so the (corrected) 12 o'clock position.
-        'wheelImage'        : null,         // Must be set to image data in order to use image to draw the wheel - drawMode must also be 'image'.
-        'imageDirection'    : 'N',          // Used when drawMode is segmentImage. Default is north, can also be (E)ast, (S)outh, (W)est.
-        'responsive'        : false,        // If set to true the wheel will resize when the window first loads and also onResize.
-        'scaleFactor'       : 1,            // Set by the responsive function. Used in many calculations to scale the wheel.
+    opcionesDefecto = {
+        'canvasCc'          : 'canvas1',     // Id of the canvas1 which the wheel is to draw on to.
+        'centroX'           : null,         // X position of the center of the wheel. The default of these are null which means will be placed in center of the canvas1.
+        'centroY'           : null,         // Y position of the wheel center. If left null at time of construct the center of the canvas1 is used.
+        'externoRadio'       : null,         // The radius of the outside of the wheel. If left null it will be set to the radius from the center of the canvas1 to its shortest side.
+        'internoRadio'       : 0,            // Normally 0. Allows the creation of rings / doughnuts if set to value > 0. Should not exceed outer radius.
+        'numSegmentos'       : 1,            // The number of segmentos. Need at least one to draw.
+        'dibujoModo'          : 'code',       // The draw mode. Possible values are 'code', 'image', 'segmentImage'. Default is code which means segmentos are drawn using canvas1 arc() function.
+        'rotacionAngulo'     : 0,            // The angle of rotation of the wheel - 0 is 12 o'clock position.
+        'textoFuenteFamilia'    : 'Arial',      // Segment text font, you should use web safe fonts.
+        'textoFuenteTamano'      : 20,           // Size of the segment text.
+        'textoFuenteAncho'    : 'bold',       // Font weight.
+        'textoOrientacion'   : 'horizontal', // Either horizontal, vertical, or curved.
+        'textoAlineacion'     : 'center',     // Either center, inner, or outer.
+        'textoDireccion'     : 'normal',     // Either normal or reversed. In normal mode for horizontal text in segment at 3 o'clock is correct way up, in reversed text at 9 o'clock segment is correct way up.
+        'textoMargen'        : null,         // Margin between the inner or outer of the wheel (depends on textoAlineacion).
+        'textoRellenoStyle'     : 'black',      // This is basically the text colour.
+        'textoGolpeStyle'   : null,         // Basically the line colour for segment text, only looks good for large text so off by default.
+        'textoLineaAncho'     : 1,            // Width of the lines around the text. Even though this defaults to 1, a line is only drawn if textoGolpeStyle specified.
+        'rellenoStyle'         : 'silver',     // The segment background colour.
+        'golpeStyle'       : 'black',      // Segment line colour. Again segment lines only drawn if this is specified.
+        'lineaAncho'         : 1,            // Width of lines around segmentos.
+        'limpiarElCanvas'    : true,         // When set to true the canvas1 will be cleared before the wheel is drawn.
+        'imageCubrir'      : false,        // If set to true in image drawing mode the outline of the segmentos will be displayed over the image. Does nothing in code dibujoModo.
+        'dibujarTexto'          : true,         // By default the text of the segmentos is rendered in code dibujoModo and not in image dibujoModo.
+        'punteroAngulo'      : 270,            // Location of the pointer that indicates the prize when wheel has stopped. Default is 0 so the (corrected) 12 o'clock position.
+        'ruedaImagen'        : null,         // Must be set to image data in order to use image to draw the wheel - dibujoModo must also be 'image'.
+        'imagenDireccion'    : 'N',          // Used when dibujoModo is segmentImage. Default is north, can also be (E)ast, (S)outh, (W)est.
+        'responsivo'        : false,        // If set to true the wheel will resize when the window first loads and also onResize.
+        'scalaFactor'       : 1,            // Set by the responsivo function. Used in many calculations to scale the wheel.
     };
 
     // -----------------------------------------
-    // Loop through the default options and create properties of this class set to the value for the option passed in
+    // Loop through the default opciones and create properties of this class set to the value for the option passed in
     // or if not value for the option was passed in then to the default.
-    for (let key in defaultOptions) {
-        if ((options != null) && (typeof(options[key]) !== 'undefined')) {
-            this[key] = options[key];
+    for (let llave in opcionesDefecto) {
+        if ((opciones != null) && (typeof(opciones[llave]) !== 'undefined')) {
+            this[llave] = opciones[llave];
         } else {
-            this[key] = defaultOptions[key];
+            this[llave] = opcionesDefecto[llave];
         }
     }
 
-    // Also loop though the passed in options and add anything specified not part of the class in to it as a property.
-    if (options != null) {
-        for (let key in options) {
-            if (typeof(this[key]) === 'undefined') {
-                this[key] = options[key];
+    // Also loop though the passed in opciones and add anything specified not part of the class in to it as a property.
+    if (opciones != null) {
+        for (let llave in opciones) {
+            if (typeof(this[llave]) === 'undefined') {
+                this[llave] = opciones[llave];
             }
         }
     }
 
 
     // ------------------------------------------
-    // If the id of the canvas is set, try to get the canvas as we need it for drawing.
+    // If the id of the canvas1 is set, try to get the canvas1 as we need it for drawing.
     if (this.canvasCc) {
-        this.canvas = document.getElementById(this.canvasCc);
+        this.canvas1 = document.getElementById(this.canvasCc);
 
-        if (this.canvas) {
-            // If the centerX and centerY have not been specified in the options then default to center of the canvas
-            // and make the outerRadius half of the canvas width - this means the wheel will fill the canvas.
-            if (this.centerX == null) {
-                this.centerX = this.canvas.width / 2;
+        if (this.canvas1) {
+            // If the centroX and centroY have not been specified in the opciones then default to center of the canvas1
+            // and make the externoRadio half of the canvas1 width - this means the wheel will fill the canvas1.
+            if (this.centroX == null) {
+                this.centroX = this.canvas1.width / 2;
             }
 
-            if (this.centerY == null) {
-                this.centerY = this.canvas.height / 2;
+            if (this.centroY == null) {
+                this.centroY = this.canvas1.height / 2;
             }
 
-            if (this.outerRadius == null) {
-                // Need to set to half the width of the shortest dimension of the canvas as the canvas may not be square.
-                // Minus the line segment line width otherwise the lines around the segments on the top,left,bottom,right
-                // side are chopped by the edge of the canvas.
-                if (this.canvas.width < this.canvas.height) {
-                    this.outerRadius = (this.canvas.width / 2) - this.lineWidth;
+            if (this.externoRadio == null) {
+                // Need to set to half the width of the shortest dimension of the canvas1 as the canvas1 may not be square.
+                // Minus the line segment line width otherwise the lines around the segmentos on the top,left,bottom,right
+                // side are chopped by the edge of the canvas1.
+                if (this.canvas1.width < this.canvas1.height) {
+                    this.externoRadio = (this.canvas1.width / 2) - this.lineaAncho;
                 } else {
-                    this.outerRadius = (this.canvas.height / 2) - this.lineWidth;
+                    this.externoRadio = (this.canvas1.height / 2) - this.lineaAncho;
                 }
             }
 
-            // Also get a 2D context to the canvas as we need this to draw with.
-            this.ctx = this.canvas.getContext('2d');
+            // Also get a 2D context to the canvas1 as we need this to draw with.
+            this.xtc = this.canvas1.getContext('2d');
         } else {
-            this.canvas = null;
-            this.ctx = null;
+            this.canvas1 = null;
+            this.xtc = null;
         }
     } else {
-        this.canvas = null;
-        this.ctx = null;
+        this.canvas1 = null;
+        this.xtc = null;
     }
 
     // ------------------------------------------
-    // Add array of segments to the wheel, then populate with segments if number of segments is specified for this object.
-    this.segments = new Array(null);
+    // Add array of segmentos to the wheel, then populate with segmentos if number of segmentos is specified for this object.
+    this.segmentos = new Array(null);
 
-    for (let x = 1; x <= this.numSegments; x++) {
-        // If options for the segments have been specified then create a segment sending these options so
+    for (let x = 1; x <= this.numSegmentos; x++) {
+        // If opciones for the segmentos have been specified then create a segment sending these opciones so
         // the specified values are used instead of the defaults.
-        if ((options != null) && (options['segments']) && (typeof(options['segments'][x-1]) !== 'undefined')) {
-            this.segments[x] = new Segment(options['segments'][x-1]);
+        if ((opciones != null) && (opciones['segmentos']) && (typeof(opciones['segmentos'][x-1]) !== 'undefined')) {
+            this.segmentos[x] = new Segment(opciones['segmentos'][x-1]);
         } else {
-            this.segments[x] = new Segment();
+            this.segmentos[x] = new Segment();
         }
     }
 
@@ -141,80 +141,80 @@ function Ruleta(options, drawWheel)
     this.updateSegmentSizes();
 
     // If the text margin is null then set to same as font size as we want some by default.
-    if (this.textMargin === null) {
-        this.textMargin = (this.textFontSize / 1.7);
+    if (this.textoMargen === null) {
+        this.textoMargen = (this.textoFuenteTamano / 1.7);
     }
 
     // ------------------------------------------
-    // If the animation options have been passed in then create animation object as a property of this class
-    // and pass the options to it so the animation is set. Otherwise create default animation object.
-    if ((options != null) && (options['animation']) && (typeof(options['animation']) !== 'undefined')) {
-        this.animation = new Animation(options['animation']);
+    // If the animation opciones have been passed in then create animation object as a property of this class
+    // and pass the opciones to it so the animation is set. Otherwise create default animation object.
+    if ((opciones != null) && (opciones['animation']) && (typeof(opciones['animation']) !== 'undefined')) {
+        this.animation = new Animation(opciones['animation']);
     } else {
         this.animation = new Animation();
     }
 
     // ------------------------------------------
-    // If some pin options then create create a pin object and then pass them in.
-    if ((options != null) && (options['pins']) && (typeof(options['pins']) !== 'undefined')) {
-        this.pins = new Pin(options['pins']);
+    // If some pin opciones then create create a pin object and then pass them in.
+    if ((opciones != null) && (opciones['pins']) && (typeof(opciones['pins']) !== 'undefined')) {
+        this.pins = new Pin(opciones['pins']);
     }
 
     // ------------------------------------------
-    // If the drawMode is image change some defaults provided a value has not been specified.
-    if ((this.drawMode == 'image') || (this.drawMode == 'segmentImage')) {
-        // Remove grey fillStyle.
-        if (typeof(options['fillStyle']) === 'undefined') {
-            this.fillStyle = null;
+    // If the dibujoModo is image change some defaults provided a value has not been specified.
+    if ((this.dibujoModo == 'image') || (this.dibujoModo == 'segmentImage')) {
+        // Remove grey rellenoStyle.
+        if (typeof(opciones['rellenoStyle']) === 'undefined') {
+            this.rellenoStyle = null;
         }
 
-        // Set strokeStyle to red.
-        if (typeof(options['strokeStyle']) === 'undefined') {
-            this.strokeStyle = 'red';
+        // Set golpeStyle to red.
+        if (typeof(opciones['golpeStyle']) === 'undefined') {
+            this.golpeStyle = 'red';
         }
 
-        // Set drawText to false as we will assume any text is part of the image.
-        if (typeof(options['drawText']) === 'undefined') {
-            this.drawText = false;
+        // Set dibujarTexto to false as we will assume any text is part of the image.
+        if (typeof(opciones['dibujarTexto']) === 'undefined') {
+            this.dibujarTexto = false;
         }
 
-        // Also set the lineWidth to 1 so that segment overlay will look correct.
-        if (typeof(options['lineWidth']) === 'undefined') {
-            this.lineWidth = 1;
+        // Also set the lineaAncho to 1 so that segment overlay will look correct.
+        if (typeof(opciones['lineaAncho']) === 'undefined') {
+            this.lineaAncho = 1;
         }
 
-        // Set drawWheel to false as normally the image needs to be loaded first.
-        if (typeof(drawWheel) === 'undefined') {
-            drawWheel = false;
+        // Set lienzoRuleta to false as normally the image needs to be loaded first.
+        if (typeof(lienzoRuleta) === 'undefined') {
+            lienzoRuleta = false;
         }
     } else {
-        // When in code drawMode the default is the wheel will draw.
-        if (typeof(drawWheel) === 'undefined') {
-            drawWheel = true;
+        // When in code dibujoModo the default is the wheel will draw.
+        if (typeof(lienzoRuleta) === 'undefined') {
+            lienzoRuleta = true;
         }
     }
 
     // Create pointer guide.
-    if ((options != null) && (options['pointerGuide']) && (typeof(options['pointerGuide']) !== 'undefined')) {
-        this.pointerGuide = new PointerGuide(options['pointerGuide']);
+    if ((opciones != null) && (opciones['pointerGuide']) && (typeof(opciones['pointerGuide']) !== 'undefined')) {
+        this.pointerGuide = new PointerGuide(opciones['pointerGuide']);
     } else {
         this.pointerGuide = new PointerGuide();
     }
 
-    // Check if the wheel is to be responsive, if so then need to save the original size of the canvas
-    // and also check for data- attributes on the canvas which help control the scaling.
-    if (this.responsive) {
+    // Check if the wheel is to be responsivo, if so then need to save the original size of the canvas1
+    // and also check for data- attributes on the canvas1 which help control the scaling.
+    if (this.responsivo) {
         winwheelToDrawDuringAnimation = this;
 
-        // Save the original defined width and height of the canvas, this is needed later to work out the scaling.
-        this._originalCanvasWidth = this.canvas.width;
-        this._originalCanvasHeight = this.canvas.height;
+        // Save the original defined width and height of the canvas1, this is needed later to work out the scaling.
+        this._originalCanvasWidth = this.canvas1.width;
+        this._originalCanvasHeight = this.canvas1.height;
 
-        // Get data-attributes on the canvas.
-        this._responsiveScaleHeight = this.canvas.dataset.responsivescaleheight;
-        this._responsiveMinWidth = this.canvas.dataset.responsiveminwidth;
-        this._responsiveMinHeight = this.canvas.dataset.responsiveminheight;
-        this._responsiveMargin = this.canvas.dataset.responsivemargin;
+        // Get data-attributes on the canvas1.
+        this._responsiveScaleHeight = this.canvas1.dataset.responsivescaleheight;
+        this._responsiveMinWidth = this.canvas1.dataset.responsiveminwidth;
+        this._responsiveMinHeight = this.canvas1.dataset.responsiveminheight;
+        this._responsiveMargin = this.canvas1.dataset.responsivemargin;
 
         // Add event listeners for onload and onresize and call a function defined at the bottom
         // of this script which will handle that and work out the scale factor.
@@ -222,41 +222,41 @@ function Ruleta(options, drawWheel)
         window.addEventListener("resize", winwheelResize);
     }
 
-    // Finally if drawWheel is true then call function to render the wheel, segment text, overlay etc.
-    if (drawWheel == true) {
-        this.draw(this.clearTheCanvas);
-    } else if (this.drawMode == 'segmentImage') {
-        // If segment image then loop though all the segments and load the images for them setting a callback
+    // Finally if lienzoRuleta is true then call function to render the wheel, segment text, overlay etc.
+    if (lienzoRuleta == true) {
+        this.draw(this.limpiarElCanvas);
+    } else if (this.dibujoModo == 'segmentImage') {
+        // If segment image then loop though all the segmentos and load the images for them setting a callback
         // which will call the draw function of the wheel once all the images have been loaded.
         winwheelToDrawDuringAnimation = this;
         winhweelAlreadyDrawn = false;
 
-        for (let y = 1; y <= this.numSegments; y ++) {
-            if (this.segments[y].image !== null) {
-                this.segments[y].imgData = new Image();
-                this.segments[y].imgData.onload = winwheelLoadedImage;
-                this.segments[y].imgData.src = this.segments[y].image;
+        for (let y = 1; y <= this.numSegmentos; y ++) {
+            if (this.segmentos[y].image !== null) {
+                this.segmentos[y].imgData = new Image();
+                this.segmentos[y].imgData.onload = winwheelLoadedImage;
+                this.segmentos[y].imgData.src = this.segmentos[y].image;
             }
         }
     }
 }
 
 // ====================================================================================================================
-// This function sorts out the segment sizes. Some segments may have set sizes, for the others what is left out of
+// This function sorts out the segment sizes. Some segmentos may have set sizes, for the others what is left out of
 // 360 degrees is shared evenly. What this function actually does is set the start and end angle of the arcs.
 // ====================================================================================================================
 Ruleta.prototype.updateSegmentSizes = function()
 {
-    // If this object actually contains some segments
-    if (this.segments) {
-        // First add up the arc used for the segments where the size has been set.
+    // If this object actually contains some segmentos
+    if (this.segmentos) {
+        // First add up the arc used for the segmentos where the size has been set.
         let arcUsed = 0;
         let numSet  = 0;
 
-        // Remember, to make it easy to access segments, the position of the segments in the array starts from 1 (not 0).
-        for (let x = 1; x <= this.numSegments; x ++) {
-            if (this.segments[x].size !== null) {
-                arcUsed += this.segments[x].size;
+        // Remember, to make it easy to access segmentos, the position of the segmentos in the array starts from 1 (not 0).
+        for (let x = 1; x <= this.numSegmentos; x ++) {
+            if (this.segmentos[x].size !== null) {
+                arcUsed += this.segmentos[x].size;
                 numSet ++;
             }
         }
@@ -267,93 +267,93 @@ Ruleta.prototype.updateSegmentSizes = function()
         let degreesEach = 0;
 
         if (arcLeft > 0) {
-            degreesEach = (arcLeft / (this.numSegments - numSet));
+            degreesEach = (arcLeft / (this.numSegmentos - numSet));
         }
 
         // ------------------------------------------
         // Now loop though and set the start and end angle of each segment.
         let currentDegree = 0;
 
-        for (let x = 1; x <= this.numSegments; x ++) {
+        for (let x = 1; x <= this.numSegmentos; x ++) {
             // Set start angle.
-            this.segments[x].startAngle = currentDegree;
+            this.segmentos[x].startAngle = currentDegree;
 
             // If the size is set then add this to the current degree to get the end, else add the degreesEach to it.
-            if (this.segments[x].size) {
-                currentDegree += this.segments[x].size;
+            if (this.segmentos[x].size) {
+                currentDegree += this.segmentos[x].size;
             } else {
                 currentDegree += degreesEach;
             }
 
             // Set end angle.
-            this.segments[x].endAngle = currentDegree;
+            this.segmentos[x].endAngle = currentDegree;
         }
     }
 }
 
 // ====================================================================================================================
-// This function clears the canvas. Will wipe anything else which happens to be drawn on it.
+// This function clears the canvas1. Will wipe anything else which happens to be drawn on it.
 // ====================================================================================================================
 Ruleta.prototype.clearCanvas = function()
 {
-    if (this.ctx) {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    if (this.xtc) {
+        this.xtc.clearRect(0, 0, this.canvas1.width, this.canvas1.height);
     }
 }
 
 // ====================================================================================================================
-// This function draws / re-draws the wheel on the canvas therefore rendering any changes.
+// This function draws / re-draws the wheel on the canvas1 therefore rendering any changes.
 // ====================================================================================================================
-Ruleta.prototype.draw = function(clearTheCanvas)
+Ruleta.prototype.draw = function(limpiarElCanvas)
 {
-    // If have the canvas context.
-    if (this.ctx) {
-        // Clear the canvas, unless told not to.
-        if (typeof(clearTheCanvas) !== 'undefined') {
-            if (clearTheCanvas == true) {
+    // If have the canvas1 context.
+    if (this.xtc) {
+        // Clear the canvas1, unless told not to.
+        if (typeof(limpiarElCanvas) !== 'undefined') {
+            if (limpiarElCanvas == true) {
                 this.clearCanvas();
             }
         } else {
             this.clearCanvas();
         }
 
-        // Call functions to draw the segments and then segment text.
-        if (this.drawMode == 'image') {
-            // Draw the wheel by loading and drawing an image such as a png on the canvas.
+        // Call functions to draw the segmentos and then segment text.
+        if (this.dibujoModo == 'image') {
+            // Draw the wheel by loading and drawing an image such as a png on the canvas1.
             this.drawWheelImage();
 
             // If we are to draw the text, do so before the overlay is drawn
             // as this allows the overlay to be used to create some interesting effects.
-            if (this.drawText == true) {
+            if (this.dibujarTexto == true) {
                 this.drawSegmentText();
             }
 
-            // If image overlay is true then call function to draw the segments over the top of the image.
-            // This is useful during development to check alignment between where the code thinks the segments are and where they appear on the image.
-            if (this.imageOverlay == true) {
+            // If image overlay is true then call function to draw the segmentos over the top of the image.
+            // This is useful during development to check alignment between where the code thinks the segmentos are and where they appear on the image.
+            if (this.imageCubrir == true) {
                 this.drawSegments();
             }
-        } else if (this.drawMode == 'segmentImage') {
+        } else if (this.dibujoModo == 'segmentImage') {
             // Draw the wheel by rendering the image for each segment.
             this.drawSegmentImages();
 
             // If we are to draw the text, do so before the overlay is drawn
             // as this allows the overlay to be used to create some interesting effects.
-            if (this.drawText == true) {
+            if (this.dibujarTexto == true) {
                 this.drawSegmentText();
             }
 
-            // If image overlay is true then call function to draw the segments over the top of the image.
-            // This is useful during development to check alignment between where the code thinks the segments are and where they appear on the image.
-            if (this.imageOverlay == true) {
+            // If image overlay is true then call function to draw the segmentos over the top of the image.
+            // This is useful during development to check alignment between where the code thinks the segmentos are and where they appear on the image.
+            if (this.imageCubrir == true) {
                 this.drawSegments();
             }
         } else {
-            // The default operation is to draw the segments using code via the canvas arc() method.
+            // The default operation is to draw the segmentos using code via the canvas1 arc() method.
             this.drawSegments();
 
             // The text is drawn on top.
-            if (this.drawText == true) {
+            if (this.dibujarTexto == true) {
                 this.drawSegmentText();
             }
         }
@@ -379,18 +379,18 @@ Ruleta.prototype.draw = function(clearTheCanvas)
 Ruleta.prototype.drawPins = function()
 {
     if ((this.pins) && (this.pins.number)) {
-        // Get scaled centerX and centerY to use in the code below so pins will draw responsively too.
-        let centerX = (this.centerX * this.scaleFactor);
-        let centerY = (this.centerY * this.scaleFactor);
-        let outerRadius = (this.outerRadius * this.scaleFactor);
+        // Get scaled centroX and centroY to use in the code below so pins will draw responsively too.
+        let centroX = (this.centroX * this.scalaFactor);
+        let centroY = (this.centroY * this.scalaFactor);
+        let externoRadio = (this.externoRadio * this.scalaFactor);
 
-        // Check if the pin's size is to be responsive too, if so set the pinOuterRadius to a scaled version number.
-        let pinOuterRadius = this.pins.outerRadius;
+        // Check if the pin's size is to be responsivo too, if so set the pinOuterRadius to a scaled version number.
+        let pinOuterRadius = this.pins.externoRadio;
         let pinMargin = this.pins.margin;
 
-        if (this.pins.responsive) {
-            pinOuterRadius = (this.pins.outerRadius * this.scaleFactor);
-            pinMargin = (this.pins.margin * this.scaleFactor);
+        if (this.pins.responsivo) {
+            pinOuterRadius = (this.pins.externoRadio * this.scalaFactor);
+            pinMargin = (this.pins.margin * this.scalaFactor);
         }
 
         // Work out the angle to draw each pin a which is simply 360 / the number of pins as they space evenly around.
@@ -400,36 +400,36 @@ Ruleta.prototype.drawPins = function()
         let pinSpacing = (360 / this.pins.number);
 
         for(let i=1; i<=this.pins.number; i ++) {
-            this.ctx.save();
+            this.xtc.save();
 
             // Set the stroke style and line width.
-            this.ctx.strokeStyle = this.pins.strokeStyle;
-            this.ctx.lineWidth = this.pins.lineWidth;
-            this.ctx.fillStyle = this.pins.fillStyle;
+            this.xtc.golpeStyle = this.pins.golpeStyle;
+            this.xtc.lineaAncho = this.pins.lineaAncho;
+            this.xtc.rellenoStyle = this.pins.rellenoStyle;
 
             // Move to the center.
-            this.ctx.translate(centerX, centerY);
+            this.xtc.translate(centroX, centroY);
 
             // Rotate to to the pin location which is i * the pinSpacing.
-            this.ctx.rotate(this.degToRad(i * pinSpacing + this.rotationAngle));
+            this.xtc.rotate(this.degToRad(i * pinSpacing + this.rotacionAngulo));
 
             // Move back out.
-            this.ctx.translate(-centerX, -centerY);
+            this.xtc.translate(-centroX, -centroY);
 
             // Create a path for the pin circle.
-            this.ctx.beginPath();
+            this.xtc.beginPath();
             // x, y, radius, startAngle, endAngle.
-            this.ctx.arc(centerX,(centerY - outerRadius) + pinOuterRadius + pinMargin, pinOuterRadius, 0, 2*Math.PI);
+            this.xtc.arc(centroX,(centroY - externoRadio) + pinOuterRadius + pinMargin, pinOuterRadius, 0, 2*Math.PI);
 
-            if (this.pins.fillStyle) {
-                this.ctx.fill();
+            if (this.pins.rellenoStyle) {
+                this.xtc.fill();
             }
 
-            if (this.pins.strokeStyle) {
-                this.ctx.stroke();
+            if (this.pins.golpeStyle) {
+                this.xtc.stroke();
             }
 
-            this.ctx.restore();
+            this.xtc.restore();
         }
     }
 }
@@ -439,88 +439,88 @@ Ruleta.prototype.drawPins = function()
 // ====================================================================================================================
 Ruleta.prototype.drawPointerGuide = function()
 {
-    // If have canvas context.
-    if (this.ctx) {
+    // If have canvas1 context.
+    if (this.xtc) {
         // Get scaled center x an y and also the outer radius.
-        let centerX = (this.centerX * this.scaleFactor);
-        let centerY = (this.centerY * this.scaleFactor);
-        let outerRadius = (this.outerRadius * this.scaleFactor);
+        let centroX = (this.centroX * this.scalaFactor);
+        let centroY = (this.centroY * this.scalaFactor);
+        let externoRadio = (this.externoRadio * this.scalaFactor);
 
-        this.ctx.save();
+        this.xtc.save();
 
-        // Rotate the canvas to the line goes towards the location of the pointer.
-        this.ctx.translate(centerX, centerY);
-        this.ctx.rotate(this.degToRad(this.pointerAngle));
-        this.ctx.translate(-centerX, -centerY);
+        // Rotate the canvas1 to the line goes towards the location of the pointer.
+        this.xtc.translate(centroX, centroY);
+        this.xtc.rotate(this.degToRad(this.punteroAngulo));
+        this.xtc.translate(-centroX, -centroY);
 
         // Set line colour and width.
-        this.ctx.strokeStyle = this.pointerGuide.strokeStyle;
-        this.ctx.lineWidth = this.pointerGuide.lineWidth;
+        this.xtc.golpeStyle = this.pointerGuide.golpeStyle;
+        this.xtc.lineaAncho = this.pointerGuide.lineaAncho;
 
         // Draw from the center of the wheel outwards past the wheel outer radius.
-        this.ctx.beginPath();
-        this.ctx.moveTo(centerX, centerY);
-        this.ctx.lineTo(centerX, -(outerRadius / 4));
+        this.xtc.beginPath();
+        this.xtc.moveTo(centroX, centroY);
+        this.xtc.lineTo(centroX, -(externoRadio / 4));
 
-        this.ctx.stroke();
-        this.ctx.restore();
+        this.xtc.stroke();
+        this.xtc.restore();
     }
 }
 
 // ====================================================================================================================
-// This function takes an image such as PNG and draws it on the canvas making its center at the centerX and center for the wheel.
+// This function takes an image such as PNG and draws it on the canvas1 making its center at the centroX and center for the wheel.
 // ====================================================================================================================
 Ruleta.prototype.drawWheelImage = function()
 {
-    // Double check the wheelImage property of this class is not null. This does not actually detect that an image
+    // Double check the ruedaImagen property of this class is not null. This does not actually detect that an image
     // source was set and actually loaded so might get error if this is not the case. This is why the initial call
-    // to draw() should be done from a wheelImage.onload callback as detailed in example documentation.
-    if (this.wheelImage != null) {
-        // Get the centerX and centerY in to variables, adjust by the scaleFactor.
-        let centerX = (this.centerX * this.scaleFactor);
-        let centerY = (this.centerY * this.scaleFactor);
+    // to draw() should be done from a ruedaImagen.onload callback as detailed in example documentation.
+    if (this.ruedaImagen != null) {
+        // Get the centroX and centroY in to variables, adjust by the scalaFactor.
+        let centroX = (this.centroX * this.scalaFactor);
+        let centroY = (this.centroY * this.scalaFactor);
 
         // Get the scaled width and height of the image.
-        let scaledWidth = (this.wheelImage.width * this.scaleFactor);
-        let scaledHeight = (this.wheelImage.height * this.scaleFactor);
+        let scaledWidth = (this.ruedaImagen.width * this.scalaFactor);
+        let scaledHeight = (this.ruedaImagen.height * this.scalaFactor);
 
         // Work out the correct X and Y to draw the image at. We need to get the center point of the image
         // aligned over the center point of the wheel, we can't just place it at 0, 0.
-        let imageLeft = (centerX - (scaledWidth / 2));
-        let imageTop  = (centerY - (scaledHeight / 2));
+        let imageLeft = (centroX - (scaledWidth / 2));
+        let imageTop  = (centroY - (scaledHeight / 2));
 
         // Rotate and then draw the wheel.
-        // We must rotate by the rotationAngle before drawing to ensure that image wheels will spin.
-        this.ctx.save();
-        this.ctx.translate(centerX, centerY);
-        this.ctx.rotate(this.degToRad(this.rotationAngle));
-        this.ctx.translate(-centerX, -centerY);
+        // We must rotate by the rotacionAngulo before drawing to ensure that image wheels will spin.
+        this.xtc.save();
+        this.xtc.translate(centroX, centroY);
+        this.xtc.rotate(this.degToRad(this.rotacionAngulo));
+        this.xtc.translate(-centroX, -centroY);
 
-        // Draw the image passing the scaled width and height which will ensure the image will be responsive.
-        this.ctx.drawImage(this.wheelImage, imageLeft, imageTop, scaledWidth, scaledHeight);
+        // Draw the image passing the scaled width and height which will ensure the image will be responsivo.
+        this.xtc.drawImage(this.ruedaImagen, imageLeft, imageTop, scaledWidth, scaledHeight);
 
-        this.ctx.restore();
+        this.xtc.restore();
     }
 }
 
 // ====================================================================================================================
-// This function draws the wheel on the canvas by rendering the image for each segment.
+// This function draws the wheel on the canvas1 by rendering the image for each segment.
 // ====================================================================================================================
 Ruleta.prototype.drawSegmentImages = function()
 {
     // Again check have context in case this function was called directly and not via draw function.
-    if (this.ctx) {
-        // Get the centerX and centerY of the wheel adjusted with the scale factor.
-        let centerX = (this.centerX * this.scaleFactor);
-        let centerY = (this.centerY * this.scaleFactor);
+    if (this.xtc) {
+        // Get the centroX and centroY of the wheel adjusted with the scale factor.
+        let centroX = (this.centroX * this.scalaFactor);
+        let centroY = (this.centroY * this.scalaFactor);
 
-        // Draw the segments if there is at least one in the segments array.
-        if (this.segments) {
-            // Loop though and output all segments - position 0 of the array is not used, so start loop from index 1
+        // Draw the segmentos if there is at least one in the segmentos array.
+        if (this.segmentos) {
+            // Loop though and output all segmentos - position 0 of the array is not used, so start loop from index 1
             // this is to avoid confusion when talking about the first segment.
-            for (let x = 1; x <= this.numSegments; x ++) {
-                // Get the segment object as we need it to read options from.
-                let seg = this.segments[x];
+            for (let x = 1; x <= this.numSegmentos; x ++) {
+                // Get the segment object as we need it to read opciones from.
+                let seg = this.segmentos[x];
 
                 // Check image has loaded so a property such as height has a value.
                 if (seg.imgData.height) {
@@ -533,44 +533,44 @@ Ruleta.prototype.drawSegmentImages = function()
                     let imageLeft = 0;
                     let imageTop = 0;
                     let imageAngle = 0;
-                    let imageDirection = '';
+                    let imagenDireccion = '';
 
                     // Get scaled width and height of the segment image.
-                    let scaledWidth = (seg.imgData.width * this.scaleFactor);
-                    let scaledHeight = (seg.imgData.height * this.scaleFactor);
+                    let scaledWidth = (seg.imgData.width * this.scalaFactor);
+                    let scaledHeight = (seg.imgData.height * this.scalaFactor);
 
-                    if (seg.imageDirection !== null) {
-                        imageDirection = seg.imageDirection;
+                    if (seg.imagenDireccion !== null) {
+                        imagenDireccion = seg.imagenDireccion;
                     } else {
-                        imageDirection = this.imageDirection;
+                        imagenDireccion = this.imagenDireccion;
                     }
 
-                    if (imageDirection == 'S') {
+                    if (imagenDireccion == 'S') {
                         // Left set so image sits half/half over the 180 degrees point.
-                        imageLeft = (centerX - (scaledWidth / 2));
+                        imageLeft = (centroX - (scaledWidth / 2));
 
-                        // Top so image starts at the centerY.
-                        imageTop = centerY;
+                        // Top so image starts at the centroY.
+                        imageTop = centroY;
 
                         // Angle to draw the image is its starting angle + half its size.
                         // Here we add 180 to the angle to the segment is poistioned correctly.
                         imageAngle = (seg.startAngle + 180 + ((seg.endAngle - seg.startAngle) / 2));
-                    } else if (imageDirection == 'E') {
+                    } else if (imagenDireccion == 'E') {
                         // Left set so image starts and the center point.
-                        imageLeft = centerX;
+                        imageLeft = centroX;
 
                         // Top is so that it sits half/half over the 90 degree point.
-                        imageTop = (centerY - (scaledHeight / 2));
+                        imageTop = (centroY - (scaledHeight / 2));
 
                         // Again get the angle in the center of the segment and add it to the rotation angle.
                         // this time we need to add 270 to that to the segment is rendered the correct place.
                         imageAngle = (seg.startAngle + 270 + ((seg.endAngle - seg.startAngle) / 2));
-                    } else if (imageDirection == 'W') {
-                        // Left is the centerX minus the width of the image.
-                        imageLeft = (centerX - scaledWidth);
+                    } else if (imagenDireccion == 'W') {
+                        // Left is the centroX minus the width of the image.
+                        imageLeft = (centroX - scaledWidth);
 
                         // Top is so that it sits half/half over the 270 degree point.
-                        imageTop = (centerY - (scaledHeight / 2));
+                        imageTop = (centroY - (scaledHeight / 2));
 
                         // Again get the angle in the center of the segment and add it to the rotation angle.
                         // this time we need to add 90 to that to the segment is rendered the correct place.
@@ -578,10 +578,10 @@ Ruleta.prototype.drawSegmentImages = function()
                     } else {
                         // North is the default.
                         // Left set so image sits half/half over the 0 degrees point.
-                        imageLeft = (centerX - (scaledWidth / 2));
+                        imageLeft = (centroX - (scaledWidth / 2));
 
                         // Top so image is its height out (above) the center point.
-                        imageTop = (centerY - scaledHeight);
+                        imageTop = (centroY - scaledHeight);
 
                         // Angle to draw the image is its starting angle + half its size.
                         // this sits it half/half over the center angle of the segment.
@@ -590,17 +590,17 @@ Ruleta.prototype.drawSegmentImages = function()
 
                     // --------------------------------------------------
                     // Rotate to the position of the segment and then draw the image.
-                    this.ctx.save();
-                    this.ctx.translate(centerX, centerY);
+                    this.xtc.save();
+                    this.xtc.translate(centroX, centroY);
 
                     // So math here is the rotation angle of the wheel plus half way between the start and end angle of the segment.
-                    this.ctx.rotate(this.degToRad(this.rotationAngle + imageAngle));
-                    this.ctx.translate(-centerX, -centerY);
+                    this.xtc.rotate(this.degToRad(this.rotacionAngulo + imageAngle));
+                    this.xtc.translate(-centroX, -centroY);
 
-                    // Draw the image passing the scaled width and height so that it can be responsive.
-                    this.ctx.drawImage(seg.imgData, imageLeft, imageTop, scaledWidth, scaledHeight);
+                    // Draw the image passing the scaled width and height so that it can be responsivo.
+                    this.xtc.drawImage(seg.imgData, imageLeft, imageTop, scaledWidth, scaledHeight);
 
-                    this.ctx.restore();
+                    this.xtc.restore();
                 } else {
                     console.log('Segment ' + x + ' imgData is not loaded');
                 }
@@ -610,96 +610,96 @@ Ruleta.prototype.drawSegmentImages = function()
 }
 
 // ====================================================================================================================
-// This function draws the wheel on the page by rendering the segments on the canvas.
+// This function draws the wheel on the page by rendering the segmentos on the canvas1.
 // ====================================================================================================================
 Ruleta.prototype.drawSegments = function()
 {
     // Again check have context in case this function was called directly and not via draw function.
-    if (this.ctx) {
-        // Draw the segments if there is at least one in the segments array.
-        if (this.segments) {
-            // Get scaled centerX and centerY and also scaled inner and outer radius.
-            let centerX = (this.centerX * this.scaleFactor);
-            let centerY = (this.centerY * this.scaleFactor);
-            let innerRadius = (this.innerRadius * this.scaleFactor);
-            let outerRadius = (this.outerRadius * this.scaleFactor);
+    if (this.xtc) {
+        // Draw the segmentos if there is at least one in the segmentos array.
+        if (this.segmentos) {
+            // Get scaled centroX and centroY and also scaled inner and outer radius.
+            let centroX = (this.centroX * this.scalaFactor);
+            let centroY = (this.centroY * this.scalaFactor);
+            let internoRadio = (this.internoRadio * this.scalaFactor);
+            let externoRadio = (this.externoRadio * this.scalaFactor);
 
-            // Loop though and output all segments - position 0 of the array is not used, so start loop from index 1
+            // Loop though and output all segmentos - position 0 of the array is not used, so start loop from index 1
             // this is to avoid confusion when talking about the first segment.
-            for (let x = 1; x <= this.numSegments; x ++) {
-                // Get the segment object as we need it to read options from.
-                let seg = this.segments[x];
+            for (let x = 1; x <= this.numSegmentos; x ++) {
+                // Get the segment object as we need it to read opciones from.
+                let seg = this.segmentos[x];
 
-                let fillStyle;
-                let lineWidth;
-                let strokeStyle;
+                let rellenoStyle;
+                let lineaAncho;
+                let golpeStyle;
 
-                // Set the variables that defined in the segment, or use the default options.
-                if (seg.fillStyle !== null) {
-                    fillStyle = seg.fillStyle;
+                // Set the variables that defined in the segment, or use the default opciones.
+                if (seg.rellenoStyle !== null) {
+                    rellenoStyle = seg.rellenoStyle;
                 } else {
-                    fillStyle = this.fillStyle;
+                    rellenoStyle = this.rellenoStyle;
                 }
 
-                this.ctx.fillStyle = fillStyle;
+                this.xtc.rellenoStyle = rellenoStyle;
 
-                if (seg.lineWidth !== null) {
-                    lineWidth = seg.lineWidth;
+                if (seg.lineaAncho !== null) {
+                    lineaAncho = seg.lineaAncho;
                 } else {
-                    lineWidth = this.lineWidth;
+                    lineaAncho = this.lineaAncho;
                 }
 
-                this.ctx.lineWidth = lineWidth;
+                this.xtc.lineaAncho = lineaAncho;
 
-                if (seg.strokeStyle !== null) {
-                    strokeStyle = seg.strokeStyle;
+                if (seg.golpeStyle !== null) {
+                    golpeStyle = seg.golpeStyle;
                 } else {
-                    strokeStyle = this.strokeStyle;
+                    golpeStyle = this.golpeStyle;
                 }
 
-                this.ctx.strokeStyle = strokeStyle;
+                this.xtc.golpeStyle = golpeStyle;
 
 
-                // Check there is a strokeStyle or fillStyle, if not the segment is invisible so should not try to draw it otherwise a path is began but not ended.
-                if ((strokeStyle) || (fillStyle)) {
+                // Check there is a golpeStyle or rellenoStyle, if not the segment is invisible so should not try to draw it otherwise a path is began but not ended.
+                if ((golpeStyle) || (rellenoStyle)) {
                     // Begin a path as the segment consists of an arc and 2 lines.
-                    this.ctx.beginPath();
+                    this.xtc.beginPath();
 
                     // If don't have an inner radius then move to the center of the wheel as we want a line out from the center
                     // to the start of the arc for the outside of the wheel when we arc. Canvas will draw the connecting line for us.
-                    if (!this.innerRadius) {
-                        this.ctx.moveTo(centerX, centerY);
+                    if (!this.internoRadio) {
+                        this.xtc.moveTo(centroX, centroY);
                     } else {
                         // Work out the x and y values for the starting point of the segment which is at its starting angle
-                        // but out from the center point of the wheel by the value of the innerRadius. Some correction for line width is needed.
-                        let iX = Math.cos(this.degToRad(seg.startAngle + this.rotationAngle - 90)) * (innerRadius - lineWidth / 2);
-                        let iY = Math.sin(this.degToRad(seg.startAngle + this.rotationAngle - 90)) * (innerRadius - lineWidth / 2);
+                        // but out from the center point of the wheel by the value of the internoRadio. Some correction for line width is needed.
+                        let iX = Math.cos(this.degToRad(seg.startAngle + this.rotacionAngulo - 90)) * (internoRadio - lineaAncho / 2);
+                        let iY = Math.sin(this.degToRad(seg.startAngle + this.rotacionAngulo - 90)) * (internoRadio - lineaAncho / 2);
 
                         // Now move here relative to the center point of the wheel.
-                        this.ctx.moveTo(centerX + iX, centerY + iY);
+                        this.xtc.moveTo(centroX + iX, centroY + iY);
                     }
 
                     // Draw the outer arc of the segment clockwise in direction -->
-                    this.ctx.arc(centerX, centerY, outerRadius, this.degToRad(seg.startAngle + this.rotationAngle - 90), this.degToRad(seg.endAngle + this.rotationAngle - 90), false);
+                    this.xtc.arc(centroX, centroY, externoRadio, this.degToRad(seg.startAngle + this.rotacionAngulo - 90), this.degToRad(seg.endAngle + this.rotacionAngulo - 90), false);
 
-                    if (this.innerRadius) {
-                        // Draw another arc, this time anticlockwise <-- at the innerRadius between the end angle and the start angle.
+                    if (this.internoRadio) {
+                        // Draw another arc, this time anticlockwise <-- at the internoRadio between the end angle and the start angle.
                         // Canvas will draw a connecting line from the end of the outer arc to the beginning of the inner arc completing the shape.
-                        this.ctx.arc(centerX, centerY, innerRadius, this.degToRad(seg.endAngle + this.rotationAngle - 90), this.degToRad(seg.startAngle + this.rotationAngle - 90), true);
+                        this.xtc.arc(centroX, centroY, internoRadio, this.degToRad(seg.endAngle + this.rotacionAngulo - 90), this.degToRad(seg.startAngle + this.rotacionAngulo - 90), true);
                     } else {
                         // If no inner radius then we draw a line back to the center of the wheel.
-                        this.ctx.lineTo(centerX, centerY);
+                        this.xtc.lineTo(centroX, centroY);
                     }
 
                     // Fill and stroke the segment. Only do either if a style was specified, if the style is null then
                     // we assume the developer did not want that particular thing.
                     // For example no stroke style so no lines to be drawn.
-                    if (fillStyle) {
-                        this.ctx.fill();
+                    if (rellenoStyle) {
+                        this.xtc.fill();
                     }
 
-                    if (strokeStyle) {
-                        this.ctx.stroke();
+                    if (golpeStyle) {
+                        this.xtc.stroke();
                     }
                 }
             }
@@ -708,12 +708,12 @@ Ruleta.prototype.drawSegments = function()
 }
 
 // ====================================================================================================================
-// This draws the text on the segments using the specified text options.
+// This draws the text on the segmentos using the specified text opciones.
 // ====================================================================================================================
 Ruleta.prototype.drawSegmentText = function()
 {
-    // Again only draw the text if have a canvas context.
-    if (this.ctx) {
+    // Again only draw the text if have a canvas1 context.
+    if (this.xtc) {
         // Declare variables to hold the values. These are populated either with the value for the specific segment,
         // or if not specified then the global default value.
         let fontFamily;
@@ -723,42 +723,42 @@ Ruleta.prototype.drawSegmentText = function()
         let alignment;
         let direction;
         let margin;
-        let fillStyle;
-        let strokeStyle;
-        let lineWidth;
+        let rellenoStyle;
+        let golpeStyle;
+        let lineaAncho;
         let fontSetting;
 
-        // Get the centerX and centerY scaled with the scale factor, also the same for outer and inner radius.
-        let centerX = (this.centerX * this.scaleFactor);
-        let centerY = (this.centerY * this.scaleFactor);
-        let outerRadius = (this.outerRadius * this.scaleFactor);
-        let innerRadius = (this.innerRadius * this.scaleFactor);
+        // Get the centroX and centroY scaled with the scale factor, also the same for outer and inner radius.
+        let centroX = (this.centroX * this.scalaFactor);
+        let centroY = (this.centroY * this.scalaFactor);
+        let externoRadio = (this.externoRadio * this.scalaFactor);
+        let internoRadio = (this.internoRadio * this.scalaFactor);
 
-        // Loop though all the segments.
-        for (let x = 1; x <= this.numSegments; x ++) {
+        // Loop though all the segmentos.
+        for (let x = 1; x <= this.numSegmentos; x ++) {
             // Save the context so it is certain that each segment text option will not affect the other.
-            this.ctx.save();
+            this.xtc.save();
 
-            // Get the segment object as we need it to read options from.
-            let seg = this.segments[x];
+            // Get the segment object as we need it to read opciones from.
+            let seg = this.segmentos[x];
 
             // Check is text as no point trying to draw if there is no text to render.
             if (seg.text) {
                 // Set values to those for the specific segment or use global default if null.
-                if (seg.textFontFamily  !== null)   fontFamily  = seg.textFontFamily;  else fontFamily  = this.textFontFamily;
-                if (seg.textFontSize    !== null)   fontSize    = seg.textFontSize;    else fontSize    = this.textFontSize;
-                if (seg.textFontWeight  !== null)   fontWeight  = seg.textFontWeight;  else fontWeight  = this.textFontWeight;
-                if (seg.textOrientation !== null)   orientation = seg.textOrientation; else orientation = this.textOrientation;
-                if (seg.textAlignment   !== null)   alignment   = seg.textAlignment;   else alignment   = this.textAlignment;
-                if (seg.textDirection   !== null)   direction   = seg.textDirection;   else direction   = this.textDirection;
-                if (seg.textMargin      !== null)   margin      = seg.textMargin;      else margin      = this.textMargin;
-                if (seg.textFillStyle   !== null)   fillStyle   = seg.textFillStyle;   else fillStyle   = this.textFillStyle;
-                if (seg.textStrokeStyle !== null)   strokeStyle = seg.textStrokeStyle; else strokeStyle = this.textStrokeStyle;
-                if (seg.textLineWidth   !== null)   lineWidth   = seg.textLineWidth;   else lineWidth   = this.textLineWidth;
+                if (seg.textoFuenteFamilia  !== null)   fontFamily  = seg.textoFuenteFamilia;  else fontFamily  = this.textoFuenteFamilia;
+                if (seg.textoFuenteTamano    !== null)   fontSize    = seg.textoFuenteTamano;    else fontSize    = this.textoFuenteTamano;
+                if (seg.textoFuenteAncho  !== null)   fontWeight  = seg.textoFuenteAncho;  else fontWeight  = this.textoFuenteAncho;
+                if (seg.textoOrientacion !== null)   orientation = seg.textoOrientacion; else orientation = this.textoOrientacion;
+                if (seg.textoAlineacion   !== null)   alignment   = seg.textoAlineacion;   else alignment   = this.textoAlineacion;
+                if (seg.textoDireccion   !== null)   direction   = seg.textoDireccion;   else direction   = this.textoDireccion;
+                if (seg.textoMargen      !== null)   margin      = seg.textoMargen;      else margin      = this.textoMargen;
+                if (seg.textoRellenoStyle   !== null)   rellenoStyle   = seg.textoRellenoStyle;   else rellenoStyle   = this.textoRellenoStyle;
+                if (seg.textoGolpeStyle !== null)   golpeStyle = seg.textoGolpeStyle; else golpeStyle = this.textoGolpeStyle;
+                if (seg.textoLineaAncho   !== null)   lineaAncho   = seg.textoLineaAncho;   else lineaAncho   = this.textoLineaAncho;
 
-                // Scale the font size and the margin by the scale factor so the text can be responsive.
-                fontSize = (fontSize * this.scaleFactor);
-                margin = (margin * this.scaleFactor);
+                // Scale the font size and the margin by the scale factor so the text can be responsivo.
+                fontSize = (fontSize * this.scalaFactor);
+                margin = (margin * this.scalaFactor);
 
                 // ------------------------------
                 // We need to put the font bits together in to one string.
@@ -769,18 +769,18 @@ Ruleta.prototype.drawSegmentText = function()
                 }
 
                 if (fontSize != null) {
-                    fontSetting += fontSize + 'px ';    // Fonts on canvas are always a px value.
+                    fontSetting += fontSize + 'px ';    // Fonts on canvas1 are always a px value.
                 }
 
                 if (fontFamily != null) {
                     fontSetting += fontFamily;
                 }
 
-                // Now set the canvas context to the decided values.
-                this.ctx.font        = fontSetting;
-                this.ctx.fillStyle   = fillStyle;
-                this.ctx.strokeStyle = strokeStyle;
-                this.ctx.lineWidth   = lineWidth;
+                // Now set the canvas1 context to the decided values.
+                this.xtc.font        = fontSetting;
+                this.xtc.rellenoStyle   = rellenoStyle;
+                this.xtc.golpeStyle = golpeStyle;
+                this.xtc.lineaAncho   = lineaAncho;
 
                 // Split the text in to multiple lines on the \n character.
                 let lines = seg.text.split('\n');
@@ -799,87 +799,87 @@ Ruleta.prototype.drawSegmentText = function()
                     // If direction is reversed then do things differently than if normal (which is the default - see further down)
                     if (direction == 'reversed') {
                         // When drawing reversed or 'upside down' we need to do some trickery on our part.
-                        // The canvas text rendering function still draws the text left to right and the correct way up,
+                        // The canvas1 text rendering function still draws the text left to right and the correct way up,
                         // so we need to overcome this with rotating the opposite side of the wheel the correct way up then pulling the text
                         // through the center point to the correct segment it is supposed to be on.
                         if (orientation == 'horizontal') {
                             if (alignment == 'inner') {
-                                this.ctx.textAlign = 'right';
+                                this.xtc.textAlign = 'right';
                             } else if (alignment == 'outer') {
-                                this.ctx.textAlign = 'left';
+                                this.xtc.textAlign = 'left';
                             } else {
-                                this.ctx.textAlign = 'center';
+                                this.xtc.textAlign = 'center';
                             }
 
-                            this.ctx.textBaseline = 'middle';
+                            this.xtc.textBaseline = 'middle';
 
                             // Work out the angle to rotate the wheel, this is in the center of the segment but on the opposite side of the wheel which is why do -180.
-                            let textAngle = this.degToRad((seg.endAngle - ((seg.endAngle - seg.startAngle) / 2) + this.rotationAngle - 90) - 180);
+                            let textAngle = this.degToRad((seg.endAngle - ((seg.endAngle - seg.startAngle) / 2) + this.rotacionAngulo - 90) - 180);
 
-                            this.ctx.save();
-                            this.ctx.translate(centerX, centerY);
-                            this.ctx.rotate(textAngle);
-                            this.ctx.translate(-centerX, -centerY);
+                            this.xtc.save();
+                            this.xtc.translate(centroX, centroY);
+                            this.xtc.rotate(textAngle);
+                            this.xtc.translate(-centroX, -centroY);
 
                             if (alignment == 'inner') {
                                 // In reversed state the margin is subtracted from the innerX.
                                 // When inner the inner radius also comes in to play.
-                                if (fillStyle) {
-                                    this.ctx.fillText(lines[i], centerX - innerRadius - margin, centerY + lineOffset);
+                                if (rellenoStyle) {
+                                    this.xtc.fillText(lines[i], centroX - internoRadio - margin, centroY + lineOffset);
                                 }
 
-                                if (strokeStyle) {
-                                    this.ctx.strokeText(lines[i], centerX - innerRadius - margin, centerY + lineOffset);
+                                if (golpeStyle) {
+                                    this.xtc.strokeText(lines[i], centroX - internoRadio - margin, centroY + lineOffset);
                                 }
                             } else if (alignment == 'outer') {
                                 // In reversed state the position is the center minus the radius + the margin for outer aligned text.
-                                if (fillStyle) {
-                                    this.ctx.fillText(lines[i], centerX - outerRadius + margin, centerY + lineOffset);
+                                if (rellenoStyle) {
+                                    this.xtc.fillText(lines[i], centroX - externoRadio + margin, centroY + lineOffset);
                                 }
 
-                                if (strokeStyle) {
-                                    this.ctx.strokeText(lines[i], centerX - outerRadius + margin, centerY + lineOffset);
+                                if (golpeStyle) {
+                                    this.xtc.strokeText(lines[i], centroX - externoRadio + margin, centroY + lineOffset);
                                 }
                             } else {
                                 // In reversed state the everything in minused.
-                                if (fillStyle) {
-                                    this.ctx.fillText(lines[i], centerX - innerRadius - ((outerRadius - innerRadius) / 2) - margin, centerY + lineOffset);
+                                if (rellenoStyle) {
+                                    this.xtc.fillText(lines[i], centroX - internoRadio - ((externoRadio - internoRadio) / 2) - margin, centroY + lineOffset);
                                 }
 
-                                if (strokeStyle) {
-                                    this.ctx.strokeText(lines[i], centerX - innerRadius - ((outerRadius - innerRadius) / 2) - margin, centerY + lineOffset);
+                                if (golpeStyle) {
+                                    this.xtc.strokeText(lines[i], centroX - internoRadio - ((externoRadio - internoRadio) / 2) - margin, centroY + lineOffset);
                                 }
                             }
 
-                            this.ctx.restore();
+                            this.xtc.restore();
 
                         } else if (orientation == 'vertical') {
                             // See normal code further down for comments on how it works, this is similar by plus/minus is reversed.
-                            this.ctx.textAlign = 'center';
+                            this.xtc.textAlign = 'center';
 
                             // In reversed mode this are reversed.
                             if (alignment == 'inner') {
-                                this.ctx.textBaseline = 'top';
+                                this.xtc.textBaseline = 'top';
                             } else if (alignment == 'outer') {
-                                this.ctx.textBaseline = 'bottom';
+                                this.xtc.textBaseline = 'bottom';
                             } else {
-                                this.ctx.textBaseline = 'middle';
+                                this.xtc.textBaseline = 'middle';
                             }
 
                             let textAngle = (seg.endAngle - ((seg.endAngle - seg.startAngle) / 2) - 180);
-                            textAngle += this.rotationAngle;
+                            textAngle += this.rotacionAngulo;
 
-                            this.ctx.save();
-                            this.ctx.translate(centerX, centerY);
-                            this.ctx.rotate(this.degToRad(textAngle));
-                            this.ctx.translate(-centerX, -centerY);
+                            this.xtc.save();
+                            this.xtc.translate(centroX, centroY);
+                            this.xtc.rotate(this.degToRad(textAngle));
+                            this.xtc.translate(-centroX, -centroY);
 
                             //++ @TODO double-check the default of 0 is correct.
                             let yPos = 0;
                             if (alignment == 'outer') {
-                                yPos = (centerY + outerRadius - margin);
+                                yPos = (centroY + externoRadio - margin);
                             } else if (alignment == 'inner') {
-                                yPos = (centerY + innerRadius + margin);
+                                yPos = (centroY + internoRadio + margin);
                             }
 
                             // I have found that the text looks best when a fraction of the font size is shaved off.
@@ -891,12 +891,12 @@ Ruleta.prototype.drawSegmentText = function()
                                 for (let c = (lines[i].length -1); c >= 0; c--) {
                                     let character = lines[i].charAt(c);
 
-                                    if (fillStyle) {
-                                        this.ctx.fillText(character, centerX + lineOffset, yPos);
+                                    if (rellenoStyle) {
+                                        this.xtc.fillText(character, centroX + lineOffset, yPos);
                                     }
 
-                                    if (strokeStyle) {
-                                        this.ctx.strokeText(character, centerX + lineOffset, yPos);
+                                    if (golpeStyle) {
+                                        this.xtc.strokeText(character, centroX + lineOffset, yPos);
                                     }
 
                                     yPos -= yInc;
@@ -906,12 +906,12 @@ Ruleta.prototype.drawSegmentText = function()
                                 for (let c = 0; c < lines[i].length; c++) {
                                     let character = lines[i].charAt(c);
 
-                                    if (fillStyle) {
-                                        this.ctx.fillText(character, centerX + lineOffset, yPos);
+                                    if (rellenoStyle) {
+                                        this.xtc.fillText(character, centroX + lineOffset, yPos);
                                     }
 
-                                    if (strokeStyle) {
-                                        this.ctx.strokeText(character, centerX + lineOffset, yPos);
+                                    if (golpeStyle) {
+                                        this.xtc.strokeText(character, centroX + lineOffset, yPos);
                                     }
 
                                     yPos += yInc;
@@ -926,48 +926,48 @@ Ruleta.prototype.drawSegmentText = function()
                                     centerAdjustment = (yInc * (lines[i].length -1) / 2);
                                 }
 
-                                let yPos = (centerY + innerRadius + ((outerRadius - innerRadius) / 2)) + centerAdjustment + margin;
+                                let yPos = (centroY + internoRadio + ((externoRadio - internoRadio) / 2)) + centerAdjustment + margin;
 
                                 for (let c = (lines[i].length -1); c >= 0; c--) {
                                     let character = lines[i].charAt(c);
 
-                                    if (fillStyle) {
-                                        this.ctx.fillText(character, centerX + lineOffset, yPos);
+                                    if (rellenoStyle) {
+                                        this.xtc.fillText(character, centroX + lineOffset, yPos);
                                     }
 
-                                    if (strokeStyle) {
-                                        this.ctx.strokeText(character, centerX + lineOffset, yPos);
+                                    if (golpeStyle) {
+                                        this.xtc.strokeText(character, centroX + lineOffset, yPos);
                                     }
 
                                     yPos -= yInc;
                                 }
                             }
 
-                            this.ctx.restore();
+                            this.xtc.restore();
 
                         } else if (orientation == 'curved') {
-                            // There is no built in canvas function to draw text around an arc,
+                            // There is no built in canvas1 function to draw text around an arc,
                             // so we need to do this ourselves.
                             let radius = 0;
 
                             // Set the alignment of the text - inner, outer, or center by calculating
                             // how far out from the center point of the wheel the text is drawn.
                             if (alignment == 'inner') {
-                                // When alignment is inner the radius is the innerRadius plus any margin.
-                                radius = innerRadius + margin;
-                                this.ctx.textBaseline = 'top';
+                                // When alignment is inner the radius is the internoRadio plus any margin.
+                                radius = internoRadio + margin;
+                                this.xtc.textBaseline = 'top';
                             } else if (alignment == 'outer') {
-                                // Outer it is the outerRadius minus any margin.
-                                radius = outerRadius - margin;
-                                this.ctx.textBaseline = 'bottom';
+                                // Outer it is the externoRadio minus any margin.
+                                radius = externoRadio - margin;
+                                this.xtc.textBaseline = 'bottom';
 
                                 // We need to adjust the radius in this case to take in to multiline text.
                                 // In this case the radius needs to be further out, not at the inner radius.
                                 radius -= (fontSize * (lines.length - 1));
                             } else if (alignment == 'center') {
                                 // When center we want the text halfway between the inner and outer radius.
-                                radius = innerRadius + margin + ((outerRadius - innerRadius) / 2);
-                                this.ctx.textBaseline = 'middle';
+                                radius = internoRadio + margin + ((externoRadio - internoRadio) / 2);
+                                this.xtc.textBaseline = 'middle';
                             }
 
                             // Set the angle to increment by when looping though and outputting the characters in the text
@@ -978,7 +978,7 @@ Ruleta.prototype.drawSegmentText = function()
                             // If more than one character in the text then...
                             if (lines[i].length > 1) {
                                 // Text is drawn from the left.
-                                this.ctx.textAlign = 'left';
+                                this.xtc.textAlign = 'left';
 
                                 // Work out how much angle the text rendering loop below needs to rotate by for each character to render them next to each other.
                                 // I have discovered that 4 * the font size / 10 at 100px radius is the correct spacing for between the characters
@@ -1005,12 +1005,12 @@ Ruleta.prototype.drawSegmentText = function()
                                 drawAngle = (seg.startAngle + ((seg.endAngle - seg.startAngle) / 2));
 
                                 // To ensure is dead-center the text alignment also needs to be centered.
-                                this.ctx.textAlign = 'center';
+                                this.xtc.textAlign = 'center';
                             }
 
                             // ----------------------
-                            // Adjust the initial draw angle as needed to take in to account the rotationAngle of the wheel.
-                            drawAngle += this.rotationAngle;
+                            // Adjust the initial draw angle as needed to take in to account the rotacionAngulo of the wheel.
+                            drawAngle += this.rotacionAngulo;
 
                             // And as with other 'reverse' text direction functions we need to subtract 180 degrees from the angle
                             // because when it comes to draw the characters in the loop below we add the radius instead of subtract it.
@@ -1020,30 +1020,30 @@ Ruleta.prototype.drawSegmentText = function()
                             // Now the drawing itself.
                             // In reversed direction mode we loop through the characters in the text backwards in order for them to appear on screen correctly
                             for (let c = lines[i].length; c >= 0; c--) {
-                                this.ctx.save();
+                                this.xtc.save();
 
                                 let character = lines[i].charAt(c);
 
                                 // Rotate the wheel to the draw angle as we need to add the character at this location.
-                                this.ctx.translate(centerX, centerY);
-                                this.ctx.rotate(this.degToRad(drawAngle));
-                                this.ctx.translate(-centerX, -centerY);
+                                this.xtc.translate(centroX, centroY);
+                                this.xtc.rotate(this.degToRad(drawAngle));
+                                this.xtc.translate(-centroX, -centroY);
 
                                 // Now draw the character directly below the center point of the wheel at the appropriate radius.
-                                // Note in the reversed mode we add the radius to the this.centerY instead of subtract.
-                                if (strokeStyle) {
-                                    this.ctx.strokeText(character, centerX, centerY + radius + lineOffset);
+                                // Note in the reversed mode we add the radius to the this.centroY instead of subtract.
+                                if (golpeStyle) {
+                                    this.xtc.strokeText(character, centroX, centroY + radius + lineOffset);
                                 }
 
-                                if (fillStyle) {
-                                    this.ctx.fillText(character, centerX, centerY + radius + lineOffset);
+                                if (rellenoStyle) {
+                                    this.xtc.fillText(character, centroX, centroY + radius + lineOffset);
                                 }
 
                                 // Increment the drawAngle by the angle per character so next loop we rotate
                                 // to the next angle required to draw the character at.
                                 drawAngle += anglePerChar;
 
-                                this.ctx.restore();
+                                this.xtc.restore();
                             }
                         }
                     } else {
@@ -1052,26 +1052,26 @@ Ruleta.prototype.drawSegmentText = function()
                         if (orientation == 'horizontal') {
                             // Based on the text alignment, set the correct value in the context.
                             if (alignment == 'inner') {
-                                this.ctx.textAlign = 'left';
+                                this.xtc.textAlign = 'left';
                             } else if (alignment == 'outer') {
-                                this.ctx.textAlign = 'right';
+                                this.xtc.textAlign = 'right';
                             } else {
-                                this.ctx.textAlign = 'center';
+                                this.xtc.textAlign = 'center';
                             }
 
                             // Set this too.
-                            this.ctx.textBaseline = 'middle';
+                            this.xtc.textBaseline = 'middle';
 
                             // Work out the angle around the wheel to draw the text at, which is simply in the middle of the segment the text is for.
-                            // The rotation angle is added in to correct the annoyance with the canvas arc drawing functions which put the 0 degrees at the 3 oclock
-                            let textAngle = this.degToRad(seg.endAngle - ((seg.endAngle - seg.startAngle) / 2) + this.rotationAngle - 90);
+                            // The rotation angle is added in to correct the annoyance with the canvas1 arc drawing functions which put the 0 degrees at the 3 oclock
+                            let textAngle = this.degToRad(seg.endAngle - ((seg.endAngle - seg.startAngle) / 2) + this.rotacionAngulo - 90);
 
                             // We need to rotate in order to draw the text because it is output horizontally, so to
                             // place correctly around the wheel for all but a segment at 3 o'clock we need to rotate.
-                            this.ctx.save();
-                            this.ctx.translate(centerX, centerY);
-                            this.ctx.rotate(textAngle);
-                            this.ctx.translate(-centerX, -centerY);
+                            this.xtc.save();
+                            this.xtc.translate(centroX, centroY);
+                            this.xtc.rotate(textAngle);
+                            this.xtc.translate(-centroX, -centroY);
 
                             // --------------------------
                             // Draw the text based on its alignment adding margin if inner or outer.
@@ -1079,19 +1079,19 @@ Ruleta.prototype.drawSegmentText = function()
                                 // Inner means that the text is aligned with the inner of the wheel. If looking at a segment in in the 3 o'clock position
                                 // it would look like the text is left aligned within the segment.
 
-                                // Because the segments are smaller towards the inner of the wheel, in order for the text to fit is is a good idea that
+                                // Because the segmentos are smaller towards the inner of the wheel, in order for the text to fit is is a good idea that
                                 // a margin is added which pushes the text towards the outer a bit.
 
                                 // The inner radius also needs to be taken in to account as when inner aligned.
 
                                 // If fillstyle is set the draw the text filled in.
-                                if (fillStyle) {
-                                    this.ctx.fillText(lines[i], centerX + innerRadius + margin, centerY + lineOffset);
+                                if (rellenoStyle) {
+                                    this.xtc.fillText(lines[i], centroX + internoRadio + margin, centroY + lineOffset);
                                 }
 
                                 // If stroke style is set draw the text outline.
-                                if (strokeStyle) {
-                                    this.ctx.strokeText(lines[i], centerX + innerRadius + margin, centerY + lineOffset);
+                                if (golpeStyle) {
+                                    this.xtc.strokeText(lines[i], centroX + internoRadio + margin, centroY + lineOffset);
                                 }
                             } else if (alignment == 'outer') {
                                 // Outer means the text is aligned with the outside of the wheel, so if looking at a segment in the 3 o'clock position
@@ -1100,62 +1100,62 @@ Ruleta.prototype.drawSegmentText = function()
 
                                 // I don't understand why, but in order of the text to render correctly with stroke and fill, the stroke needs to
                                 // come first when drawing outer, rather than second when doing inner.
-                                if (fillStyle) {
-                                    this.ctx.fillText(lines[i], centerX + outerRadius - margin, centerY + lineOffset);
+                                if (rellenoStyle) {
+                                    this.xtc.fillText(lines[i], centroX + externoRadio - margin, centroY + lineOffset);
                                 }
 
                                 // If fillstyle the fill the text.
-                                if (strokeStyle) {
-                                    this.ctx.strokeText(lines[i], centerX + outerRadius - margin, centerY + lineOffset);
+                                if (golpeStyle) {
+                                    this.xtc.strokeText(lines[i], centroX + externoRadio - margin, centroY + lineOffset);
                                 }
                             } else {
                                 // In this case the text is to drawn centred in the segment.
                                 // Typically no margin is required, however even though centred the text can look closer to the inner of the wheel
-                                // due to the way the segments narrow in (is optical effect), so if a margin is specified it is placed on the inner
+                                // due to the way the segmentos narrow in (is optical effect), so if a margin is specified it is placed on the inner
                                 // side so the text is pushed towards the outer.
 
                                 // If stoke style the stroke the text.
-                                if (fillStyle) {
-                                    this.ctx.fillText(lines[i], centerX + innerRadius + ((outerRadius - innerRadius) / 2) + margin, centerY + lineOffset);
+                                if (rellenoStyle) {
+                                    this.xtc.fillText(lines[i], centroX + internoRadio + ((externoRadio - internoRadio) / 2) + margin, centroY + lineOffset);
                                 }
 
                                 // If fillstyle the fill the text.
-                                if (strokeStyle) {
-                                    this.ctx.strokeText(lines[i], centerX + innerRadius + ((outerRadius - innerRadius) / 2) + margin, centerY + lineOffset);
+                                if (golpeStyle) {
+                                    this.xtc.strokeText(lines[i], centroX + internoRadio + ((externoRadio - internoRadio) / 2) + margin, centroY + lineOffset);
                                 }
                             }
 
                             // Restore the context so that wheel is returned to original position.
-                            this.ctx.restore();
+                            this.xtc.restore();
 
                         } else if (orientation == 'vertical') {
-                            // If vertical then we need to do this ourselves because as far as I am aware there is no option built in to html canvas
+                            // If vertical then we need to do this ourselves because as far as I am aware there is no option built in to html canvas1
                             // which causes the text to draw downwards or upwards one character after another.
 
                             // In this case the textAlign is always center, but the baseline is either top or bottom
                             // depending on if inner or outer alignment has been specified.
-                            this.ctx.textAlign = 'center';
+                            this.xtc.textAlign = 'center';
 
                             if (alignment == 'inner') {
-                                this.ctx.textBaseline = 'bottom';
+                                this.xtc.textBaseline = 'bottom';
                             } else if (alignment == 'outer') {
-                                this.ctx.textBaseline = 'top';
+                                this.xtc.textBaseline = 'top';
                             } else {
-                                this.ctx.textBaseline = 'middle';
+                                this.xtc.textBaseline = 'middle';
                             }
 
                             // The angle to draw the text at is halfway between the end and the starting angle of the segment.
                             let textAngle = seg.endAngle - ((seg.endAngle - seg.startAngle) / 2);
 
                             // Ensure the rotation angle of the wheel is added in, otherwise the test placement won't match
-                            // the segments they are supposed to be for.
-                            textAngle += this.rotationAngle;
+                            // the segmentos they are supposed to be for.
+                            textAngle += this.rotacionAngulo;
 
                             // Rotate so can begin to place the text.
-                            this.ctx.save();
-                            this.ctx.translate(centerX, centerY);
-                            this.ctx.rotate(this.degToRad(textAngle));
-                            this.ctx.translate(-centerX, -centerY);
+                            this.xtc.save();
+                            this.xtc.translate(centroX, centroY);
+                            this.xtc.rotate(this.degToRad(textAngle));
+                            this.xtc.translate(-centroX, -centroY);
 
                             // Work out the position to start drawing in based on the alignment.
                             // If outer then when considering a segment at the 12 o'clock position want to start drawing down from the top of the wheel.
@@ -1163,9 +1163,9 @@ Ruleta.prototype.drawSegmentText = function()
                             let yPos = 0;
 
                             if (alignment == 'outer') {
-                                yPos = (centerY - outerRadius + margin);
+                                yPos = (centroY - externoRadio + margin);
                             } else if (alignment == 'inner') {
-                                yPos = (centerY - innerRadius - margin);
+                                yPos = (centroY - internoRadio - margin);
                             }
 
                             // We need to know how much to move the y axis each time.
@@ -1180,12 +1180,12 @@ Ruleta.prototype.drawSegmentText = function()
                                 for (let c = 0; c < lines[i].length; c++) {
                                     let character = lines[i].charAt(c);
 
-                                    if (fillStyle) {
-                                        this.ctx.fillText(character, centerX + lineOffset, yPos);
+                                    if (rellenoStyle) {
+                                        this.xtc.fillText(character, centroX + lineOffset, yPos);
                                     }
 
-                                    if (strokeStyle) {
-                                        this.ctx.strokeText(character, centerX + lineOffset, yPos);
+                                    if (golpeStyle) {
+                                        this.xtc.strokeText(character, centroX + lineOffset, yPos);
                                     }
 
                                     yPos += yInc;
@@ -1196,12 +1196,12 @@ Ruleta.prototype.drawSegmentText = function()
                                 for (let c = (lines[i].length -1); c >= 0; c--) {
                                     let character = lines[i].charAt(c);
 
-                                    if (fillStyle) {
-                                        this.ctx.fillText(character, centerX + lineOffset, yPos);
+                                    if (rellenoStyle) {
+                                        this.xtc.fillText(character, centroX + lineOffset, yPos);
                                     }
 
-                                    if (strokeStyle) {
-                                        this.ctx.strokeText(character, centerX + lineOffset, yPos);
+                                    if (golpeStyle) {
+                                        this.xtc.strokeText(character, centroX + lineOffset, yPos);
                                     }
 
                                     yPos -= yInc;
@@ -1223,49 +1223,49 @@ Ruleta.prototype.drawSegmentText = function()
                                 // Now work out where to start rendering the string. This is half way between the inner and outer of the wheel, with the
                                 // centerAdjustment included to correctly position texts with more than one character over the center.
                                 // If there is a margin it is used to push the text away from the center of the wheel.
-                                let yPos = (centerY - innerRadius - ((outerRadius - innerRadius) / 2)) - centerAdjustment - margin;
+                                let yPos = (centroY - internoRadio - ((externoRadio - internoRadio) / 2)) - centerAdjustment - margin;
 
                                 // Now loop and draw just like outer text rendering.
                                 for (let c = 0; c < lines[i].length; c++) {
                                     let character = lines[i].charAt(c);
 
-                                    if (fillStyle) {
-                                        this.ctx.fillText(character, centerX + lineOffset, yPos);
+                                    if (rellenoStyle) {
+                                        this.xtc.fillText(character, centroX + lineOffset, yPos);
                                     }
 
-                                    if (strokeStyle) {
-                                        this.ctx.strokeText(character, centerX + lineOffset, yPos);
+                                    if (golpeStyle) {
+                                        this.xtc.strokeText(character, centroX + lineOffset, yPos);
                                     }
 
                                     yPos += yInc;
                                 }
                             }
 
-                            this.ctx.restore();
+                            this.xtc.restore();
 
                         } else if (orientation == 'curved') {
-                            // There is no built in canvas function to draw text around an arc, so
+                            // There is no built in canvas1 function to draw text around an arc, so
                             // we need to do this ourselves.
                             let radius = 0;
 
                             // Set the alignment of the text - inner, outer, or center by calculating
                             // how far out from the center point of the wheel the text is drawn.
                             if (alignment == 'inner') {
-                                // When alignment is inner the radius is the innerRadius plus any margin.
-                                radius = innerRadius + margin;
-                                this.ctx.textBaseline = 'bottom';
+                                // When alignment is inner the radius is the internoRadio plus any margin.
+                                radius = internoRadio + margin;
+                                this.xtc.textBaseline = 'bottom';
 
                                 // We need to adjust the radius in this case to take in to multiline text.
                                 // In this case the radius needs to be further out, not at the inner radius.
                                 radius += (fontSize * (lines.length - 1));
                             } else if (alignment == 'outer') {
-                                // Outer it is the outerRadius minus any margin.
-                                radius = outerRadius - margin;
-                                this.ctx.textBaseline = 'top';
+                                // Outer it is the externoRadio minus any margin.
+                                radius = externoRadio - margin;
+                                this.xtc.textBaseline = 'top';
                             } else if (alignment == 'center') {
                                 // When center we want the text halfway between the inner and outer radius.
-                                radius = innerRadius + margin + ((outerRadius - innerRadius) / 2);
-                                this.ctx.textBaseline = 'middle';
+                                radius = internoRadio + margin + ((externoRadio - internoRadio) / 2);
+                                this.xtc.textBaseline = 'middle';
                             }
 
                             // Set the angle to increment by when looping though and outputting the characters in the text
@@ -1276,7 +1276,7 @@ Ruleta.prototype.drawSegmentText = function()
                             // If more than one character in the text then...
                             if (lines[i].length > 1) {
                                 // Text is drawn from the left.
-                                this.ctx.textAlign = 'left';
+                                this.xtc.textAlign = 'left';
 
                                 // Work out how much angle the text rendering loop below needs to rotate by for each character to render them next to each other.
                                 // I have discovered that 4 * the font size / 10 at 100px radius is the correct spacing for between the characters
@@ -1303,40 +1303,40 @@ Ruleta.prototype.drawSegmentText = function()
                                 drawAngle = (seg.startAngle + ((seg.endAngle - seg.startAngle) / 2));
 
                                 // To ensure is dead-center the text alignment also needs to be centred.
-                                this.ctx.textAlign = 'center';
+                                this.xtc.textAlign = 'center';
                             }
 
                             // ----------------------
-                            // Adjust the initial draw angle as needed to take in to account the rotationAngle of the wheel.
-                            drawAngle += this.rotationAngle;
+                            // Adjust the initial draw angle as needed to take in to account the rotacionAngulo of the wheel.
+                            drawAngle += this.rotacionAngulo;
 
                             // ----------------------
                             // Now the drawing itself.
                             // Loop for each character in the text.
                             for (let c = 0; c < (lines[i].length); c++) {
-                                this.ctx.save();
+                                this.xtc.save();
 
                                 let character = lines[i].charAt(c);
 
                                 // Rotate the wheel to the draw angle as we need to add the character at this location.
-                                this.ctx.translate(centerX, centerY);
-                                this.ctx.rotate(this.degToRad(drawAngle));
-                                this.ctx.translate(-centerX, -centerY);
+                                this.xtc.translate(centroX, centroY);
+                                this.xtc.rotate(this.degToRad(drawAngle));
+                                this.xtc.translate(-centroX, -centroY);
 
                                 // Now draw the character directly above the center point of the wheel at the appropriate radius.
-                                if (strokeStyle) {
-                                    this.ctx.strokeText(character, centerX, centerY - radius + lineOffset);
+                                if (golpeStyle) {
+                                    this.xtc.strokeText(character, centroX, centroY - radius + lineOffset);
                                 }
 
-                                if (fillStyle) {
-                                    this.ctx.fillText(character, centerX, centerY - radius + lineOffset);
+                                if (rellenoStyle) {
+                                    this.xtc.fillText(character, centroX, centroY - radius + lineOffset);
                                 }
 
                                 // Increment the drawAngle by the angle per character so next loop we rotate
                                 // to the next angle required to draw the character at.
                                 drawAngle += anglePerChar;
 
-                                this.ctx.restore();
+                                this.xtc.restore();
                             }
                         }
                     }
@@ -1346,14 +1346,14 @@ Ruleta.prototype.drawSegmentText = function()
                 }
             }
 
-            // Restore so all text options are reset ready for the next text.
-            this.ctx.restore();
+            // Restore so all text opciones are reset ready for the next text.
+            this.xtc.restore();
         }
     }
 }
 
 // ====================================================================================================================
-// Converts degrees to radians which is what is used when specifying the angles on HTML5 canvas arcs.
+// Converts degrees to radians which is what is used when specifying the angles on HTML5 canvas1 arcs.
 // ====================================================================================================================
 Ruleta.prototype.degToRad = function(d)
 {
@@ -1365,36 +1365,36 @@ Ruleta.prototype.degToRad = function(d)
 // ====================================================================================================================
 Ruleta.prototype.setCenter = function(x, y)
 {
-    this.centerX = x;
-    this.centerY = y;
+    this.centroX = x;
+    this.centroY = y;
 }
 
 // ====================================================================================================================
 // This function allows a segment to be added to the wheel. The position of the segment is optional,
 // if not specified the new segment will be added to the end of the wheel.
 // ====================================================================================================================
-Ruleta.prototype.addSegment = function(options, position)
+Ruleta.prototype.addSegment = function(opciones, position)
 {
-    // Create a new segment object passing the options in.
-    let newSegment = new Segment(options);
+    // Create a new segment object passing the opciones in.
+    let newSegment = new Segment(opciones);
 
-    // Increment the numSegments property of the class since new segment being added.
-    this.numSegments ++;
+    // Increment the numSegmentos property of the class since new segment being added.
+    this.numSegmentos ++;
     let segmentPos;
 
     // Work out where to place the segment, the default is simply as a new segment at the end of the wheel.
     if (typeof position !== 'undefined') {
-        // Because we need to insert the segment at this position, not overwrite it, we need to move all segments after this
-        // location along one in the segments array, before finally adding this new segment at the specified location.
-        for (let x = this.numSegments; x > position; x --) {
-            this.segments[x] = this.segments[x -1];
+        // Because we need to insert the segment at this position, not overwrite it, we need to move all segmentos after this
+        // location along one in the segmentos array, before finally adding this new segment at the specified location.
+        for (let x = this.numSegmentos; x > position; x --) {
+            this.segmentos[x] = this.segmentos[x -1];
         }
 
-        this.segments[position] = newSegment;
+        this.segmentos[position] = newSegment;
         segmentPos = position;
     } else {
-        this.segments[this.numSegments] = newSegment;
-        segmentPos = this.numSegments;
+        this.segmentos[this.numSegmentos] = newSegment;
+        segmentPos = this.numSegmentos;
     }
 
     // Since a segment has been added the segment sizes need to be re-computed so call function to do this.
@@ -1402,31 +1402,31 @@ Ruleta.prototype.addSegment = function(options, position)
 
     // Return the segment object just created in the wheel (JavaScript will return it by reference), so that
     // further things can be done with it by the calling code if desired.
-    return this.segments[segmentPos];
+    return this.segmentos[segmentPos];
 }
 
 // ====================================================================================================================
-// This function must be used if the canvasId is changed as we also need to get the context of the new canvas.
+// This function must be used if the canvasId is changed as we also need to get the context of the new canvas1.
 // ====================================================================================================================
 Ruleta.prototype.setCanvasCc = function(canvasCc)
 {
     if (canvasCc) {
         this.canvasCc = canvasCc;
-        this.canvas = document.getElementById(this.canvasCc);
+        this.canvas1 = document.getElementById(this.canvasCc);
 
-        if (this.canvas) {
-            this.ctx = this.canvas.getContext('2d');
+        if (this.canvas1) {
+            this.xtc = this.canvas1.getContext('2d');
         }
     } else {
         this.canvasCc = null
-        this.ctx = null;
-        this.canvas = null;
+        this.xtc = null;
+        this.canvas1 = null;
     }
 }
 
 // ====================================================================================================================
-// This function deletes the specified segment from the wheel by removing it from the segments array.
-// It then sorts out the other bits such as update of the numSegments.
+// This function deletes the specified segment from the wheel by removing it from the segmentos array.
+// It then sorts out the other bits such as update of the numSegmentos.
 // ====================================================================================================================
 Ruleta.prototype.deleteSegment = function(position)
 {
@@ -1434,42 +1434,42 @@ Ruleta.prototype.deleteSegment = function(position)
     // is more than one segment currently left in the wheel.
 
     //++ check that specifying a position that does not exist - say 10 in a 6 segment wheel does not cause issues.
-    if (this.numSegments > 1) {
+    if (this.numSegmentos > 1) {
         // If the position of the segment to remove has been specified.
         if (typeof position !== 'undefined') {
-            // The array is to be shortened so we need to move all segments after the one
+            // The array is to be shortened so we need to move all segmentos after the one
             // to be removed down one so there is no gap.
-            for (let x = position; x < this.numSegments; x ++) {
-                this.segments[x] = this.segments[x + 1];
+            for (let x = position; x < this.numSegmentos; x ++) {
+                this.segmentos[x] = this.segmentos[x + 1];
             }
         }
 
-        // Unset the last item in the segments array since there is now one less.
-        this.segments[this.numSegments] = undefined;
+        // Unset the last item in the segmentos array since there is now one less.
+        this.segmentos[this.numSegmentos] = undefined;
 
-        // Decrement the number of segments,
+        // Decrement the number of segmentos,
         // then call function to update the segment sizes.
-        this.numSegments --;
+        this.numSegmentos --;
         this.updateSegmentSizes();
     }
 }
 
 // ====================================================================================================================
 // This function takes the x an the y of a mouse event, such as click or move, and converts the x and the y in to
-// co-ordinates on the canvas as the raw values are the x and the y from the top and left of the user's browser.
+// co-ordinates on the canvas1 as the raw values are the x and the y from the top and left of the user's browser.
 // ====================================================================================================================
 Ruleta.prototype.windowToCanvas = function(x, y)
 {
-    let bbox = this.canvas.getBoundingClientRect();
+    let bbox = this.canvas1.getBoundingClientRect();
 
     return {
-        x: Math.floor(x - bbox.left * (this.canvas.width / bbox.width)),
-        y: Math.floor(y - bbox.top *  (this.canvas.height / bbox.height))
+        x: Math.floor(x - bbox.left * (this.canvas1.width / bbox.width)),
+        y: Math.floor(y - bbox.top *  (this.canvas1.height / bbox.height))
     };
 }
 
 // ====================================================================================================================
-// This function returns the segment object located at the specified x and y coordinates on the canvas.
+// This function returns the segment object located at the specified x and y coordinates on the canvas1.
 // It is used to allow things to be done with a segment clicked by the user, such as highlight, display or change some values, etc.
 // ====================================================================================================================
 Ruleta.prototype.getSegmentAt = function(x, y)
@@ -1481,7 +1481,7 @@ Ruleta.prototype.getSegmentAt = function(x, y)
 
     // If found one then set found segment to pointer to the segment object.
     if (segmentNumber !== null) {
-        foundSegment = this.segments[segmentNumber];
+        foundSegment = this.segmentos[segmentNumber];
     }
 
     return foundSegment;
@@ -1489,17 +1489,17 @@ Ruleta.prototype.getSegmentAt = function(x, y)
 
 // ====================================================================================================================
 // Returns the number of the segment clicked instead of the segment object.
-// This does not work correctly if the canvas width or height is altered by CSS but does work correctly with the scale factor.
+// This does not work correctly if the canvas1 width or height is altered by CSS but does work correctly with the scale factor.
 // ====================================================================================================================
 Ruleta.prototype.getSegmentNumberAt = function(x, y)
 {
-    // Call function above to convert the raw x and y from the user's browser to canvas coordinates
-    // i.e. top and left is top and left of canvas, not top and left of the user's browser.
+    // Call function above to convert the raw x and y from the user's browser to canvas1 coordinates
+    // i.e. top and left is top and left of canvas1, not top and left of the user's browser.
     let loc = this.windowToCanvas(x, y);
 
     // ------------------------------------------
     // Now start the process of working out the segment clicked.
-    // First we need to figure out the angle of an imaginary line between the centerX and centerY of the wheel and
+    // First we need to figure out the angle of an imaginary line between the centroX and centroY of the wheel and
     // the X and Y of the location (for example a mouse click).
     let topBottom;
     let leftRight;
@@ -1507,11 +1507,11 @@ Ruleta.prototype.getSegmentNumberAt = function(x, y)
     let oppositeSideLength;
     let hypotenuseSideLength;
 
-    // Get the centerX and centerY scaled with the scale factor, also the same for outer and inner radius.
-    let centerX = (this.centerX * this.scaleFactor);
-    let centerY = (this.centerY * this.scaleFactor);
-    let outerRadius = (this.outerRadius * this.scaleFactor);
-    let innerRadius = (this.innerRadius * this.scaleFactor);
+    // Get the centroX and centroY scaled with the scale factor, also the same for outer and inner radius.
+    let centroX = (this.centroX * this.scalaFactor);
+    let centroY = (this.centroY * this.scalaFactor);
+    let externoRadio = (this.externoRadio * this.scalaFactor);
+    let internoRadio = (this.internoRadio * this.scalaFactor);
 
     // We will use right triangle maths with the TAN function.
     // The start of the triangle is the wheel center, the adjacent side is along the x axis, and the opposite side is along the y axis.
@@ -1519,19 +1519,19 @@ Ruleta.prototype.getSegmentNumberAt = function(x, y)
     // We only ever use positive numbers to work out the triangle and the center of the wheel needs to be considered as 0 for the numbers
     // in the maths which is why there is the subtractions below. We also remember what quadrant of the wheel the location is in as we
     // need this information later to add 90, 180, 270 degrees to the angle worked out from the triangle to get the position around a 360 degree wheel.
-    if (loc.x > centerX) {
-        adjacentSideLength = (loc.x - centerX);
+    if (loc.x > centroX) {
+        adjacentSideLength = (loc.x - centroX);
         leftRight = 'R';    // Location is in the right half of the wheel.
     } else {
-        adjacentSideLength = (centerX - loc.x);
+        adjacentSideLength = (centroX - loc.x);
         leftRight = 'L';    // Location is in the left half of the wheel.
     }
 
-    if (loc.y > centerY) {
-        oppositeSideLength = (loc.y - centerY);
+    if (loc.y > centroY) {
+        oppositeSideLength = (loc.y - centroY);
         topBottom = 'B';    // Bottom half of wheel.
     } else {
-        oppositeSideLength = (centerY - loc.y);
+        oppositeSideLength = (centroY - loc.y);
         topBottom = 'T';    // Top Half of wheel.
     }
 
@@ -1542,7 +1542,7 @@ Ruleta.prototype.getSegmentNumberAt = function(x, y)
     let result = (Math.atan(tanVal) * 180/Math.PI);
     let locationAngle = 0;
 
-    // We also need the length of the hypotenuse as later on we need to compare this to the outerRadius of the segment / circle.
+    // We also need the length of the hypotenuse as later on we need to compare this to the externoRadio of the segment / circle.
     hypotenuseSideLength = Math.sqrt((oppositeSideLength * oppositeSideLength) + (adjacentSideLength * adjacentSideLength));
 
     // ------------------------------------------
@@ -1561,7 +1561,7 @@ Ruleta.prototype.getSegmentNumberAt = function(x, y)
     // ------------------------------------------
     // And now we have to adjust to make sense when the wheel is rotated from the 0 degrees either
     // positive or negative and it can be many times past 360 degrees.
-    if (this.rotationAngle != 0) {
+    if (this.rotacionAngulo != 0) {
         let rotatedPosition = this.getRotationPosition();
 
         // So we have this, now we need to alter the locationAngle as a result of this.
@@ -1574,24 +1574,24 @@ Ruleta.prototype.getSegmentNumberAt = function(x, y)
     }
 
     // ------------------------------------------
-    // OK, so after all of that we have the angle of a line between the centerX and centerY of the wheel and
-    // the X and Y of the location on the canvas where the mouse was clicked. Now time to work out the segment
+    // OK, so after all of that we have the angle of a line between the centroX and centroY of the wheel and
+    // the X and Y of the location on the canvas1 where the mouse was clicked. Now time to work out the segment
     // this corresponds to. We can use the segment start and end angles for this.
     let foundSegmentNumber = null;
 
-    for (let x = 1; x <= this.numSegments; x ++) {
-        // Due to segments sharing start and end angles, if line is clicked will pick earlier segment.
-        if ((locationAngle >= this.segments[x].startAngle) && (locationAngle <= this.segments[x].endAngle)) {
-            // To ensure that a click anywhere on the canvas in the segment direction will not cause a
+    for (let x = 1; x <= this.numSegmentos; x ++) {
+        // Due to segmentos sharing start and end angles, if line is clicked will pick earlier segment.
+        if ((locationAngle >= this.segmentos[x].startAngle) && (locationAngle <= this.segmentos[x].endAngle)) {
+            // To ensure that a click anywhere on the canvas1 in the segment direction will not cause a
             // segment to be matched, as well as the angles, we need to ensure the click was within the radius
             // of the segment (or circle if no segment radius).
 
             // If the hypotenuseSideLength (length of location from the center of the wheel) is with the radius
             // then we can assign the segment to the found segment and break out the loop.
 
-            // Have to take in to account hollow wheels (doughnuts) so check is greater than innerRadius as
-            // well as less than or equal to the outerRadius of the wheel.
-            if ((hypotenuseSideLength >= innerRadius) && (hypotenuseSideLength <= outerRadius)) {
+            // Have to take in to account hollow wheels (doughnuts) so check is greater than internoRadio as
+            // well as less than or equal to the externoRadio of the wheel.
+            if ((hypotenuseSideLength >= internoRadio) && (hypotenuseSideLength <= externoRadio)) {
                 foundSegmentNumber = x;
                 break;
             }
@@ -1610,13 +1610,13 @@ Ruleta.prototype.getIndicatedSegment = function()
     // Call function below to work this out and return the prizeNumber.
     let prizeNumber = this.getIndicatedSegmentNumber();
 
-    // Then simply return the segment in the segments array at that position.
-    return this.segments[prizeNumber];
+    // Then simply return the segment in the segmentos array at that position.
+    return this.segmentos[prizeNumber];
 }
 
 // ====================================================================================================================
 // Works out the segment currently pointed to by the pointer of the wheel. Normally called when the spinning has stopped
-// to work out the prize the user has won. Returns the number of the segment in the segments array.
+// to work out the prize the user has won. Returns the number of the segment in the segmentos array.
 // ====================================================================================================================
 Ruleta.prototype.getIndicatedSegmentNumber = function()
 {
@@ -1625,15 +1625,15 @@ Ruleta.prototype.getIndicatedSegmentNumber = function()
 
     // Now we have the angle of the wheel, but we need to take in to account where the pointer is because
     // will not always be at the 12 o'clock 0 degrees location.
-    let relativeAngle = Math.floor(this.pointerAngle - rawAngle);
+    let relativeAngle = Math.floor(this.punteroAngulo - rawAngle);
 
     if (relativeAngle < 0) {
         relativeAngle = 360 - Math.abs(relativeAngle);
     }
 
     // Now we can work out the prize won by seeing what prize segment startAngle and endAngle the relativeAngle is between.
-    for (let x = 1; x < (this.segments.length); x ++) {
-        if ((relativeAngle >= this.segments[x]['startAngle']) && (relativeAngle <= this.segments[x]['endAngle'])) {
+    for (let x = 1; x < (this.segmentos.length); x ++) {
+        if ((relativeAngle >= this.segmentos[x]['startAngle']) && (relativeAngle <= this.segmentos[x]['endAngle'])) {
             indicatedPrize = x;
             break;
         }
@@ -1655,7 +1655,7 @@ Ruleta.prototype.getCurrentPinNumber = function()
 
         // Now we have the angle of the wheel, but we need to take in to account where the pointer is because
         // will not always be at the 12 o'clock 0 degrees location.
-        let relativeAngle = Math.floor(this.pointerAngle - rawAngle);
+        let relativeAngle = Math.floor(this.punteroAngulo - rawAngle);
 
         if (relativeAngle < 0) {
             relativeAngle = 360 - Math.abs(relativeAngle);
@@ -1694,7 +1694,7 @@ Ruleta.prototype.getCurrentPinNumber = function()
 // ==================================================================================================================================================
 Ruleta.prototype.getRotationPosition = function()
 {
-    let rawAngle = this.rotationAngle;  // Get current rotation angle of wheel.
+    let rawAngle = this.rotacionAngulo;  // Get current rotation angle of wheel.
 
     // If positive work out how many times past 360 this is and then take the floor of this off the rawAngle.
     if (rawAngle >= 0) {
@@ -1739,10 +1739,10 @@ Ruleta.prototype.startAnimation = function()
         properties['yoyo']       = this.animation.yoyo;     // Set others.
         properties['repeat']     = this.animation.repeat;
         properties['ease']       = this.animation.easing;
-        properties['onUpdate']   = winwheelAnimationLoop;   // Call function to re-draw the canvas.
+        properties['onUpdate']   = winwheelAnimationLoop;   // Call function to re-draw the canvas1.
         properties['onComplete'] = winwheelStopAnimation;   // Call function to perform actions when animation has finished.
 
-        // Do the tween animation passing the properties from the animation object as an array of key => value pairs.
+        // Do the tween animation passing the properties from the animation object as an array of llave => value pairs.
         // Keep reference to the tween object in the wheel as that allows pausing, resuming, and stopping while the animation is still running.
         this.tween = TweenMax.to(this, this.animation.duration, properties);
     }
@@ -1800,8 +1800,8 @@ Ruleta.prototype.computeAnimation = function()
     if (this.animation) {
         // Set the animation parameters for the specified animation type including some sensible defaults if values have not been specified.
         if (this.animation.type == 'spinOngoing') {
-            // When spinning the rotationAngle is the wheel property which is animated.
-            this.animation.propertyName = 'rotationAngle';
+            // When spinning the rotacionAngulo is the wheel property which is animated.
+            this.animation.propertyName = 'rotacionAngulo';
 
             if (this.animation.spins == null) {
                 this.animation.spins = 5;
@@ -1828,7 +1828,7 @@ Ruleta.prototype.computeAnimation = function()
             }
         } else if (this.animation.type == 'spinToStop') {
             // Spin to stop the rotation angle is affected.
-            this.animation.propertyName = 'rotationAngle';
+            this.animation.propertyName = 'rotacionAngulo';
 
             if (this.animation.spins == null) {
                 this.animation.spins = 5;
@@ -1848,8 +1848,8 @@ Ruleta.prototype.computeAnimation = function()
             } else {
                 // We need to set the internal to 360 minus what the user entered because the wheel spins past 0 without
                 // this it would indicate the prize on the opposite side of the wheel. We aslo need to take in to account
-                // the pointerAngle as the stop angle needs to be relative to that.
-                this.animation._stopAngle = (360 - this.animation.stopAngle + this.pointerAngle);
+                // the punteroAngulo as the stop angle needs to be relative to that.
+                this.animation._stopAngle = (360 - this.animation.stopAngle + this.punteroAngulo);
             }
 
             if (this.animation.yoyo == null) {
@@ -1873,8 +1873,8 @@ Ruleta.prototype.computeAnimation = function()
             // This is basically is a spin for a number of times then the animation reverses and goes back to start.
             // If a repeat is specified then this can be used to make the wheel "rock" left and right.
 
-            // Again this is a spin so the rotationAngle the property which is animated.
-            this.animation.propertyName = 'rotationAngle';
+            // Again this is a spin so the rotacionAngulo the property which is animated.
+            this.animation.propertyName = 'rotacionAngulo';
 
             if (this.animation.spins == null) {
                 this.animation.spins = 5;
@@ -1930,9 +1930,9 @@ Ruleta.prototype.getRandomForSegment = function(segmentNumber)
     let stopAngle = 0;
 
     if (segmentNumber) {
-        if (typeof this.segments[segmentNumber] !== 'undefined') {
-            let startAngle = this.segments[segmentNumber].startAngle;
-            let endAngle = this.segments[segmentNumber].endAngle;
+        if (typeof this.segmentos[segmentNumber] !== 'undefined') {
+            let startAngle = this.segmentos[segmentNumber].startAngle;
+            let endAngle = this.segmentos[segmentNumber].endAngle;
             let range = (endAngle - startAngle) - 2;
 
             if (range > 0) {
@@ -1953,34 +1953,34 @@ Ruleta.prototype.getRandomForSegment = function(segmentNumber)
 // ====================================================================================================================
 // Class for the wheel pins.
 // ====================================================================================================================
-function Pin(options)
+function Pin(opciones)
 {
-    let defaultOptions = {
+    let opcionesDefecto = {
         'visible'        : true,     // In future there might be some functionality related to the pins even if they are not displayed.
         'number'         : 36,       // The number of pins. These are evenly distributed around the wheel.
-        'outerRadius'    : 3,        // Radius of the pins which determines their size.
-        'fillStyle'      : 'grey',   // Fill colour of the pins.
-        'strokeStyle'    : 'black',  // Line colour of the pins.
-        'lineWidth'      : 1,        // Line width of the pins.
+        'externoRadio'    : 3,        // Radius of the pins which determines their size.
+        'rellenoStyle'      : 'grey',   // Fill colour of the pins.
+        'golpeStyle'    : 'black',  // Line colour of the pins.
+        'lineaAncho'      : 1,        // Line width of the pins.
         'margin'         : 3,        // The space between outside edge of the wheel and the pins.
-        'responsive'     : false,    // If set to true the diameter of the pin will resize when the wheel is responsive.
+        'responsivo'     : false,    // If set to true the diameter of the pin will resize when the wheel is responsivo.
     };
 
-    // Now loop through the default options and create properties of this class set to the value for
+    // Now loop through the default opciones and create properties of this class set to the value for
     // the option passed in if a value was, or if not then set the value of the default.
-    for (let key in defaultOptions) {
-        if ((options != null) && (typeof(options[key]) !== 'undefined')) {
-            this[key] = options[key];
+    for (let llave in opcionesDefecto) {
+        if ((opciones != null) && (typeof(opciones[llave]) !== 'undefined')) {
+            this[llave] = opciones[llave];
         } else {
-            this[key] = defaultOptions[key];
+            this[llave] = opcionesDefecto[llave];
         }
     }
 
-    // Also loop though the passed in options and add anything specified not part of the class in to it as a property.
-    if (options != null) {
-        for (let key in options) {
-            if (typeof(this[key]) === 'undefined') {
-                this[key] = options[key];
+    // Also loop though the passed in opciones and add anything specified not part of the class in to it as a property.
+    if (opciones != null) {
+        for (let llave in opciones) {
+            if (typeof(this[llave]) === 'undefined') {
+                this[llave] = opciones[llave];
             }
         }
     }
@@ -1989,10 +1989,10 @@ function Pin(options)
 // ====================================================================================================================
 // Class for the wheel spinning animation which like a segment becomes a property of the wheel.
 // ====================================================================================================================
-function Animation(options)
+function Animation(opciones)
 {
-    // Most of these options are null because the defaults are different depending on the type of animation.
-    let defaultOptions = {
+    // Most of these opciones are null because the defaults are different depending on the type of animation.
+    let opcionesDefecto = {
         'type'              : 'spinOngoing',   // For now there are only supported types are spinOngoing (continuous), spinToStop, spinAndBack, custom.
         'direction'         : 'clockwise',     // clockwise or anti-clockwise.
         'propertyName'      : null,            // The name of the winning wheel property to be affected by the animation.
@@ -2003,7 +2003,7 @@ function Animation(options)
         'easing'            : null,            // The easing to use for the animation, default is the best for spin to stop. Use Linear.easeNone for no easing.
         'stopAngle'         : null,            // Used for spinning, the angle at which the wheel is to stop.
         'spins'             : null,            // Used for spinning, the number of complete 360 degree rotations the wheel is to do.
-        'clearTheCanvas'    : null,            // If set to true the canvas will be cleared before the wheel is re-drawn, false it will not, null the animation will abide by the value of this property for the parent wheel object.
+        'limpiarElCanvas'    : null,            // If set to true the canvas1 will be cleared before the wheel is re-drawn, false it will not, null the animation will abide by the value of this property for the parent wheel object.
         'callbackFinished'  : null,            // Function to callback when the animation has finished.
         'callbackBefore'    : null,            // Function to callback before the wheel is drawn each animation loop.
         'callbackAfter'     : null,            // Function to callback after the wheel is drawn each animation loop.
@@ -2011,76 +2011,76 @@ function Animation(options)
         'soundTrigger'      : 'segment'        // Sound trigger type. Default is segment which triggers when segment changes, can be pin if to trigger when pin passes the pointer.
     };
 
-    // Now loop through the default options and create properties of this class set to the value for
+    // Now loop through the default opciones and create properties of this class set to the value for
     // the option passed in if a value was, or if not then set the value of the default.
-    for (let key in defaultOptions) {
-        if ((options != null) && (typeof(options[key]) !== 'undefined')) {
-            this[key] = options[key];
+    for (let llave in opcionesDefecto) {
+        if ((opciones != null) && (typeof(opciones[llave]) !== 'undefined')) {
+            this[llave] = opciones[llave];
         } else {
-            this[key] = defaultOptions[key];
+            this[llave] = opcionesDefecto[llave];
         }
     }
 
-    // Also loop though the passed in options and add anything specified not part of the class in to it as a property.
-    if (options != null) {
-        for (let key in options) {
-            if (typeof(this[key]) === 'undefined') {
-                this[key] = options[key];
+    // Also loop though the passed in opciones and add anything specified not part of the class in to it as a property.
+    if (opciones != null) {
+        for (let llave in opciones) {
+            if (typeof(this[llave]) === 'undefined') {
+                this[llave] = opciones[llave];
             }
         }
     }
 }
 
 // ====================================================================================================================
-// Class for segments. When creating a json of options can be passed in.
+// Class for segmentos. When creating a json of opciones can be passed in.
 // ====================================================================================================================
-function Segment(options)
+function Segment(opciones)
 {
-    // Define default options for segments, most are null so that the global defaults for the wheel
+    // Define default opciones for segmentos, most are null so that the global defaults for the wheel
     // are used if the values for a particular segment are not specifically set.
-    let defaultOptions = {
+    let opcionesDefecto = {
         'size'              : null, // Leave null for automatic. Valid values are degrees 0-360. Use percentToDegrees function if needed to convert.
         'text'              : '',   // Default is blank.
-        'fillStyle'         : null, // If null for the rest the global default will be used.
-        'strokeStyle'       : null,
-        'lineWidth'         : null,
-        'textFontFamily'    : null,
-        'textFontSize'      : null,
-        'textFontWeight'    : null,
-        'textOrientation'   : null,
-        'textAlignment'     : null,
-        'textDirection'     : null,
-        'textMargin'        : null,
-        'textFillStyle'     : null,
-        'textStrokeStyle'   : null,
-        'textLineWidth'     : null,
+        'rellenoStyle'         : null, // If null for the rest the global default will be used.
+        'golpeStyle'       : null,
+        'lineaAncho'         : null,
+        'textoFuenteFamilia'    : null,
+        'textoFuenteTamano'      : null,
+        'textoFuenteAncho'    : null,
+        'textoOrientacion'   : null,
+        'textoAlineacion'     : null,
+        'textoDireccion'     : null,
+        'textoMargen'        : null,
+        'textoRellenoStyle'     : null,
+        'textoGolpeStyle'   : null,
+        'textoLineaAncho'     : null,
         'image'             : null, // Name/path to the image
-        'imageDirection'    : null, // Direction of the image, can be set globally for the whole wheel.
+        'imagenDireccion'    : null, // Direction of the image, can be set globally for the whole wheel.
         'imgData'           : null  // Image object created here and loaded with image data.
     };
 
-    // Now loop through the default options and create properties of this class set to the value for
+    // Now loop through the default opciones and create properties of this class set to the value for
     // the option passed in if a value was, or if not then set the value of the default.
-    for (let key in defaultOptions) {
-        if ((options != null) && (typeof(options[key]) !== 'undefined')) {
-            this[key] = options[key];
+    for (let llave in opcionesDefecto) {
+        if ((opciones != null) && (typeof(opciones[llave]) !== 'undefined')) {
+            this[llave] = opciones[llave];
         } else {
-            this[key] = defaultOptions[key];
+            this[llave] = opcionesDefecto[llave];
         }
     }
 
-    // Also loop though the passed in options and add anything specified not part of the class in to it as a property.
-    // This allows the developer to easily add properties to segments at construction time.
-    if (options != null) {
-        for (let key in options) {
-            if (typeof(this[key]) === 'undefined') {
-                this[key] = options[key];
+    // Also loop though the passed in opciones and add anything specified not part of the class in to it as a property.
+    // This allows the developer to easily add properties to segmentos at construction time.
+    if (opciones != null) {
+        for (let llave in opciones) {
+            if (typeof(this[llave]) === 'undefined') {
+                this[llave] = opciones[llave];
             }
         }
     }
 
     // There are 2 additional properties which are set by the code, so need to define them here.
-    // They are not in the default options because they are not something that should be set by the user,
+    // They are not in the default opciones because they are not something that should be set by the user,
     // the values are updated every time the updateSegmentSizes() function is called.
     this.startAngle = 0;
     this.endAngle   = 0;
@@ -2089,15 +2089,15 @@ function Segment(options)
 // ====================================================================================================================
 // Changes an image for a segment by setting a callback to render the wheel once the image has loaded.
 // ====================================================================================================================
-Segment.prototype.changeImage = function(image, imageDirection)
+Segment.prototype.changeImage = function(image, imagenDireccion)
 {
     // Change image name, blank image data.
     this.image = image;
     this.imgData = null;
 
     // Set direction.
-    if (imageDirection) {
-        this.imageDirection = imageDirection;
+    if (imagenDireccion) {
+        this.imagenDireccion = imagenDireccion;
     }
 
     // Set imgData to a new image object, change set callback and change src (just like in wheel constructor).
@@ -2108,24 +2108,24 @@ Segment.prototype.changeImage = function(image, imageDirection)
 }
 
 // ====================================================================================================================
-// Class that is created as property of the wheel. Draws line from center of the wheel out to edge of canvas to
+// Class that is created as property of the wheel. Draws line from center of the wheel out to edge of canvas1 to
 // indicate where the code thinks the pointer location is. Helpful to get alignment correct esp when using images.
 // ====================================================================================================================
-function PointerGuide(options)
+function PointerGuide(opciones)
 {
-    let defaultOptions = {
+    let opcionesDefecto = {
         'display'     : false,
-        'strokeStyle' : 'red',
-        'lineWidth'   : 3
+        'golpeStyle' : 'red',
+        'lineaAncho'   : 3
     };
 
-    // Now loop through the default options and create properties of this class set to the value for
+    // Now loop through the default opciones and create properties of this class set to the value for
     // the option passed in if a value was, or if not then set the value of the default.
-    for (let key in defaultOptions) {
-        if ((options != null) && (typeof(options[key]) !== 'undefined')) {
-            this[key] = options[key];
+    for (let llave in opcionesDefecto) {
+        if ((opciones != null) && (typeof(opciones[llave]) !== 'undefined')) {
+            this[llave] = opciones[llave];
         } else {
-            this[key] = defaultOptions[key];
+            this[llave] = opcionesDefecto[llave];
         }
     }
 }
@@ -2152,9 +2152,9 @@ function winwheelPercentToDegrees(percentValue)
 function winwheelAnimationLoop()
 {
     if (winwheelToDrawDuringAnimation) {
-        // Check if the clearTheCanvas is specified for this animation, if not or it is not false then clear the canvas.
-        if (winwheelToDrawDuringAnimation.animation.clearTheCanvas != false) {
-            winwheelToDrawDuringAnimation.ctx.clearRect(0, 0, winwheelToDrawDuringAnimation.canvas.width, winwheelToDrawDuringAnimation.canvas.height);
+        // Check if the limpiarElCanvas is specified for this animation, if not or it is not false then clear the canvas1.
+        if (winwheelToDrawDuringAnimation.animation.limpiarElCanvas != false) {
+            winwheelToDrawDuringAnimation.xtc.clearRect(0, 0, winwheelToDrawDuringAnimation.canvas1.width, winwheelToDrawDuringAnimation.canvas1.height);
         }
 
         let callbackBefore = winwheelToDrawDuringAnimation.animation.callbackBefore;
@@ -2170,7 +2170,7 @@ function winwheelAnimationLoop()
             }
         }
 
-        // Call code to draw the wheel, pass in false as we never want it to clear the canvas as that would wipe anything drawn in the callbackBefore.
+        // Call code to draw the wheel, pass in false as we never want it to clear the canvas1 as that would wipe anything drawn in the callbackBefore.
         winwheelToDrawDuringAnimation.draw(false);
 
         // If there is a callback function which is supposed to be called after the wheel has been drawn then do that.
@@ -2266,17 +2266,17 @@ function winwheelLoadedImage()
         // Set to 0.
         let winwheelImageLoadCount = 0;
 
-        // Loop though all the segments of the wheel and check if image data loaded, if so increment counter.
-        for (let i = 1; i <= winwheelToDrawDuringAnimation.numSegments; i ++) {
+        // Loop though all the segmentos of the wheel and check if image data loaded, if so increment counter.
+        for (let i = 1; i <= winwheelToDrawDuringAnimation.numSegmentos; i ++) {
             // Check the image data object is not null and also that the image has completed loading by checking
             // that a property of it such as the height has some sort of true value.
-            if ((winwheelToDrawDuringAnimation.segments[i].imgData != null) && (winwheelToDrawDuringAnimation.segments[i].imgData.height)) {
+            if ((winwheelToDrawDuringAnimation.segmentos[i].imgData != null) && (winwheelToDrawDuringAnimation.segmentos[i].imgData.height)) {
                 winwheelImageLoadCount ++;
             }
         }
 
-        // If number of images loaded matches the segments then all the images for the wheel are loaded.
-        if (winwheelImageLoadCount == winwheelToDrawDuringAnimation.numSegments) {
+        // If number of images loaded matches the segmentos then all the images for the wheel are loaded.
+        if (winwheelImageLoadCount == winwheelToDrawDuringAnimation.numSegmentos) {
             // Call draw function to render the wheel.
             winhweelAlreadyDrawn = true;
             winwheelToDrawDuringAnimation.draw();
@@ -2286,13 +2286,13 @@ function winwheelLoadedImage()
 
 // ====================================================================================================================
 // Called when the wheel is to resize. This is normally called from a onresize of the window, also called from onload
-// so the initial size is correct. Here we must re-size the canvas and work out the scaleFactor for the wheel.
+// so the initial size is correct. Here we must re-size the canvas1 and work out the scalaFactor for the wheel.
 // ====================================================================================================================
 function winwheelResize()
 {
     // By default set the margin to 40px, this can be overridden if needed.
-    // This is to stop the canvas going right to the right edge of the screen and being overlayed by a scrollbar though
-    // if the canvas is center aligned, half the magin will be applied to each side since the margin actually reduces the width of the canvas.
+    // This is to stop the canvas1 going right to the right edge of the screen and being overlayed by a scrollbar though
+    // if the canvas1 is center aligned, half the magin will be applied to each side since the margin actually reduces the width of the canvas1.
     let margin = 40;
 
     // If a value has been specified for this then update the margin to it.
@@ -2306,7 +2306,7 @@ function winwheelResize()
     let minHeight = winwheelToDrawDuringAnimation._responsiveMinHeight;
 
     // Adjust the width as it cannot be larger than the original size of the wheel and we don't want
-    // the canvas and wheel inside it to be too small so check the min width.
+    // the canvas1 and wheel inside it to be too small so check the min width.
     if (width < minWidth) {
         width = minWidth;
     } else if (width > winwheelToDrawDuringAnimation._originalCanvasWidth) {
@@ -2316,8 +2316,8 @@ function winwheelResize()
     // Work out the percent the new width is smaller than the original width.
     let percent = (width / winwheelToDrawDuringAnimation._originalCanvasWidth);
 
-    // Set the canvas width to the width to a percentage of the original width.
-    winwheelToDrawDuringAnimation.canvas.width = (winwheelToDrawDuringAnimation._originalCanvasWidth * percent);
+    // Set the canvas1 width to the width to a percentage of the original width.
+    winwheelToDrawDuringAnimation.canvas1.width = (winwheelToDrawDuringAnimation._originalCanvasWidth * percent);
 
     // Scale the height if we are supposed to but ensure it does not go below the minHeight.
     if (winwheelToDrawDuringAnimation._responsiveScaleHeight) {
@@ -2329,11 +2329,11 @@ function winwheelResize()
             height = winwheelToDrawDuringAnimation._originalCanvasHeight;
         }
 
-        winwheelToDrawDuringAnimation.canvas.height = height;
+        winwheelToDrawDuringAnimation.canvas1.height = height;
     }
 
-    // OK so now we have the percent, set the scaleFactor of the wheel to this.
-    winwheelToDrawDuringAnimation.scaleFactor = percent;
+    // OK so now we have the percent, set the scalaFactor of the wheel to this.
+    winwheelToDrawDuringAnimation.scalaFactor = percent;
 
     // Now re-draw the wheel to ensure the changes in size are rendered.
     winwheelToDrawDuringAnimation.draw();
