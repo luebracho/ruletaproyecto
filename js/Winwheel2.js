@@ -38,7 +38,7 @@ function Ruleta(opciones, lienzoRuleta)
         'externoRadio'       : null,         // The radius of the outside of the wheel. If left null it will be set to the radius from the center of the canvas1 to its shortest side.
         'internoRadio'       : 0,            // Normally 0. Allows the creation of rings / doughnuts if set to value > 0. Should not exceed outer radius.
         'numSegmentos'       : 1,            // The number of segmentos. Need at least one to draw.
-        'dibujoModo'          : 'code',       // The draw mode. Possible values are 'code', 'image', 'segmentImage'. Default is code which means segmentos are drawn using canvas1 arc() function.
+        'dibujoModo'          : 'code',       // The draw mode. Possible values are 'code', 'imagen', 'segmentImage'. Default is code which means segmentos are drawn using canvas1 arc() function.
         'rotacionAngulo'     : 0,            // The angle of rotation of the wheel - 0 is 12 o'clock position.
         'textoFuenteFamilia'    : 'Arial',      // Segment text font, you should use web safe fonts.
         'textoFuenteTamano'      : 20,           // Size of the segment text.
@@ -54,10 +54,10 @@ function Ruleta(opciones, lienzoRuleta)
         'golpeStyle'       : 'black',      // Segment line colour. Again segment lines only drawn if this is specified.
         'lineaAncho'         : 1,            // Width of lines around segmentos.
         'limpiarElCanvas'    : true,         // When set to true the canvas1 will be cleared before the wheel is drawn.
-        'imageCubrir'      : false,        // If set to true in image drawing mode the outline of the segmentos will be displayed over the image. Does nothing in code dibujoModo.
-        'dibujarTexto'          : true,         // By default the text of the segmentos is rendered in code dibujoModo and not in image dibujoModo.
+        'imageCubrir'      : false,        // If set to true in imagen drawing mode the outline of the segmentos will be displayed over the imagen. Does nothing in code dibujoModo.
+        'dibujarTexto'          : true,         // By default the text of the segmentos is rendered in code dibujoModo and not in imagen dibujoModo.
         'punteroAngulo'      : 270,            // Location of the pointer that indicates the prize when wheel has stopped. Default is 0 so the (corrected) 12 o'clock position.
-        'ruedaImagen'        : null,         // Must be set to image data in order to use image to draw the wheel - dibujoModo must also be 'image'.
+        'ruedaImagen'        : null,         // Must be set to imagen data in order to use imagen to draw the wheel - dibujoModo must also be 'imagen'.
         'imagenDireccion'    : 'N',          // Used when dibujoModo is segmentImage. Default is north, can also be (E)ast, (S)outh, (W)est.
         'responsivo'        : false,        // If set to true the wheel will resize when the window first loads and also onResize.
         'scalaFactor'       : 1,            // Set by the responsivo function. Used in many calculations to scale the wheel.
@@ -138,7 +138,7 @@ function Ruleta(opciones, lienzoRuleta)
 
     // ------------------------------------------
     // Call function to update the segment sizes setting the starting and ending angles.
-    this.updateSegmentSizes();
+    this.actualizarSegmentosTamano();
 
     // If the text margin is null then set to same as font size as we want some by default.
     if (this.textoMargen === null) {
@@ -146,23 +146,23 @@ function Ruleta(opciones, lienzoRuleta)
     }
 
     // ------------------------------------------
-    // If the animation opciones have been passed in then create animation object as a property of this class
-    // and pass the opciones to it so the animation is set. Otherwise create default animation object.
-    if ((opciones != null) && (opciones['animation']) && (typeof(opciones['animation']) !== 'undefined')) {
-        this.animation = new Animation(opciones['animation']);
+    // If the animacion opciones have been passed in then create animacion object as a property of this class
+    // and pass the opciones to it so the animacion is set. Otherwise create default animacion object.
+    if ((opciones != null) && (opciones['animacion']) && (typeof(opciones['animacion']) !== 'undefined')) {
+        this.animacion = new Animation(opciones['animacion']);
     } else {
-        this.animation = new Animation();
+        this.animacion = new Animation();
     }
 
     // ------------------------------------------
     // If some pin opciones then create create a pin object and then pass them in.
-    if ((opciones != null) && (opciones['pins']) && (typeof(opciones['pins']) !== 'undefined')) {
-        this.pins = new Pin(opciones['pins']);
+    if ((opciones != null) && (opciones['pines']) && (typeof(opciones['pines']) !== 'undefined')) {
+        this.pines = new Pin(opciones['pines']);
     }
 
     // ------------------------------------------
-    // If the dibujoModo is image change some defaults provided a value has not been specified.
-    if ((this.dibujoModo == 'image') || (this.dibujoModo == 'segmentImage')) {
+    // If the dibujoModo is imagen change some defaults provided a value has not been specified.
+    if ((this.dibujoModo == 'imagen') || (this.dibujoModo == 'segmentImage')) {
         // Remove grey rellenoStyle.
         if (typeof(opciones['rellenoStyle']) === 'undefined') {
             this.rellenoStyle = null;
@@ -173,7 +173,7 @@ function Ruleta(opciones, lienzoRuleta)
             this.golpeStyle = 'red';
         }
 
-        // Set dibujarTexto to false as we will assume any text is part of the image.
+        // Set dibujarTexto to false as we will assume any text is part of the imagen.
         if (typeof(opciones['dibujarTexto']) === 'undefined') {
             this.dibujarTexto = false;
         }
@@ -183,7 +183,7 @@ function Ruleta(opciones, lienzoRuleta)
             this.lineaAncho = 1;
         }
 
-        // Set lienzoRuleta to false as normally the image needs to be loaded first.
+        // Set lienzoRuleta to false as normally the imagen needs to be loaded first.
         if (typeof(lienzoRuleta) === 'undefined') {
             lienzoRuleta = false;
         }
@@ -195,10 +195,10 @@ function Ruleta(opciones, lienzoRuleta)
     }
 
     // Create pointer guide.
-    if ((opciones != null) && (opciones['pointerGuide']) && (typeof(opciones['pointerGuide']) !== 'undefined')) {
-        this.pointerGuide = new PointerGuide(opciones['pointerGuide']);
+    if ((opciones != null) && (opciones['punteroGuia']) && (typeof(opciones['punteroGuia']) !== 'undefined')) {
+        this.punteroGuia = new PunteroGuia(opciones['punteroGuia']);
     } else {
-        this.pointerGuide = new PointerGuide();
+        this.punteroGuia = new PunteroGuia();
     }
 
     // Check if the wheel is to be responsivo, if so then need to save the original size of the canvas1
@@ -218,24 +218,24 @@ function Ruleta(opciones, lienzoRuleta)
 
         // Add event listeners for onload and onresize and call a function defined at the bottom
         // of this script which will handle that and work out the scale factor.
-        window.addEventListener("load", winwheelResize);
-        window.addEventListener("resize", winwheelResize);
+        window.addEventListener("load", ruletaRedimension);
+        window.addEventListener("resize", ruletaRedimension);
     }
 
     // Finally if lienzoRuleta is true then call function to render the wheel, segment text, overlay etc.
     if (lienzoRuleta == true) {
         this.draw(this.limpiarElCanvas);
     } else if (this.dibujoModo == 'segmentImage') {
-        // If segment image then loop though all the segmentos and load the images for them setting a callback
+        // If segment imagen then loop though all the segmentos and load the images for them setting a callback
         // which will call the draw function of the wheel once all the images have been loaded.
         ruletaParaDibujarDuranteAnimacion = this;
         ruletaYaDibujada = false;
 
         for (let y = 1; y <= this.numSegmentos; y ++) {
-            if (this.segmentos[y].image !== null) {
+            if (this.segmentos[y].imagen !== null) {
                 this.segmentos[y].imgData = new Image();
-                this.segmentos[y].imgData.onload = winwheelLoadedImage;
-                this.segmentos[y].imgData.src = this.segmentos[y].image;
+                this.segmentos[y].imgData.onload = ruletaCargadaImagen;
+                this.segmentos[y].imgData.src = this.segmentos[y].imagen;
             }
         }
     }
@@ -245,7 +245,7 @@ function Ruleta(opciones, lienzoRuleta)
 // This function sorts out the segment sizes. Some segmentos may have set sizes, for the others what is left out of
 // 360 degrees is shared evenly. What this function actually does is set the start and end angle of the arcs.
 // ====================================================================================================================
-Ruleta.prototype.updateSegmentSizes = function()
+Ruleta.prototype.actualizarSegmentosTamano = function()
 {
     // If this object actually contains some segmentos
     if (this.segmentos) {
@@ -294,7 +294,7 @@ Ruleta.prototype.updateSegmentSizes = function()
 // ====================================================================================================================
 // This function clears the canvas1. Will wipe anything else which happens to be drawn on it.
 // ====================================================================================================================
-Ruleta.prototype.clearCanvas = function()
+Ruleta.prototype.limpiarCanvas = function()
 {
     if (this.xtc) {
         this.xtc.clearRect(0, 0, this.canvas1.width, this.canvas1.height);
@@ -311,16 +311,16 @@ Ruleta.prototype.draw = function(limpiarElCanvas)
         // Clear the canvas1, unless told not to.
         if (typeof(limpiarElCanvas) !== 'undefined') {
             if (limpiarElCanvas == true) {
-                this.clearCanvas();
+                this.limpiarCanvas();
             }
         } else {
-            this.clearCanvas();
+            this.limpiarCanvas();
         }
 
         // Call functions to draw the segmentos and then segment text.
-        if (this.dibujoModo == 'image') {
-            // Draw the wheel by loading and drawing an image such as a png on the canvas1.
-            this.drawWheelImage();
+        if (this.dibujoModo == 'imagen') {
+            // Draw the wheel by loading and drawing an imagen such as a png on the canvas1.
+            this.dibujarRuedaImagen();
 
             // If we are to draw the text, do so before the overlay is drawn
             // as this allows the overlay to be used to create some interesting effects.
@@ -328,13 +328,13 @@ Ruleta.prototype.draw = function(limpiarElCanvas)
                 this.drawSegmentText();
             }
 
-            // If image overlay is true then call function to draw the segmentos over the top of the image.
-            // This is useful during development to check alignment between where the code thinks the segmentos are and where they appear on the image.
+            // If imagen overlay is true then call function to draw the segmentos over the top of the imagen.
+            // This is useful during development to check alignment between where the code thinks the segmentos are and where they appear on the imagen.
             if (this.imageCubrir == true) {
                 this.drawSegments();
             }
         } else if (this.dibujoModo == 'segmentImage') {
-            // Draw the wheel by rendering the image for each segment.
+            // Draw the wheel by rendering the imagen for each segment.
             this.drawSegmentImages();
 
             // If we are to draw the text, do so before the overlay is drawn
@@ -343,8 +343,8 @@ Ruleta.prototype.draw = function(limpiarElCanvas)
                 this.drawSegmentText();
             }
 
-            // If image overlay is true then call function to draw the segmentos over the top of the image.
-            // This is useful during development to check alignment between where the code thinks the segmentos are and where they appear on the image.
+            // If imagen overlay is true then call function to draw the segmentos over the top of the imagen.
+            // This is useful during development to check alignment between where the code thinks the segmentos are and where they appear on the imagen.
             if (this.imageCubrir == true) {
                 this.drawSegments();
             }
@@ -358,54 +358,54 @@ Ruleta.prototype.draw = function(limpiarElCanvas)
             }
         }
 
-        // If this class has pins.
-        if (typeof this.pins !== 'undefined') {
+        // If this class has pines.
+        if (typeof this.pines !== 'undefined') {
             // If they are to be visible then draw them.
-            if (this.pins.visible == true) {
+            if (this.pines.visible == true) {
                 this.drawPins();
             }
         }
 
         // If pointer guide is display property is set to true then call function to draw the pointer guide.
-        if (this.pointerGuide.display == true) {
+        if (this.punteroGuia.display == true) {
             this.drawPointerGuide();
         }
     }
 }
 
 // ====================================================================================================================
-// Draws the pins around the outside of the wheel.
+// Draws the pines around the outside of the wheel.
 // ====================================================================================================================
 Ruleta.prototype.drawPins = function()
 {
-    if ((this.pins) && (this.pins.number)) {
-        // Get scaled centroX and centroY to use in the code below so pins will draw responsively too.
+    if ((this.pines) && (this.pines.number)) {
+        // Get scaled centroX and centroY to use in the code below so pines will draw responsively too.
         let centroX = (this.centroX * this.scalaFactor);
         let centroY = (this.centroY * this.scalaFactor);
         let externoRadio = (this.externoRadio * this.scalaFactor);
 
         // Check if the pin's size is to be responsivo too, if so set the pinOuterRadius to a scaled version number.
-        let pinOuterRadius = this.pins.externoRadio;
-        let pinMargin = this.pins.margin;
+        let pinOuterRadius = this.pines.externoRadio;
+        let pinMargin = this.pines.margin;
 
-        if (this.pins.responsivo) {
-            pinOuterRadius = (this.pins.externoRadio * this.scalaFactor);
-            pinMargin = (this.pins.margin * this.scalaFactor);
+        if (this.pines.responsivo) {
+            pinOuterRadius = (this.pines.externoRadio * this.scalaFactor);
+            pinMargin = (this.pines.margin * this.scalaFactor);
         }
 
-        // Work out the angle to draw each pin a which is simply 360 / the number of pins as they space evenly around.
-        //++ There is a slight oddity with the pins in that there is a pin at 0 and also one at 360 and these will be drawn
-        //++ directly over the top of each other. Also pins are 0 indexed which could possibly cause some confusion
+        // Work out the angle to draw each pin a which is simply 360 / the number of pines as they space evenly around.
+        //++ There is a slight oddity with the pines in that there is a pin at 0 and also one at 360 and these will be drawn
+        //++ directly over the top of each other. Also pines are 0 indexed which could possibly cause some confusion
         //++ with the getCurrentPin function - for now this is just used for audio so probably not a problem.
-        let pinSpacing = (360 / this.pins.number);
+        let pinSpacing = (360 / this.pines.number);
 
-        for(let i=1; i<=this.pins.number; i ++) {
+        for(let i=1; i<=this.pines.number; i ++) {
             this.xtc.save();
 
             // Set the stroke style and line width.
-            this.xtc.golpeStyle = this.pins.golpeStyle;
-            this.xtc.lineaAncho = this.pins.lineaAncho;
-            this.xtc.rellenoStyle = this.pins.rellenoStyle;
+            this.xtc.golpeStyle = this.pines.golpeStyle;
+            this.xtc.lineaAncho = this.pines.lineaAncho;
+            this.xtc.rellenoStyle = this.pines.rellenoStyle;
 
             // Move to the center.
             this.xtc.translate(centroX, centroY);
@@ -421,11 +421,11 @@ Ruleta.prototype.drawPins = function()
             // x, y, radius, startAngle, endAngle.
             this.xtc.arc(centroX,(centroY - externoRadio) + pinOuterRadius + pinMargin, pinOuterRadius, 0, 2*Math.PI);
 
-            if (this.pins.rellenoStyle) {
+            if (this.pines.rellenoStyle) {
                 this.xtc.fill();
             }
 
-            if (this.pins.golpeStyle) {
+            if (this.pines.golpeStyle) {
                 this.xtc.stroke();
             }
 
@@ -454,8 +454,8 @@ Ruleta.prototype.drawPointerGuide = function()
         this.xtc.translate(-centroX, -centroY);
 
         // Set line colour and width.
-        this.xtc.golpeStyle = this.pointerGuide.golpeStyle;
-        this.xtc.lineaAncho = this.pointerGuide.lineaAncho;
+        this.xtc.golpeStyle = this.punteroGuia.golpeStyle;
+        this.xtc.lineaAncho = this.punteroGuia.lineaAncho;
 
         // Draw from the center of the wheel outwards past the wheel outer radius.
         this.xtc.beginPath();
@@ -468,11 +468,11 @@ Ruleta.prototype.drawPointerGuide = function()
 }
 
 // ====================================================================================================================
-// This function takes an image such as PNG and draws it on the canvas1 making its center at the centroX and center for the wheel.
+// This function takes an imagen such as PNG and draws it on the canvas1 making its center at the centroX and center for the wheel.
 // ====================================================================================================================
-Ruleta.prototype.drawWheelImage = function()
+Ruleta.prototype.dibujarRuedaImagen = function()
 {
-    // Double check the ruedaImagen property of this class is not null. This does not actually detect that an image
+    // Double check the ruedaImagen property of this class is not null. This does not actually detect that an imagen
     // source was set and actually loaded so might get error if this is not the case. This is why the initial call
     // to draw() should be done from a ruedaImagen.onload callback as detailed in example documentation.
     if (this.ruedaImagen != null) {
@@ -480,23 +480,23 @@ Ruleta.prototype.drawWheelImage = function()
         let centroX = (this.centroX * this.scalaFactor);
         let centroY = (this.centroY * this.scalaFactor);
 
-        // Get the scaled width and height of the image.
+        // Get the scaled width and height of the imagen.
         let scaledWidth = (this.ruedaImagen.width * this.scalaFactor);
         let scaledHeight = (this.ruedaImagen.height * this.scalaFactor);
 
-        // Work out the correct X and Y to draw the image at. We need to get the center point of the image
+        // Work out the correct X and Y to draw the imagen at. We need to get the center point of the imagen
         // aligned over the center point of the wheel, we can't just place it at 0, 0.
         let imageLeft = (centroX - (scaledWidth / 2));
         let imageTop  = (centroY - (scaledHeight / 2));
 
         // Rotate and then draw the wheel.
-        // We must rotate by the rotacionAngulo before drawing to ensure that image wheels will spin.
+        // We must rotate by the rotacionAngulo before drawing to ensure that imagen wheels will spin.
         this.xtc.save();
         this.xtc.translate(centroX, centroY);
         this.xtc.rotate(this.degToRad(this.rotacionAngulo));
         this.xtc.translate(-centroX, -centroY);
 
-        // Draw the image passing the scaled width and height which will ensure the image will be responsivo.
+        // Draw the imagen passing the scaled width and height which will ensure the imagen will be responsivo.
         this.xtc.drawImage(this.ruedaImagen, imageLeft, imageTop, scaledWidth, scaledHeight);
 
         this.xtc.restore();
@@ -504,7 +504,7 @@ Ruleta.prototype.drawWheelImage = function()
 }
 
 // ====================================================================================================================
-// This function draws the wheel on the canvas1 by rendering the image for each segment.
+// This function draws the wheel on the canvas1 by rendering the imagen for each segment.
 // ====================================================================================================================
 Ruleta.prototype.drawSegmentImages = function()
 {
@@ -522,9 +522,9 @@ Ruleta.prototype.drawSegmentImages = function()
                 // Get the segment object as we need it to read opciones from.
                 let seg = this.segmentos[x];
 
-                // Check image has loaded so a property such as height has a value.
+                // Check imagen has loaded so a property such as height has a value.
                 if (seg.imgData.height) {
-                    // Work out the correct X and Y to draw the image at which depends on the direction of the image.
+                    // Work out the correct X and Y to draw the imagen at which depends on the direction of the imagen.
                     // Images can be created in 4 directions. North, South, East, West.
                     // North: Outside at top, inside at bottom. Sits evenly over the 0 degrees angle.
                     // South: Outside at bottom, inside at top. Sits evenly over the 180 degrees angle.
@@ -535,7 +535,7 @@ Ruleta.prototype.drawSegmentImages = function()
                     let imageAngle = 0;
                     let imagenDireccion = '';
 
-                    // Get scaled width and height of the segment image.
+                    // Get scaled width and height of the segment imagen.
                     let scaledWidth = (seg.imgData.width * this.scalaFactor);
                     let scaledHeight = (seg.imgData.height * this.scalaFactor);
 
@@ -546,17 +546,17 @@ Ruleta.prototype.drawSegmentImages = function()
                     }
 
                     if (imagenDireccion == 'S') {
-                        // Left set so image sits half/half over the 180 degrees point.
+                        // Left set so imagen sits half/half over the 180 degrees point.
                         imageLeft = (centroX - (scaledWidth / 2));
 
-                        // Top so image starts at the centroY.
+                        // Top so imagen starts at the centroY.
                         imageTop = centroY;
 
-                        // Angle to draw the image is its starting angle + half its size.
+                        // Angle to draw the imagen is its starting angle + half its size.
                         // Here we add 180 to the angle to the segment is poistioned correctly.
                         imageAngle = (seg.startAngle + 180 + ((seg.endAngle - seg.startAngle) / 2));
                     } else if (imagenDireccion == 'E') {
-                        // Left set so image starts and the center point.
+                        // Left set so imagen starts and the center point.
                         imageLeft = centroX;
 
                         // Top is so that it sits half/half over the 90 degree point.
@@ -566,7 +566,7 @@ Ruleta.prototype.drawSegmentImages = function()
                         // this time we need to add 270 to that to the segment is rendered the correct place.
                         imageAngle = (seg.startAngle + 270 + ((seg.endAngle - seg.startAngle) / 2));
                     } else if (imagenDireccion == 'W') {
-                        // Left is the centroX minus the width of the image.
+                        // Left is the centroX minus the width of the imagen.
                         imageLeft = (centroX - scaledWidth);
 
                         // Top is so that it sits half/half over the 270 degree point.
@@ -577,19 +577,19 @@ Ruleta.prototype.drawSegmentImages = function()
                         imageAngle = (seg.startAngle + 90 + ((seg.endAngle - seg.startAngle) / 2));
                     } else {
                         // North is the default.
-                        // Left set so image sits half/half over the 0 degrees point.
+                        // Left set so imagen sits half/half over the 0 degrees point.
                         imageLeft = (centroX - (scaledWidth / 2));
 
-                        // Top so image is its height out (above) the center point.
+                        // Top so imagen is its height out (above) the center point.
                         imageTop = (centroY - scaledHeight);
 
-                        // Angle to draw the image is its starting angle + half its size.
+                        // Angle to draw the imagen is its starting angle + half its size.
                         // this sits it half/half over the center angle of the segment.
                         imageAngle = (seg.startAngle + ((seg.endAngle - seg.startAngle) / 2));
                     }
 
                     // --------------------------------------------------
-                    // Rotate to the position of the segment and then draw the image.
+                    // Rotate to the position of the segment and then draw the imagen.
                     this.xtc.save();
                     this.xtc.translate(centroX, centroY);
 
@@ -597,7 +597,7 @@ Ruleta.prototype.drawSegmentImages = function()
                     this.xtc.rotate(this.degToRad(this.rotacionAngulo + imageAngle));
                     this.xtc.translate(-centroX, -centroY);
 
-                    // Draw the image passing the scaled width and height so that it can be responsivo.
+                    // Draw the imagen passing the scaled width and height so that it can be responsivo.
                     this.xtc.drawImage(seg.imgData, imageLeft, imageTop, scaledWidth, scaledHeight);
 
                     this.xtc.restore();
@@ -1398,7 +1398,7 @@ Ruleta.prototype.addSegment = function(opciones, position)
     }
 
     // Since a segment has been added the segment sizes need to be re-computed so call function to do this.
-    this.updateSegmentSizes();
+    this.actualizarSegmentosTamano();
 
     // Return the segment object just created in the wheel (JavaScript will return it by reference), so that
     // further things can be done with it by the calling code if desired.
@@ -1450,7 +1450,7 @@ Ruleta.prototype.deleteSegment = function(position)
         // Decrement the number of segmentos,
         // then call function to update the segment sizes.
         this.numSegmentos --;
-        this.updateSegmentSizes();
+        this.actualizarSegmentosTamano();
     }
 }
 
@@ -1644,13 +1644,13 @@ Ruleta.prototype.getIndicatedSegmentNumber = function()
 
 // ====================================================================================================================
 // Works out what Pin around the wheel is considered the current one which is the one which just passed the pointer.
-// Used to work out if the pin has changed during the animation to tigger a sound.
+// Used to work out if the pin has changed during the animacion to tigger a sound.
 // ====================================================================================================================
 Ruleta.prototype.getCurrentPinNumber = function()
 {
     let currentPin = 0;
 
-    if (this.pins) {
+    if (this.pines) {
         let rawAngle = this.getRotationPosition();
 
         // Now we have the angle of the wheel, but we need to take in to account where the pointer is because
@@ -1661,12 +1661,12 @@ Ruleta.prototype.getCurrentPinNumber = function()
             relativeAngle = 360 - Math.abs(relativeAngle);
         }
 
-        // Work out the angle of the pins as this is simply 360 / the number of pins as they space evenly around.
-        let pinSpacing = (360 / this.pins.number);
+        // Work out the angle of the pines as this is simply 360 / the number of pines as they space evenly around.
+        let pinSpacing = (360 / this.pines.number);
         let totalPinAngle = 0;
 
-        // Now we can work out the pin by seeing what pins relativeAngle is between.
-        for (let x = 0; x < (this.pins.number); x ++) {
+        // Now we can work out the pin by seeing what pines relativeAngle is between.
+        for (let x = 0; x < (this.pines.number); x ++) {
             if ((relativeAngle >= totalPinAngle) && (relativeAngle <= (totalPinAngle + pinSpacing))) {
                 currentPin = x;
                 break;
@@ -1677,10 +1677,10 @@ Ruleta.prototype.getCurrentPinNumber = function()
 
         // Now if rotating clockwise we must add 1 to the current pin as we want the pin which has just passed
         // the pointer to be returned as the current pin, not the start of the one we are between.
-        if (this.animation.direction == 'clockwise') {
+        if (this.animacion.direction == 'clockwise') {
             currentPin ++;
 
-            if (currentPin > this.pins.number) {
+            if (currentPin > this.pines.number) {
                 currentPin = 0;
             }
         }
@@ -1721,43 +1721,43 @@ Ruleta.prototype.getRotationPosition = function()
 }
 
 // ==================================================================================================================================================
-// This function starts the wheel's animation by using the properties of the animation object of of the wheel to begin the a greensock tween.
+// This function starts the wheel's animacion by using the properties of the animacion object of of the wheel to begin the a greensock tween.
 // ==================================================================================================================================================
-Ruleta.prototype.startAnimation = function()
+Ruleta.prototype.iniciarAnimacion = function()
 {
-    if (this.animation) {
-        // Call function to compute the animation properties.
-        this.computeAnimation();
+    if (this.animacion) {
+        // Call function to compute the animacion properties.
+        this.computoAnimacion();
 
         // Set this global variable to this object as an external function is required to call the draw() function on the wheel
-        // each loop of the animation as Greensock cannot call the draw function directly on this class.
+        // each loop of the animacion as Greensock cannot call the draw function directly on this class.
         ruletaParaDibujarDuranteAnimacion = this;
 
-        // Put together the properties of the greesock animation.
+        // Put together the properties of the greesock animacion.
         let properties = new Array(null);
-        properties[this.animation.propertyName] = this.animation.propertyValue; // Here we set the property to be animated and its value.
-        properties['yoyo']       = this.animation.yoyo;     // Set others.
-        properties['repeat']     = this.animation.repeat;
-        properties['ease']       = this.animation.easing;
+        properties[this.animacion.propertyName] = this.animacion.propertyValue; // Here we set the property to be animated and its value.
+        properties['yoyo']       = this.animacion.yoyo;     // Set others.
+        properties['repeat']     = this.animacion.repeat;
+        properties['ease']       = this.animacion.easing;
         properties['onUpdate']   = winwheelAnimationLoop;   // Call function to re-draw the canvas1.
-        properties['onComplete'] = winwheelStopAnimation;   // Call function to perform actions when animation has finished.
+        properties['onComplete'] = winwheelStopAnimation;   // Call function to perform actions when animacion has finished.
 
-        // Do the tween animation passing the properties from the animation object as an array of llave => value pairs.
-        // Keep reference to the tween object in the wheel as that allows pausing, resuming, and stopping while the animation is still running.
-        this.tween = TweenMax.to(this, this.animation.duration, properties);
+        // Do the tween animacion passing the properties from the animacion object as an array of llave => value pairs.
+        // Keep reference to the tween object in the wheel as that allows pausing, resuming, and stopping while the animacion is still running.
+        this.tween = TweenMax.to(this, this.animacion.duration, properties);
     }
 }
 
 // ==================================================================================================================================================
 // Use same function which needs to be outside the class for the callback when it stops because is finished.
 // ==================================================================================================================================================
-Ruleta.prototype.stopAnimation = function(canCallback)
+Ruleta.prototype.detenerAnimacion = function(canCallback)
 {
     // @TODO as part of multiwheel, need to work out how to stop the tween for a single wheel but allow others to continue.
 
-    // We can kill the animation using our tween object.
+    // We can kill the animacion using our tween object.
     if (ruletaParaDibujarDuranteAnimacion) {
-        // If the wheel has a tween animation then kill it.
+        // If the wheel has a tween animacion then kill it.
         if (ruletaParaDibujarDuranteAnimacion.tween) {
             ruletaParaDibujarDuranteAnimacion.tween.kill();
         }
@@ -1771,7 +1771,7 @@ Ruleta.prototype.stopAnimation = function(canCallback)
 }
 
 // ==================================================================================================================================================
-// Pause animation by telling tween to pause.
+// Pause animacion by telling tween to pause.
 // ==================================================================================================================================================
 Ruleta.prototype.pauseAnimation = function()
 {
@@ -1781,7 +1781,7 @@ Ruleta.prototype.pauseAnimation = function()
 }
 
 // ==================================================================================================================================================
-// Resume the animation by telling tween to continue playing it.
+// Resume the animacion by telling tween to continue playing it.
 // ==================================================================================================================================================
 Ruleta.prototype.resumeAnimation = function()
 {
@@ -1791,130 +1791,130 @@ Ruleta.prototype.resumeAnimation = function()
 }
 
 // ====================================================================================================================
-// Called at the beginning of the startAnimation function and computes the values needed to do the animation
-// before it starts. This allows the developer to change the animation properties after the wheel has been created
-// and have the animation use the new values of the animation properties.
+// Called at the beginning of the iniciarAnimacion function and computes the values needed to do the animacion
+// before it starts. This allows the developer to change the animacion properties after the wheel has been created
+// and have the animacion use the new values of the animacion properties.
 // ====================================================================================================================
-Ruleta.prototype.computeAnimation = function()
+Ruleta.prototype.computoAnimacion = function()
 {
-    if (this.animation) {
-        // Set the animation parameters for the specified animation type including some sensible defaults if values have not been specified.
-        if (this.animation.type == 'spinOngoing') {
+    if (this.animacion) {
+        // Set the animacion parameters for the specified animacion type including some sensible defaults if values have not been specified.
+        if (this.animacion.type == 'spinOngoing') {
             // When spinning the rotacionAngulo is the wheel property which is animated.
-            this.animation.propertyName = 'rotacionAngulo';
+            this.animacion.propertyName = 'rotacionAngulo';
 
-            if (this.animation.spins == null) {
-                this.animation.spins = 5;
+            if (this.animacion.spins == null) {
+                this.animacion.spins = 5;
             }
 
-            if (this.animation.repeat == null) {
-                this.animation.repeat = -1;           // -1 means it will repeat forever.
+            if (this.animacion.repeat == null) {
+                this.animacion.repeat = -1;           // -1 means it will repeat forever.
             }
 
-            if (this.animation.easing == null) {
-                this.animation.easing = 'Linear.easeNone';
+            if (this.animacion.easing == null) {
+                this.animacion.easing = 'Linear.easeNone';
             }
 
-            if (this.animation.yoyo == null) {
-                this.animation.yoyo = false;
+            if (this.animacion.yoyo == null) {
+                this.animacion.yoyo = false;
             }
 
             // We need to calculate the propertyValue and this is the spins * 360 degrees.
-            this.animation.propertyValue = (this.animation.spins * 360);
+            this.animacion.propertyValue = (this.animacion.spins * 360);
 
             // If the direction is anti-clockwise then make the property value negative.
-            if (this.animation.direction == 'anti-clockwise') {
-                this.animation.propertyValue = (0 - this.animation.propertyValue);
+            if (this.animacion.direction == 'anti-clockwise') {
+                this.animacion.propertyValue = (0 - this.animacion.propertyValue);
             }
-        } else if (this.animation.type == 'spinToStop') {
+        } else if (this.animacion.type == 'spinToStop') {
             // Spin to stop the rotation angle is affected.
-            this.animation.propertyName = 'rotacionAngulo';
+            this.animacion.propertyName = 'rotacionAngulo';
 
-            if (this.animation.spins == null) {
-                this.animation.spins = 5;
+            if (this.animacion.spins == null) {
+                this.animacion.spins = 5;
             }
 
-            if (this.animation.repeat == null) {
-                this.animation.repeat = 0;        // As this is spin to stop we don't normally want it repeated.
+            if (this.animacion.repeat == null) {
+                this.animacion.repeat = 0;        // As this is spin to stop we don't normally want it repeated.
             }
 
-            if (this.animation.easing == null) {
-                this.animation.easing = 'Power3.easeOut';     // This easing is fast start and slows over time.
+            if (this.animacion.easing == null) {
+                this.animacion.easing = 'Power3.easeOut';     // This easing is fast start and slows over time.
             }
 
-            if (this.animation.stopAngle == null) {
+            if (this.animacion.stopAngle == null) {
                 // If the stop angle has not been specified then pick random between 0 and 359.
-                this.animation._stopAngle = Math.floor((Math.random() * 359));
+                this.animacion._stopAngle = Math.floor((Math.random() * 359));
             } else {
                 // We need to set the internal to 360 minus what the user entered because the wheel spins past 0 without
                 // this it would indicate the prize on the opposite side of the wheel. We aslo need to take in to account
                 // the punteroAngulo as the stop angle needs to be relative to that.
-                this.animation._stopAngle = (360 - this.animation.stopAngle + this.punteroAngulo);
+                this.animacion._stopAngle = (360 - this.animacion.stopAngle + this.punteroAngulo);
             }
 
-            if (this.animation.yoyo == null) {
-                this.animation.yoyo = false;
+            if (this.animacion.yoyo == null) {
+                this.animacion.yoyo = false;
             }
 
             // The property value is the spins * 360 then plus or minus the stopAngle depending on if the rotation is clockwise or anti-clockwise.
-            this.animation.propertyValue = (this.animation.spins * 360);
+            this.animacion.propertyValue = (this.animacion.spins * 360);
 
-            if (this.animation.direction == 'anti-clockwise') {
-                this.animation.propertyValue = (0 - this.animation.propertyValue);
+            if (this.animacion.direction == 'anti-clockwise') {
+                this.animacion.propertyValue = (0 - this.animacion.propertyValue);
 
                 // Also if the value is anti-clockwise we need subtract the stopAngle (but to get the wheel to stop in the correct
                 // place this is 360 minus the stop angle as the wheel is rotating backwards).
-                this.animation.propertyValue -= (360 - this.animation._stopAngle);
+                this.animacion.propertyValue -= (360 - this.animacion._stopAngle);
             } else {
                 // Add the stopAngle to the propertyValue as the wheel must rotate around to this place and stop there.
-                this.animation.propertyValue += this.animation._stopAngle;
+                this.animacion.propertyValue += this.animacion._stopAngle;
             }
-        } else if (this.animation.type == 'spinAndBack') {
-            // This is basically is a spin for a number of times then the animation reverses and goes back to start.
+        } else if (this.animacion.type == 'spinAndBack') {
+            // This is basically is a spin for a number of times then the animacion reverses and goes back to start.
             // If a repeat is specified then this can be used to make the wheel "rock" left and right.
 
             // Again this is a spin so the rotacionAngulo the property which is animated.
-            this.animation.propertyName = 'rotacionAngulo';
+            this.animacion.propertyName = 'rotacionAngulo';
 
-            if (this.animation.spins == null) {
-                this.animation.spins = 5;
+            if (this.animacion.spins == null) {
+                this.animacion.spins = 5;
             }
 
-            if (this.animation.repeat == null) {
-                this.animation.repeat = 1;          // This needs to be set to at least 1 in order for the animation to reverse.
+            if (this.animacion.repeat == null) {
+                this.animacion.repeat = 1;          // This needs to be set to at least 1 in order for the animacion to reverse.
             }
 
-            if (this.animation.easing == null) {
-                this.animation.easing = 'Power2.easeInOut';     // This is slow at the start and end and fast in the middle.
+            if (this.animacion.easing == null) {
+                this.animacion.easing = 'Power2.easeInOut';     // This is slow at the start and end and fast in the middle.
             }
 
-            if (this.animation.yoyo == null) {
-                this.animation.yoyo = true;       // This needs to be set to true to have the animation reverse back like a yo-yo.
+            if (this.animacion.yoyo == null) {
+                this.animacion.yoyo = true;       // This needs to be set to true to have the animacion reverse back like a yo-yo.
             }
 
-            if (this.animation.stopAngle == null) {
-                this.animation._stopAngle = 0;
+            if (this.animacion.stopAngle == null) {
+                this.animacion._stopAngle = 0;
             } else {
                 // We need to set the internal to 360 minus what the user entered
                 // because the wheel spins past 0 without this it would indicate the
                 // prize on the opposite side of the wheel.
-                this.animation._stopAngle = (360 - this.animation.stopAngle);
+                this.animacion._stopAngle = (360 - this.animacion.stopAngle);
             }
 
             // The property value is the spins * 360 then plus or minus the stopAngle depending on if the rotation is clockwise or anti-clockwise.
-            this.animation.propertyValue = (this.animation.spins * 360);
+            this.animacion.propertyValue = (this.animacion.spins * 360);
 
-            if (this.animation.direction == 'anti-clockwise') {
-                this.animation.propertyValue = (0 - this.animation.propertyValue);
+            if (this.animacion.direction == 'anti-clockwise') {
+                this.animacion.propertyValue = (0 - this.animacion.propertyValue);
 
                 // Also if the value is anti-clockwise we need subtract the stopAngle (but to get the wheel to stop in the correct
                 // place this is 360 minus the stop angle as the wheel is rotating backwards).
-                this.animation.propertyValue -= (360 - this.animation._stopAngle);
+                this.animacion.propertyValue -= (360 - this.animacion._stopAngle);
             } else {
                 // Add the stopAngle to the propertyValue as the wheel must rotate around to this place and stop there.
-                this.animation.propertyValue += this.animation._stopAngle;
+                this.animacion.propertyValue += this.animacion._stopAngle;
             }
-        } else if (this.animation.type == 'custom') {
+        } else if (this.animacion.type == 'custom') {
             // Do nothing as all values must be set by the developer in the parameters
             // especially the propertyName and propertyValue.
         }
@@ -1951,18 +1951,18 @@ Ruleta.prototype.getRandomForSegment = function(segmentNumber)
 }
 
 // ====================================================================================================================
-// Class for the wheel pins.
+// Class for the wheel pines.
 // ====================================================================================================================
 function Pin(opciones)
 {
     let opcionesDefecto = {
-        'visible'        : true,     // In future there might be some functionality related to the pins even if they are not displayed.
-        'number'         : 36,       // The number of pins. These are evenly distributed around the wheel.
-        'externoRadio'    : 3,        // Radius of the pins which determines their size.
-        'rellenoStyle'      : 'grey',   // Fill colour of the pins.
-        'golpeStyle'    : 'black',  // Line colour of the pins.
-        'lineaAncho'      : 1,        // Line width of the pins.
-        'margin'         : 3,        // The space between outside edge of the wheel and the pins.
+        'visible'        : true,     // In future there might be some functionality related to the pines even if they are not displayed.
+        'number'         : 36,       // The number of pines. These are evenly distributed around the wheel.
+        'externoRadio'    : 3,        // Radius of the pines which determines their size.
+        'rellenoStyle'      : 'grey',   // Fill colour of the pines.
+        'golpeStyle'    : 'black',  // Line colour of the pines.
+        'lineaAncho'      : 1,        // Line width of the pines.
+        'margin'         : 3,        // The space between outside edge of the wheel and the pines.
         'responsivo'     : false,    // If set to true the diameter of the pin will resize when the wheel is responsivo.
     };
 
@@ -1987,26 +1987,26 @@ function Pin(opciones)
 }
 
 // ====================================================================================================================
-// Class for the wheel spinning animation which like a segment becomes a property of the wheel.
+// Class for the wheel spinning animacion which like a segment becomes a property of the wheel.
 // ====================================================================================================================
 function Animation(opciones)
 {
-    // Most of these opciones are null because the defaults are different depending on the type of animation.
+    // Most of these opciones are null because the defaults are different depending on the type of animacion.
     let opcionesDefecto = {
         'type'              : 'spinOngoing',   // For now there are only supported types are spinOngoing (continuous), spinToStop, spinAndBack, custom.
         'direction'         : 'clockwise',     // clockwise or anti-clockwise.
-        'propertyName'      : null,            // The name of the winning wheel property to be affected by the animation.
-        'propertyValue'     : null,            // The value the property is to be set to at the end of the animation.
-        'duration'          : 10,              // Duration of the animation.
-        'yoyo'              : false,           // If the animation is to reverse back again i.e. yo-yo.
-        'repeat'            : null,            // The number of times the animation is to repeat, -1 will cause it to repeat forever.
-        'easing'            : null,            // The easing to use for the animation, default is the best for spin to stop. Use Linear.easeNone for no easing.
+        'propertyName'      : null,            // The name of the winning wheel property to be affected by the animacion.
+        'propertyValue'     : null,            // The value the property is to be set to at the end of the animacion.
+        'duration'          : 10,              // Duration of the animacion.
+        'yoyo'              : false,           // If the animacion is to reverse back again i.e. yo-yo.
+        'repeat'            : null,            // The number of times the animacion is to repeat, -1 will cause it to repeat forever.
+        'easing'            : null,            // The easing to use for the animacion, default is the best for spin to stop. Use Linear.easeNone for no easing.
         'stopAngle'         : null,            // Used for spinning, the angle at which the wheel is to stop.
         'spins'             : null,            // Used for spinning, the number of complete 360 degree rotations the wheel is to do.
-        'limpiarElCanvas'    : null,            // If set to true the canvas1 will be cleared before the wheel is re-drawn, false it will not, null the animation will abide by the value of this property for the parent wheel object.
-        'callbackFinished'  : null,            // Function to callback when the animation has finished.
-        'callbackBefore'    : null,            // Function to callback before the wheel is drawn each animation loop.
-        'callbackAfter'     : null,            // Function to callback after the wheel is drawn each animation loop.
+        'limpiarElCanvas'    : null,            // If set to true the canvas1 will be cleared before the wheel is re-drawn, false it will not, null the animacion will abide by the value of this property for the parent wheel object.
+        'callbackFinished'  : null,            // Function to callback when the animacion has finished.
+        'callbackBefore'    : null,            // Function to callback before the wheel is drawn each animacion loop.
+        'callbackAfter'     : null,            // Function to callback after the wheel is drawn each animacion loop.
         'callbackSound'     : null,            // Function to callback if a sound should be triggered on change of segment or pin.
         'soundTrigger'      : 'segment'        // Sound trigger type. Default is segment which triggers when segment changes, can be pin if to trigger when pin passes the pointer.
     };
@@ -2054,9 +2054,9 @@ function Segment(opciones)
         'textoRellenoStyle'     : null,
         'textoGolpeStyle'   : null,
         'textoLineaAncho'     : null,
-        'image'             : null, // Name/path to the image
-        'imagenDireccion'    : null, // Direction of the image, can be set globally for the whole wheel.
-        'imgData'           : null  // Image object created here and loaded with image data.
+        'imagen'             : null, // Name/path to the imagen
+        'imagenDireccion'    : null, // Direction of the imagen, can be set globally for the whole wheel.
+        'imgData'           : null  // Image object created here and loaded with imagen data.
     };
 
     // Now loop through the default opciones and create properties of this class set to the value for
@@ -2081,18 +2081,18 @@ function Segment(opciones)
 
     // There are 2 additional properties which are set by the code, so need to define them here.
     // They are not in the default opciones because they are not something that should be set by the user,
-    // the values are updated every time the updateSegmentSizes() function is called.
+    // the values are updated every time the actualizarSegmentosTamano() function is called.
     this.startAngle = 0;
     this.endAngle   = 0;
 }
 
 // ====================================================================================================================
-// Changes an image for a segment by setting a callback to render the wheel once the image has loaded.
+// Changes an imagen for a segment by setting a callback to render the wheel once the imagen has loaded.
 // ====================================================================================================================
-Segment.prototype.changeImage = function(image, imagenDireccion)
+Segment.prototype.changeImage = function(imagen, imagenDireccion)
 {
-    // Change image name, blank image data.
-    this.image = image;
+    // Change imagen name, blank imagen data.
+    this.imagen = imagen;
     this.imgData = null;
 
     // Set direction.
@@ -2100,18 +2100,18 @@ Segment.prototype.changeImage = function(image, imagenDireccion)
         this.imagenDireccion = imagenDireccion;
     }
 
-    // Set imgData to a new image object, change set callback and change src (just like in wheel constructor).
+    // Set imgData to a new imagen object, change set callback and change src (just like in wheel constructor).
     ruletaYaDibujada = false;
     this.imgData = new Image();
-    this.imgData.onload = winwheelLoadedImage;
-    this.imgData.src = this.image;
+    this.imgData.onload = ruletaCargadaImagen;
+    this.imgData.src = this.imagen;
 }
 
 // ====================================================================================================================
 // Class that is created as property of the wheel. Draws line from center of the wheel out to edge of canvas1 to
 // indicate where the code thinks the pointer location is. Helpful to get alignment correct esp when using images.
 // ====================================================================================================================
-function PointerGuide(opciones)
+function PunteroGuia(opciones)
 {
     let opcionesDefecto = {
         'display'     : false,
@@ -2146,19 +2146,19 @@ function winwheelPercentToDegrees(percentValue)
 }
 
 // ====================================================================================================================
-// In order for the wheel to be re-drawn during the spin animation the function greesock calls needs to be outside
+// In order for the wheel to be re-drawn during the spin animacion the function greesock calls needs to be outside
 // of the class as for some reason it errors if try to call winwheel.draw() directly.
 // ====================================================================================================================
 function winwheelAnimationLoop()
 {
     if (ruletaParaDibujarDuranteAnimacion) {
-        // Check if the limpiarElCanvas is specified for this animation, if not or it is not false then clear the canvas1.
-        if (ruletaParaDibujarDuranteAnimacion.animation.limpiarElCanvas != false) {
+        // Check if the limpiarElCanvas is specified for this animacion, if not or it is not false then clear the canvas1.
+        if (ruletaParaDibujarDuranteAnimacion.animacion.limpiarElCanvas != false) {
             ruletaParaDibujarDuranteAnimacion.xtc.clearRect(0, 0, ruletaParaDibujarDuranteAnimacion.canvas1.width, ruletaParaDibujarDuranteAnimacion.canvas1.height);
         }
 
-        let callbackBefore = ruletaParaDibujarDuranteAnimacion.animation.callbackBefore;
-        let callbackAfter = ruletaParaDibujarDuranteAnimacion.animation.callbackAfter;
+        let callbackBefore = ruletaParaDibujarDuranteAnimacion.animacion.callbackBefore;
+        let callbackAfter = ruletaParaDibujarDuranteAnimacion.animacion.callbackAfter;
 
         // If there is a callback function which is supposed to be called before the wheel is drawn then do that.
         if (callbackBefore != null) {
@@ -2185,7 +2185,7 @@ function winwheelAnimationLoop()
 
         // If there is a sound callback then call a function which figures out if the sound should be triggered
         // and if so then call the function specified by the developer.
-        if (ruletaParaDibujarDuranteAnimacion.animation.callbackSound) {
+        if (ruletaParaDibujarDuranteAnimacion.animacion.callbackSound) {
             winwheelTriggerSound();
         }
     }
@@ -2193,7 +2193,7 @@ function winwheelAnimationLoop()
 
 // ====================================================================================================================
 // This function figures out if the callbackSound function needs to be called by working out if the segment or pin
-// has changed since the last animation loop.
+// has changed since the last animacion loop.
 // ====================================================================================================================
 function winwheelTriggerSound()
 {
@@ -2202,11 +2202,11 @@ function winwheelTriggerSound()
         ruletaParaDibujarDuranteAnimacion._lastSoundTriggerNumber = 0;
     }
 
-    let callbackSound = ruletaParaDibujarDuranteAnimacion.animation.callbackSound;
+    let callbackSound = ruletaParaDibujarDuranteAnimacion.animacion.callbackSound;
     let currentTriggerNumber = 0;
 
     // Now figure out if the sound callback should be called depending on the sound trigger type.
-    if (ruletaParaDibujarDuranteAnimacion.animation.soundTrigger == 'pin') {
+    if (ruletaParaDibujarDuranteAnimacion.animacion.soundTrigger == 'pin') {
         // So for the pin type we need to work out which pin we are between.
         currentTriggerNumber = ruletaParaDibujarDuranteAnimacion.getCurrentPinNumber();
     } else {
@@ -2230,16 +2230,16 @@ function winwheelTriggerSound()
 }
 
 // ====================================================================================================================
-// This function is called-back when the greensock animation has finished.
+// This function is called-back when the greensock animacion has finished.
 // ====================================================================================================================
 let ruletaParaDibujarDuranteAnimacion = null;  // This global is set by the winwheel class to the wheel object to be re-drawn.
 
 function winwheelStopAnimation(canCallback)
 {
-    // When the animation is stopped if canCallback is not false then try to call the callback.
-    // false can be passed in to stop the after happening if the animation has been stopped before it ended normally.
+    // When the animacion is stopped if canCallback is not false then try to call the callback.
+    // false can be passed in to stop the after happening if the animacion has been stopped before it ended normally.
     if (canCallback != false) {
-        let callback = ruletaParaDibujarDuranteAnimacion.animation.callbackFinished;
+        let callback = ruletaParaDibujarDuranteAnimacion.animacion.callbackFinished;
 
         if (callback != null) {
             // If the callback is a function then call it, otherwise evaluate the property as javascript code.
@@ -2254,21 +2254,21 @@ function winwheelStopAnimation(canCallback)
 }
 
 // ====================================================================================================================
-// Called after the image has loaded for each segment. Once all the images are loaded it then calls the draw function
-// on the wheel to render it. Used in constructor and also when a segment image is changed.
+// Called after the imagen has loaded for each segment. Once all the images are loaded it then calls the draw function
+// on the wheel to render it. Used in constructor and also when a segment imagen is changed.
 // ====================================================================================================================
 let ruletaYaDibujada = false;
 
-function winwheelLoadedImage()
+function ruletaCargadaImagen()
 {
     // Prevent multiple drawings of the wheel which ocurrs without this check due to timing of function calls.
     if (ruletaYaDibujada == false) {
         // Set to 0.
         let winwheelImageLoadCount = 0;
 
-        // Loop though all the segmentos of the wheel and check if image data loaded, if so increment counter.
+        // Loop though all the segmentos of the wheel and check if imagen data loaded, if so increment counter.
         for (let i = 1; i <= ruletaParaDibujarDuranteAnimacion.numSegmentos; i ++) {
-            // Check the image data object is not null and also that the image has completed loading by checking
+            // Check the imagen data object is not null and also that the imagen has completed loading by checking
             // that a property of it such as the height has some sort of true value.
             if ((ruletaParaDibujarDuranteAnimacion.segmentos[i].imgData != null) && (ruletaParaDibujarDuranteAnimacion.segmentos[i].imgData.height)) {
                 winwheelImageLoadCount ++;
@@ -2288,7 +2288,7 @@ function winwheelLoadedImage()
 // Called when the wheel is to resize. This is normally called from a onresize of the window, also called from onload
 // so the initial size is correct. Here we must re-size the canvas1 and work out the scalaFactor for the wheel.
 // ====================================================================================================================
-function winwheelResize()
+function ruletaRedimension()
 {
     // By default set the margin to 40px, this can be overridden if needed.
     // This is to stop the canvas1 going right to the right edge of the screen and being overlayed by a scrollbar though
