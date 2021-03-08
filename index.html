@@ -19,15 +19,12 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 -->
-<style type="text/css"> 
-    #capa1{ position:absolute; z-index:1; }
-    #capa2{ position:absolute; z-index:0; } 
-    </style>
+
 <html>
     <head>
         <title>Ruleta</title>
         <link rel="stylesheet" href="css/main.css" type="text/css" />
-        <script type="text/javascript" src="js/Winwheel3.js"></script>
+        <script type="text/javascript" src="js/Winwheel.js"></script>
         <script type="text/javascript" src="js/Winwheel2.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -278,8 +275,8 @@
             $('body').keyup(function(e) {
 		        if(e.which == 32){
 	
-// Ensure that spinning can't be clicked again while already running.
-if (ruedaRodamiento == false) {
+                    // Ensure that spinning can't be clicked again while already running.
+                    if (ruedaRodamiento == false) {
                     // Based on the power level selected adjust the number of spins for the wheel, the more times is has
                     // to rotate with the duration of the animation the quicker the wheel spins.
                     if (ruletaPoder == 1) {
@@ -483,8 +480,8 @@ if (ruedaRodamiento == false) {
             $('body').keyup(function(e) {
 		        if(e.which == 32){
 	
-// Ensure that spinning can't be clicked again while already running.
-if (wheelSpinning == false) {
+                    // Ensure that spinning can't be clicked again while already running.
+                    if (wheelSpinning == false) {
                     // Based on the power level selected adjust the number of spins for the wheel, the more times is has
                     // to rotate with the duration of the animation the quicker the wheel spins.
                     if (wheelPower == 1) {

@@ -204,7 +204,7 @@ function Ruleta(opciones, lienzoRuleta)
     // Check if the wheel is to be responsivo, if so then need to save the original size of the canvas1
     // and also check for data- attributes on the canvas1 which help control the scaling.
     if (this.responsivo) {
-        winwheelToDrawDuringAnimation = this;
+        ruletaParaDibujarDuranteAnimacion = this;
 
         // Save the original defined width and height of the canvas1, this is needed later to work out the scaling.
         this._originalCanvasWidth = this.canvas1.width;
@@ -228,8 +228,8 @@ function Ruleta(opciones, lienzoRuleta)
     } else if (this.dibujoModo == 'segmentImage') {
         // If segment image then loop though all the segmentos and load the images for them setting a callback
         // which will call the draw function of the wheel once all the images have been loaded.
-        winwheelToDrawDuringAnimation = this;
-        winhweelAlreadyDrawn = false;
+        ruletaParaDibujarDuranteAnimacion = this;
+        ruletaYaDibujada = false;
 
         for (let y = 1; y <= this.numSegmentos; y ++) {
             if (this.segmentos[y].image !== null) {
@@ -1731,7 +1731,7 @@ Ruleta.prototype.startAnimation = function()
 
         // Set this global variable to this object as an external function is required to call the draw() function on the wheel
         // each loop of the animation as Greensock cannot call the draw function directly on this class.
-        winwheelToDrawDuringAnimation = this;
+        ruletaParaDibujarDuranteAnimacion = this;
 
         // Put together the properties of the greesock animation.
         let properties = new Array(null);
@@ -1756,18 +1756,18 @@ Ruleta.prototype.stopAnimation = function(canCallback)
     // @TODO as part of multiwheel, need to work out how to stop the tween for a single wheel but allow others to continue.
 
     // We can kill the animation using our tween object.
-    if (winwheelToDrawDuringAnimation) {
+    if (ruletaParaDibujarDuranteAnimacion) {
         // If the wheel has a tween animation then kill it.
-        if (winwheelToDrawDuringAnimation.tween) {
-            winwheelToDrawDuringAnimation.tween.kill();
+        if (ruletaParaDibujarDuranteAnimacion.tween) {
+            ruletaParaDibujarDuranteAnimacion.tween.kill();
         }
 
         // Call the callback function.
         winwheelStopAnimation(canCallback);
     }
 
-    // Ensure the winwheelToDrawDuringAnimation is set to this class.
-    winwheelToDrawDuringAnimation = this;
+    // Ensure the ruletaParaDibujarDuranteAnimacion is set to this class.
+    ruletaParaDibujarDuranteAnimacion = this;
 }
 
 // ==================================================================================================================================================
@@ -2101,7 +2101,7 @@ Segment.prototype.changeImage = function(image, imagenDireccion)
     }
 
     // Set imgData to a new image object, change set callback and change src (just like in wheel constructor).
-    winhweelAlreadyDrawn = false;
+    ruletaYaDibujada = false;
     this.imgData = new Image();
     this.imgData.onload = winwheelLoadedImage;
     this.imgData.src = this.image;
@@ -2151,14 +2151,14 @@ function winwheelPercentToDegrees(percentValue)
 // ====================================================================================================================
 function winwheelAnimationLoop()
 {
-    if (winwheelToDrawDuringAnimation) {
+    if (ruletaParaDibujarDuranteAnimacion) {
         // Check if the limpiarElCanvas is specified for this animation, if not or it is not false then clear the canvas1.
-        if (winwheelToDrawDuringAnimation.animation.limpiarElCanvas != false) {
-            winwheelToDrawDuringAnimation.xtc.clearRect(0, 0, winwheelToDrawDuringAnimation.canvas1.width, winwheelToDrawDuringAnimation.canvas1.height);
+        if (ruletaParaDibujarDuranteAnimacion.animation.limpiarElCanvas != false) {
+            ruletaParaDibujarDuranteAnimacion.xtc.clearRect(0, 0, ruletaParaDibujarDuranteAnimacion.canvas1.width, ruletaParaDibujarDuranteAnimacion.canvas1.height);
         }
 
-        let callbackBefore = winwheelToDrawDuringAnimation.animation.callbackBefore;
-        let callbackAfter = winwheelToDrawDuringAnimation.animation.callbackAfter;
+        let callbackBefore = ruletaParaDibujarDuranteAnimacion.animation.callbackBefore;
+        let callbackAfter = ruletaParaDibujarDuranteAnimacion.animation.callbackAfter;
 
         // If there is a callback function which is supposed to be called before the wheel is drawn then do that.
         if (callbackBefore != null) {
@@ -2171,7 +2171,7 @@ function winwheelAnimationLoop()
         }
 
         // Call code to draw the wheel, pass in false as we never want it to clear the canvas1 as that would wipe anything drawn in the callbackBefore.
-        winwheelToDrawDuringAnimation.draw(false);
+        ruletaParaDibujarDuranteAnimacion.draw(false);
 
         // If there is a callback function which is supposed to be called after the wheel has been drawn then do that.
         if (callbackAfter != null) {
@@ -2185,7 +2185,7 @@ function winwheelAnimationLoop()
 
         // If there is a sound callback then call a function which figures out if the sound should be triggered
         // and if so then call the function specified by the developer.
-        if (winwheelToDrawDuringAnimation.animation.callbackSound) {
+        if (ruletaParaDibujarDuranteAnimacion.animation.callbackSound) {
             winwheelTriggerSound();
         }
     }
@@ -2198,25 +2198,25 @@ function winwheelAnimationLoop()
 function winwheelTriggerSound()
 {
     // If this property does not exist then add it as a property of the winwheel.
-    if (winwheelToDrawDuringAnimation.hasOwnProperty('_lastSoundTriggerNumber') == false) {
-        winwheelToDrawDuringAnimation._lastSoundTriggerNumber = 0;
+    if (ruletaParaDibujarDuranteAnimacion.hasOwnProperty('_lastSoundTriggerNumber') == false) {
+        ruletaParaDibujarDuranteAnimacion._lastSoundTriggerNumber = 0;
     }
 
-    let callbackSound = winwheelToDrawDuringAnimation.animation.callbackSound;
+    let callbackSound = ruletaParaDibujarDuranteAnimacion.animation.callbackSound;
     let currentTriggerNumber = 0;
 
     // Now figure out if the sound callback should be called depending on the sound trigger type.
-    if (winwheelToDrawDuringAnimation.animation.soundTrigger == 'pin') {
+    if (ruletaParaDibujarDuranteAnimacion.animation.soundTrigger == 'pin') {
         // So for the pin type we need to work out which pin we are between.
-        currentTriggerNumber = winwheelToDrawDuringAnimation.getCurrentPinNumber();
+        currentTriggerNumber = ruletaParaDibujarDuranteAnimacion.getCurrentPinNumber();
     } else {
         // Check on the change of segment by working out which segment we are in.
         // We can utilise the existing getIndiatedSegmentNumber function.
-        currentTriggerNumber = winwheelToDrawDuringAnimation.getIndicatedSegmentNumber();
+        currentTriggerNumber = ruletaParaDibujarDuranteAnimacion.getIndicatedSegmentNumber();
     }
 
     // If the current number is not the same as last time then call the sound callback.
-    if (currentTriggerNumber != winwheelToDrawDuringAnimation._lastSoundTriggerNumber) {
+    if (currentTriggerNumber != ruletaParaDibujarDuranteAnimacion._lastSoundTriggerNumber) {
         // If the property is a function then call it, otherwise eval the proptery as javascript code.
         if (typeof callbackSound === 'function') {
             callbackSound();
@@ -2225,27 +2225,27 @@ function winwheelTriggerSound()
         }
 
         // Also update the last sound trigger with the current number.
-        winwheelToDrawDuringAnimation._lastSoundTriggerNumber = currentTriggerNumber;
+        ruletaParaDibujarDuranteAnimacion._lastSoundTriggerNumber = currentTriggerNumber;
     }
 }
 
 // ====================================================================================================================
 // This function is called-back when the greensock animation has finished.
 // ====================================================================================================================
-let winwheelToDrawDuringAnimation = null;  // This global is set by the winwheel class to the wheel object to be re-drawn.
+let ruletaParaDibujarDuranteAnimacion = null;  // This global is set by the winwheel class to the wheel object to be re-drawn.
 
 function winwheelStopAnimation(canCallback)
 {
     // When the animation is stopped if canCallback is not false then try to call the callback.
     // false can be passed in to stop the after happening if the animation has been stopped before it ended normally.
     if (canCallback != false) {
-        let callback = winwheelToDrawDuringAnimation.animation.callbackFinished;
+        let callback = ruletaParaDibujarDuranteAnimacion.animation.callbackFinished;
 
         if (callback != null) {
             // If the callback is a function then call it, otherwise evaluate the property as javascript code.
             if (typeof callback === 'function') {
                 // Pass back the indicated segment as 99% of the time you will want to know this to inform the user of their prize.
-                callback(winwheelToDrawDuringAnimation.getIndicatedSegment());
+                callback(ruletaParaDibujarDuranteAnimacion.getIndicatedSegment());
             } else {
                 eval(callback);
             }
@@ -2257,29 +2257,29 @@ function winwheelStopAnimation(canCallback)
 // Called after the image has loaded for each segment. Once all the images are loaded it then calls the draw function
 // on the wheel to render it. Used in constructor and also when a segment image is changed.
 // ====================================================================================================================
-let winhweelAlreadyDrawn = false;
+let ruletaYaDibujada = false;
 
 function winwheelLoadedImage()
 {
     // Prevent multiple drawings of the wheel which ocurrs without this check due to timing of function calls.
-    if (winhweelAlreadyDrawn == false) {
+    if (ruletaYaDibujada == false) {
         // Set to 0.
         let winwheelImageLoadCount = 0;
 
         // Loop though all the segmentos of the wheel and check if image data loaded, if so increment counter.
-        for (let i = 1; i <= winwheelToDrawDuringAnimation.numSegmentos; i ++) {
+        for (let i = 1; i <= ruletaParaDibujarDuranteAnimacion.numSegmentos; i ++) {
             // Check the image data object is not null and also that the image has completed loading by checking
             // that a property of it such as the height has some sort of true value.
-            if ((winwheelToDrawDuringAnimation.segmentos[i].imgData != null) && (winwheelToDrawDuringAnimation.segmentos[i].imgData.height)) {
+            if ((ruletaParaDibujarDuranteAnimacion.segmentos[i].imgData != null) && (ruletaParaDibujarDuranteAnimacion.segmentos[i].imgData.height)) {
                 winwheelImageLoadCount ++;
             }
         }
 
         // If number of images loaded matches the segmentos then all the images for the wheel are loaded.
-        if (winwheelImageLoadCount == winwheelToDrawDuringAnimation.numSegmentos) {
+        if (winwheelImageLoadCount == ruletaParaDibujarDuranteAnimacion.numSegmentos) {
             // Call draw function to render the wheel.
-            winhweelAlreadyDrawn = true;
-            winwheelToDrawDuringAnimation.draw();
+            ruletaYaDibujada = true;
+            ruletaParaDibujarDuranteAnimacion.draw();
         }
     }
 }
@@ -2296,45 +2296,45 @@ function winwheelResize()
     let margin = 40;
 
     // If a value has been specified for this then update the margin to it.
-    if (typeof(winwheelToDrawDuringAnimation._responsiveMargin) !== 'undefined') {
-        margin = winwheelToDrawDuringAnimation._responsiveMargin;
+    if (typeof(ruletaParaDibujarDuranteAnimacion._responsiveMargin) !== 'undefined') {
+        margin = ruletaParaDibujarDuranteAnimacion._responsiveMargin;
     }
 
     // Get the current width and also optional min and max width properties.
     let width = window.innerWidth - margin;
-    let minWidth = winwheelToDrawDuringAnimation._responsiveMinWidth;
-    let minHeight = winwheelToDrawDuringAnimation._responsiveMinHeight;
+    let minWidth = ruletaParaDibujarDuranteAnimacion._responsiveMinWidth;
+    let minHeight = ruletaParaDibujarDuranteAnimacion._responsiveMinHeight;
 
     // Adjust the width as it cannot be larger than the original size of the wheel and we don't want
     // the canvas1 and wheel inside it to be too small so check the min width.
     if (width < minWidth) {
         width = minWidth;
-    } else if (width > winwheelToDrawDuringAnimation._originalCanvasWidth) {
-        width = winwheelToDrawDuringAnimation._originalCanvasWidth;
+    } else if (width > ruletaParaDibujarDuranteAnimacion._originalCanvasWidth) {
+        width = ruletaParaDibujarDuranteAnimacion._originalCanvasWidth;
     }
 
     // Work out the percent the new width is smaller than the original width.
-    let percent = (width / winwheelToDrawDuringAnimation._originalCanvasWidth);
+    let percent = (width / ruletaParaDibujarDuranteAnimacion._originalCanvasWidth);
 
     // Set the canvas1 width to the width to a percentage of the original width.
-    winwheelToDrawDuringAnimation.canvas1.width = (winwheelToDrawDuringAnimation._originalCanvasWidth * percent);
+    ruletaParaDibujarDuranteAnimacion.canvas1.width = (ruletaParaDibujarDuranteAnimacion._originalCanvasWidth * percent);
 
     // Scale the height if we are supposed to but ensure it does not go below the minHeight.
-    if (winwheelToDrawDuringAnimation._responsiveScaleHeight) {
-        let height = (winwheelToDrawDuringAnimation._originalCanvasHeight * percent);
+    if (ruletaParaDibujarDuranteAnimacion._responsiveScaleHeight) {
+        let height = (ruletaParaDibujarDuranteAnimacion._originalCanvasHeight * percent);
 
         if (height < minHeight) {
             height = minHeight;
-        } else if (height > winwheelToDrawDuringAnimation._originalCanvasHeight) {
-            height = winwheelToDrawDuringAnimation._originalCanvasHeight;
+        } else if (height > ruletaParaDibujarDuranteAnimacion._originalCanvasHeight) {
+            height = ruletaParaDibujarDuranteAnimacion._originalCanvasHeight;
         }
 
-        winwheelToDrawDuringAnimation.canvas1.height = height;
+        ruletaParaDibujarDuranteAnimacion.canvas1.height = height;
     }
 
     // OK so now we have the percent, set the scalaFactor of the wheel to this.
-    winwheelToDrawDuringAnimation.scalaFactor = percent;
+    ruletaParaDibujarDuranteAnimacion.scalaFactor = percent;
 
     // Now re-draw the wheel to ensure the changes in size are rendered.
-    winwheelToDrawDuringAnimation.draw();
+    ruletaParaDibujarDuranteAnimacion.draw();
 }
