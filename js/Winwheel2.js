@@ -325,7 +325,7 @@ Ruleta.prototype.draw = function(limpiarElCanvas)
             // If we are to draw the text, do so before the overlay is drawn
             // as this allows the overlay to be used to create some interesting effects.
             if (this.dibujarTexto == true) {
-                this.drawSegmentText();
+                this.dibujarSegmentoTexto();
             }
 
             // If imagen overlay is true then call function to draw the segmentos over the top of the imagen.
@@ -340,7 +340,7 @@ Ruleta.prototype.draw = function(limpiarElCanvas)
             // If we are to draw the text, do so before the overlay is drawn
             // as this allows the overlay to be used to create some interesting effects.
             if (this.dibujarTexto == true) {
-                this.drawSegmentText();
+                this.dibujarSegmentoTexto();
             }
 
             // If imagen overlay is true then call function to draw the segmentos over the top of the imagen.
@@ -354,7 +354,7 @@ Ruleta.prototype.draw = function(limpiarElCanvas)
 
             // The text is drawn on top.
             if (this.dibujarTexto == true) {
-                this.drawSegmentText();
+                this.dibujarSegmentoTexto();
             }
         }
 
@@ -710,7 +710,7 @@ Ruleta.prototype.drawSegments = function()
 // ====================================================================================================================
 // This draws the text on the segmentos using the specified text opciones.
 // ====================================================================================================================
-Ruleta.prototype.drawSegmentText = function()
+Ruleta.prototype.dibujarSegmentoTexto = function()
 {
     // Again only draw the text if have a canvas1 context.
     if (this.xtc) {
