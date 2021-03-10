@@ -38,7 +38,7 @@ function Ruleta(opciones, lienzoRuleta)
         'externoRadio'       : null,         // The radius of the outside of the wheel. If left null it will be set to the radius from the center of the canvas1 to its shortest side.
         'internoRadio'       : 0,            // Normally 0. Allows the creation of rings / doughnuts if set to value > 0. Should not exceed outer radius.
         'numSegmentos'       : 1,            // The number of segmentos. Need at least one to draw.
-        'dibujoModo'          : 'code',       // The draw mode. Possible values are 'code', 'imagen', 'segmentImage'. Default is code which means segmentos are drawn using canvas1 arc() function.
+        'dibujoModo'          : 'code',       // The draw mode. Possible values are 'code', 'imagen', 'segmentoImagen'. Default is code which means segmentos are drawn using canvas1 arc() function.
         'rotacionAngulo'     : 0,            // The angle of rotation of the wheel - 0 is 12 o'clock position.
         'textoFuenteFamilia'    : 'Arial',      // Segment text font, you should use web safe fonts.
         'textoFuenteTamano'      : 20,           // Size of the segment text.
@@ -58,7 +58,7 @@ function Ruleta(opciones, lienzoRuleta)
         'dibujarTexto'          : true,         // By default the text of the segmentos is rendered in code dibujoModo and not in imagen dibujoModo.
         'punteroAngulo'      : 270,            // Location of the pointer that indicates the prize when wheel has stopped. Default is 0 so the (corrected) 12 o'clock position.
         'ruedaImagen'        : null,         // Must be set to imagen data in order to use imagen to draw the wheel - dibujoModo must also be 'imagen'.
-        'imagenDireccion'    : 'N',          // Used when dibujoModo is segmentImage. Default is north, can also be (E)ast, (S)outh, (W)est.
+        'imagenDireccion'    : 'N',          // Used when dibujoModo is segmentoImagen. Default is north, can also be (E)ast, (S)outh, (W)est.
         'responsivo'        : false,        // If set to true the wheel will resize when the window first loads and also onResize.
         'scalaFactor'       : 1,            // Set by the responsivo function. Used in many calculations to scale the wheel.
     };
@@ -162,7 +162,7 @@ function Ruleta(opciones, lienzoRuleta)
 
     // ------------------------------------------
     // If the dibujoModo is imagen change some defaults provided a value has not been specified.
-    if ((this.dibujoModo == 'imagen') || (this.dibujoModo == 'segmentImage')) {
+    if ((this.dibujoModo == 'imagen') || (this.dibujoModo == 'segmentoImagen')) {
         // Remove grey rellenoStyle.
         if (typeof(opciones['rellenoStyle']) === 'undefined') {
             this.rellenoStyle = null;
@@ -225,7 +225,7 @@ function Ruleta(opciones, lienzoRuleta)
     // Finally if lienzoRuleta is true then call function to render the wheel, segment text, overlay etc.
     if (lienzoRuleta == true) {
         this.draw(this.limpiarElCanvas);
-    } else if (this.dibujoModo == 'segmentImage') {
+    } else if (this.dibujoModo == 'segmentoImagen') {
         // If segment imagen then loop though all the segmentos and load the images for them setting a callback
         // which will call the draw function of the wheel once all the images have been loaded.
         ruletaParaDibujarDuranteAnimacion = this;
@@ -331,11 +331,11 @@ Ruleta.prototype.draw = function(limpiarElCanvas)
             // If imagen overlay is true then call function to draw the segmentos over the top of the imagen.
             // This is useful during development to check alignment between where the code thinks the segmentos are and where they appear on the imagen.
             if (this.imageCubrir == true) {
-                this.drawSegments();
+                this.dibujarSegmentos();
             }
-        } else if (this.dibujoModo == 'segmentImage') {
+        } else if (this.dibujoModo == 'segmentoImagen') {
             // Draw the wheel by rendering the imagen for each segment.
-            this.drawSegmentImages();
+            this.dibujarSegmentoImagenes();
 
             // If we are to draw the text, do so before the overlay is drawn
             // as this allows the overlay to be used to create some interesting effects.
@@ -346,11 +346,11 @@ Ruleta.prototype.draw = function(limpiarElCanvas)
             // If imagen overlay is true then call function to draw the segmentos over the top of the imagen.
             // This is useful during development to check alignment between where the code thinks the segmentos are and where they appear on the imagen.
             if (this.imageCubrir == true) {
-                this.drawSegments();
+                this.dibujarSegmentos();
             }
         } else {
             // The default operation is to draw the segmentos using code via the canvas1 arc() method.
-            this.drawSegments();
+            this.dibujarSegmentos();
 
             // The text is drawn on top.
             if (this.dibujarTexto == true) {
@@ -362,13 +362,13 @@ Ruleta.prototype.draw = function(limpiarElCanvas)
         if (typeof this.pines !== 'undefined') {
             // If they are to be visible then draw them.
             if (this.pines.visible == true) {
-                this.drawPins();
+                this.dibujarPines();
             }
         }
 
         // If pointer guide is display property is set to true then call function to draw the pointer guide.
         if (this.punteroGuia.display == true) {
-            this.drawPointerGuide();
+            this.dibujarPunteroGuia();
         }
     }
 }
@@ -376,7 +376,7 @@ Ruleta.prototype.draw = function(limpiarElCanvas)
 // ====================================================================================================================
 // Draws the pines around the outside of the wheel.
 // ====================================================================================================================
-Ruleta.prototype.drawPins = function()
+Ruleta.prototype.dibujarPines = function()
 {
     if ((this.pines) && (this.pines.number)) {
         // Get scaled centroX and centroY to use in the code below so pines will draw responsively too.
@@ -506,7 +506,7 @@ Ruleta.prototype.dibujarRuedaImagen = function()
 // ====================================================================================================================
 // This function draws the wheel on the canvas1 by rendering the imagen for each segment.
 // ====================================================================================================================
-Ruleta.prototype.drawSegmentImages = function()
+Ruleta.prototype.dibujarSegmentoImagenes = function()
 {
     // Again check have context in case this function was called directly and not via draw function.
     if (this.xtc) {
@@ -612,7 +612,7 @@ Ruleta.prototype.drawSegmentImages = function()
 // ====================================================================================================================
 // This function draws the wheel on the page by rendering the segmentos on the canvas1.
 // ====================================================================================================================
-Ruleta.prototype.drawSegments = function()
+Ruleta.prototype.dibujarSegmentos = function()
 {
     // Again check have context in case this function was called directly and not via draw function.
     if (this.xtc) {
