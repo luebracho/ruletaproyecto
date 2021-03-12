@@ -1739,8 +1739,8 @@ Ruleta.prototype.iniciarAnimacion = function()
         properties['yoyo']       = this.animacion.yoyo;     // Set others.
         properties['repeat']     = this.animacion.repeat;
         properties['ease']       = this.animacion.easing;
-        properties['onUpdate']   = winwheelAnimationLoop;   // Call function to re-draw the canvas1.
-        properties['onComplete'] = winwheelStopAnimation;   // Call function to perform actions when animacion has finished.
+        properties['onUpdate']   = ruletaBucleAnimacion;   // Call function to re-draw the canvas1.
+        properties['onComplete'] = ruletaDetenerAnimacion;   // Call function to perform actions when animacion has finished.
 
         // Do the tween animacion passing the properties from the animacion object as an array of llave => value pairs.
         // Keep reference to the tween object in the wheel as that allows pausing, resuming, and stopping while the animacion is still running.
@@ -1763,7 +1763,7 @@ Ruleta.prototype.detenerAnimacion = function(canCallback)
         }
 
         // Call the callback function.
-        winwheelStopAnimation(canCallback);
+        ruletaDetenerAnimacion(canCallback);
     }
 
     // Ensure the ruletaParaDibujarDuranteAnimacion is set to this class.
@@ -2149,7 +2149,7 @@ function winwheelPercentToDegrees(percentValue)
 // In order for the wheel to be re-drawn during the spin animacion the function greesock calls needs to be outside
 // of the class as for some reason it errors if try to call winwheel.draw() directly.
 // ====================================================================================================================
-function winwheelAnimationLoop()
+function ruletaBucleAnimacion()
 {
     if (ruletaParaDibujarDuranteAnimacion) {
         // Check if the limpiarElCanvas is specified for this animacion, if not or it is not false then clear the canvas1.
@@ -2234,7 +2234,7 @@ function winwheelTriggerSound()
 // ====================================================================================================================
 let ruletaParaDibujarDuranteAnimacion = null;  // This global is set by the winwheel class to the wheel object to be re-drawn.
 
-function winwheelStopAnimation(canCallback)
+function ruletaDetenerAnimacion(canCallback)
 {
     // When the animacion is stopped if canCallback is not false then try to call the callback.
     // false can be passed in to stop the after happening if the animacion has been stopped before it ended normally.
