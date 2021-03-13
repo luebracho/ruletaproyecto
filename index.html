@@ -49,13 +49,15 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- 1era Ruleta-->
-                <div class="col-sm-6 the_wheel" style="" align="center" valign="center" id="">
-                    <canvas id="canvas" width="315" height="418" style="">
+                <div class="col-sm-6" style="" align="center" valign="center" id="">
+                    <img src="img/Marcoruleta.png" class="" style="position: absolute; z-index: 1; margin-top: -190px; margin-left: -448px;">
+                    <canvas id="canvas" width="620" height="620" style="position: absolute; z-index: 0; margin-top: -150px; margin-left: -400px;">
                         
                     </canvas>
                 </div>
                 <!-- 2da Ruleta-->
-                <div class="col-sm-6 la_rueda" style="" align="center" valign="center" id="">
+                <div class="col-sm-6" style="" align="center" valign="center" id="">
+                    <img src="img/Marcoruleta2.png" class="" style="position: absolute; z-index: 1; margin-top: 58px; margin-left: 5px;">
                     <canvas id="canvas1" width="315" height="418" style="">
                         
                     </canvas>
@@ -314,7 +316,7 @@
                     // Create new wheel object specifying the parameters at creation time.
                     let theWheel = new Winwheel({
                     'numSegments'       : 16,         // Specify number of segments.
-                    'outerRadius'       : 150,       // Set outer radius so wheel fits inside the background.
+                    'outerRadius'       : 300,       // Set outer radius so wheel fits inside the background.
                     'drawMode'          : 'image',   // drawMode must be set to image.
                     'drawText'          : true,      // Need to set this true if want code-drawn text on image wheels.
                     'textFontSize'      : 12,        // Set text options as desired.

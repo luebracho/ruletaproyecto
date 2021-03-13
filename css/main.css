@@ -22,8 +22,6 @@ div.the_wheel
     background-image: url(../img/Marcoruleta.png);
     background-position: center;
     background-repeat: no-repeat;
-    position: relative;
-    z-index: 1;
 }
 
 div.la_rueda
