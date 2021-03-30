@@ -1,6 +1,6 @@
 <?php
 //iniciamos con el backend
-
+include_once "conexion.php";
 
 
 
@@ -37,6 +37,8 @@
         </div>
     </div>
     <body onClick="iniciarRueda(); startSpin();">
+    <!-- inicio de formulario -->
+<form name="f1" id="f1" method="POST" action="index.php">
         <div class="container-fluid">
             <div class="row">
                 <!-- 1era Ruleta-->
@@ -249,10 +251,13 @@
             // Called when the spin animation has finished by the callback feature of the wheel because I specified callback in the parameters.
             // note the indicated segment is passed in as a parmeter as 99% of the time you will want to know this to inform the user of their prize.
             // -------------------------------------------------------
-            function alertaPremio(SegmentoIndicado)
+            function alertaPremio()
             {
+                // Get the segment indicated by the pointer on the wheel background which is at 0 degrees.
+                var winningSegmento = laRueda.getIndicatedSegment();
+                
                 // Do basic alert of the segment text. You would probably want to do something more interesting with this information.
-                alert("Valor " + SegmentoIndicado.text);
+              
             }
 
             $('body').keyup(function(e) {
@@ -411,7 +416,6 @@
                     // -------------------------------------------------------
                     function startSpin()
                     {
-                    console.log("funciona")
                     // Ensure that spinning can't be clicked again while already running.
                     if (wheelSpinning == false) {
                         // Based on the power level selected adjust the number of spins for the wheel, the more times is has
@@ -434,6 +438,12 @@
                         // Set to true so that power can't be changed and spin button re-enabled during
                         // the current animation. The user will have to reset before spinning again.
                         wheelSpinning = true;
+
+                        
+                        document.getElementById("f1t1").focus();
+                            
+
+                        
                     }
                     }
 
@@ -451,19 +461,26 @@
                     document.getElementById('pw3').className = "10";
 
                     wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
+
                     }
 
                     // -------------------------------------------------------
                     // Called when the spin animation has finished by the callback feature of the wheel because I specified callback in the parameters.
                     // note the indicated segment is passed in as a parmeter as 99% of the time you will want to know this to inform the user of their prize.
                     // -------------------------------------------------------
-                    function alertPrize(indicatedSegment)
-                    <?php 
-                    $ruleta = "indicatedSegment.text";
-                    ?>
+                    function alertPrize()
                     {
-                    // Do basic alert of the segment text. You would probably want to do something more interesting with this information.
-                    alert("Total " + <?php echo $ruleta;?>);
+                        // Get the segment indicated by the pointer on the wheel background which is at 0 degrees.
+                        var winningSegment = theWheel.getIndicatedSegment();
+                        var winningSegmento = laRueda.getIndicatedSegment();
+                        var total = winningSegment.text*winningSegmento.text;
+                       console.log(winningSegment.text)
+                    
+
+                    document.f1.f1t1.value = winningSegmento.text;
+                    document.f1.f1t2.value = winningSegment.text;
+                        // Do basic alert of the segment text. You would probably want to do something more interesting with this information.
+                        
                     }
 
                     $('body').keyup(function(e) {
@@ -478,10 +495,14 @@
                     document.getElementById('pw3').className = "10";
 
                     wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
-
-
+                    
+                    
                     }
                     });
+
+              
+
+
                     $('body').keyup(function(e) {
                     if(e.which == 32){
 
@@ -512,11 +533,44 @@
 
                     }
                     }); 
-            
-            
-
+                    
+                    
 
         </script>
-     
+        <script>
+  function limpiarFormulario() {
+    document.getElementById("f1").reset();
+  }
+</script>
+        <input type="text" name="f1t1" id="f1t1" style="position: absolute; z-index: 1; margin-top: -830px; margin-left: 550px;">
+        <input type="text" name="f1t2" id="f1t2" hidden> <br>
+        <input type="button" onclick="limpiarFormulario()" value="Limpiar formulario" style="position: absolute; z-index: 1; margin-top: -830px; margin-left: 550px;">
+        <button type="submit" id="boton" class="btn btn-primary" style="position: absolute; z-index: 1; margin-top: -830px; margin-left: 550px;">Submit</button>
+
+</form>
+
+
+
         </body>
         </html>
+        <script>
+        <?php
+
+            $ruleta = $_POST['f1t1'];
+            $wheel = $_POST['f1t2'];
+            $total = $ruleta * $wheel;
+
+
+            $sql = "INSERT INTO historico (ruleta, wheel, total, descripcion)
+            VALUES ('$ruleta', '$wheel', '$total', '$wheel')";
+
+            if ($conn->query($sql) === TRUE) {
+            echo "New record created successfully";
+            } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+            }
+
+            $conn->close();
+
+        ?>
+        </script>
