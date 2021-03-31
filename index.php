@@ -32,7 +32,7 @@ include_once "conexion.php";
     <div class="">
         <div class="row">
             <div class="col-sm-6" style="" align="center" valign="center" id="">
-                <img class="img-fluid mx-auto d-block" src="https://i.ibb.co/yQfPbHC/header.png">
+                <img class="img-fluid mx-auto d-block" style="max-width:50%;width:auto;height:auto;" src="https://i.ibb.co/yQfPbHC/header.png" >
             </div>
         </div>
     </div>
@@ -43,15 +43,15 @@ include_once "conexion.php";
             <div class="row">
                 <!-- 1era Ruleta-->
                 <div class="col-sm-6" style="" align="center" valign="center" id="">
-                    <img src="img/Marcoruleta.png" class="" style="position: absolute; z-index: 1; margin-top: -830px; margin-left: 550px;">
-                    <canvas id="canvas" width="1240" height="1240" style="position: absolute; z-index: 0; margin-top: -800px; margin-left: 600px;">
+                    <img src="img/Marcoruleta.png" class="" style="position: absolute; z-index: 1; margin-top: -480px; margin-left: 550px;">
+                    <canvas id="canvas" width="1240" height="1240" style="position: absolute; z-index: 0; margin-top: -450px; margin-left: 600px;">
                         
                     </canvas>
                 </div>
                 <!-- 2da Ruleta-->
                 <div class="col-sm-6" style="" align="center" valign="center" id="">
-                    <img src="img/Marcoruleta2.png" class="" style="position: absolute; z-index: 1; margin-top: -58px; margin-left: -1100px;">
-                    <canvas id="canvas1" width="315" height="418" style="position: absolute; z-index: 0; margin-top: -120px; margin-left: -1100px;">
+                    <img src="img/Marcoruleta2.png" class="" style="position: absolute; z-index: 1; margin-top: -58px; margin-left: -1300px;">
+                    <canvas id="canvas1" width="700" height="700" style="position: absolute; z-index: 0; margin-top: -80px; margin-left: -1300px;">
                         
                     </canvas>
                 </div>
@@ -112,7 +112,7 @@ include_once "conexion.php";
             // Create new wheel object specifying the parameters at creation time.
             let laRueda = new Ruleta({
                 'numSegmentos'       : 6,         // Specify number of segments.
-                'externoRadio'       : 120,       // Set outer radius so wheel fits inside the background.
+                'externoRadio'       : 270,       // Set outer radius so wheel fits inside the background.
                 'dibujoModo'          : 'imagen',   // dibujoModo must be set to image.
                 'dibujarTexto'          : true,      // Need to set this true if want code-drawn text on image wheels.
                 'textoFuenteTamano'      : 12,        // Set text options as desired.
@@ -126,12 +126,12 @@ include_once "conexion.php";
                 'textoRellenoStyle'     : 'white',
                 'segmentos'     :                // Define segments.
                 [
-                   {'text' : '1'},
-                   {'text' : '2'},
-                   {'text' : '3'},
-                   {'text' : '4'},
                    {'text' : '5'},
-                   {'text' : '6'}
+                   {'text' : '150'},
+                   {'text' : '80'},
+                   {'text' : '50'},
+                   {'text' : '20'},
+                   {'text' : '10'}
                 ],
                 'animacion' :                   // Specify the animation to use.
                 {
@@ -545,7 +545,7 @@ include_once "conexion.php";
         <input type="text" name="f1t1" id="f1t1" style="position: absolute; z-index: 1; margin-top: -830px; margin-left: 550px;">
         <input type="text" name="f1t2" id="f1t2" hidden> <br>
         <input type="button" onclick="limpiarFormulario()" value="Limpiar formulario" style="position: absolute; z-index: 1; margin-top: -830px; margin-left: 550px;">
-        <button type="submit" id="boton" class="btn btn-primary" style="position: absolute; z-index: 1; margin-top: -830px; margin-left: 550px;">Submit</button>
+        <button type="submit" id="boton" class="btn btn-primary" style="position: absolute; z-index: 0; margin-top: -120px; margin-left: -1100px;">Submit</button>
 
 </form>
 
