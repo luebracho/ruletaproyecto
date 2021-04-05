@@ -1,16 +1,20 @@
-<?php
-echo "<script language='javascript'>
-	var la_cantidad;
-	la_cantidad=prompt('Introduce la cantidad',1);
-     </script> ";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+       <!-- jQuery library -->
+       <script type="text/javascript" src="js/form.js"></script>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+       
  
-//Ya tenemos capturada la variable con javascript
- 
-echo "<form action=$_SERVER[PHP_SELF] method=post name=enviar>
-              <input type=hidden name=var_php></form>";
- 
-echo "<script language='javascript'>
-              document.enviar.var_php.value=la_cantidad;
-              document.enviar.submit();
-</script>";
-?>
+</head>
+<body>
+Nombre: <input type="text" id="nombre"> <br>
+Mensaje: <input type="text" id="mensaje"> <br>
+<input type="button" name="enviar" value="Enviar" href="javascript:;" onclick="Hola($('#nombre').val(),$('#mensaje').val());">
+<div id="resultado"></div>
+</body>
+</html>

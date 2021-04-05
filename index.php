@@ -1,10 +1,4 @@
-<?php
-//iniciamos con el backend
-include_once "conexion.php";
 
-
-
-?>
 
 
 <html>
@@ -14,10 +8,16 @@ include_once "conexion.php";
         <script type="text/javascript" src="js/Winwheel.js"></script>
         <script type="text/javascript" src="js/Winwheel2.js"></script>
         <script type="text/javascript" src="js/TweenMax.js"></script>
+        <script type="text/javascript" src="js/form.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <style>
             body {
                   /* The image used */
@@ -38,7 +38,7 @@ include_once "conexion.php";
     </div>
     <body onClick="iniciarRueda(); startSpin();">
     <!-- inicio de formulario -->
-<form name="f1" id="f1" method="POST" action="index.php">
+
         <div class="container-fluid">
             <div class="row">
                 <!-- 1era Ruleta-->
@@ -95,7 +95,7 @@ include_once "conexion.php";
                                         </tr>
                                     </table>
                                     <br />
-                                    <button type="button" class="btn btn-danger" id="spin_button" alt="Spin" onClick="iniciarRueda();" hidden>Jugar</button>
+                                    <button type="button" class="btn btn-danger" id="" alt="Spin" onClick="iniciarRueda();" hidden>Jugar</button>
                                     
                                     <a href="#" onClick="reiniciarRueda(); return false;" hidden>Jugar de nuevo</a>
                                 </div>
@@ -206,6 +206,7 @@ include_once "conexion.php";
             // -------------------------------------------------------
             function iniciarRueda()
             {
+                laRueda.rotacionAngulo = 0; 
                 // Ensure that spinning can't be clicked again while already running.
                 if (ruedaRodamiento == false) {
                     // Based on the power level selected adjust the number of spins for the wheel, the more times is has
@@ -237,8 +238,8 @@ include_once "conexion.php";
             function reiniciarRueda()
             {
                 laRueda.detenerAnimacion(false);  // Stop the animation, false as param so does not call callback function.
-                laRueda.rotacionAngulo = 0;     // Re-set the wheel angle to 0 degrees.
-                laRueda.draw();                // Call draw to render changes to the wheel.
+                     // Re-set the wheel angle to 0 degrees.
+                                // Call draw to render changes to the wheel.
 
                 document.getElementById('pd1').className = "10";  // Remove all colours from the power level indicators.
                 document.getElementById('pd2').className = "10";
@@ -264,8 +265,8 @@ include_once "conexion.php";
 		        if(e.which == 13){
 	
                 laRueda.detenerAnimacion(false);  // Stop the animation, false as param so does not call callback function.
-                laRueda.rotacionAngulo = 0;     // Re-set the wheel angle to 0 degrees.
-                laRueda.draw();                // Call draw to render changes to the wheel.
+                    // Re-set the wheel angle to 0 degrees.
+                               // Call draw to render changes to the wheel.
 
                 document.getElementById('pd1').className = "10";  // Remove all colours from the power level indicators.
                 document.getElementById('pd2').className = "10";
@@ -416,6 +417,7 @@ include_once "conexion.php";
                     // -------------------------------------------------------
                     function startSpin()
                     {
+                        theWheel.rotationAngle = 0;
                     // Ensure that spinning can't be clicked again while already running.
                     if (wheelSpinning == false) {
                         // Based on the power level selected adjust the number of spins for the wheel, the more times is has
@@ -453,8 +455,8 @@ include_once "conexion.php";
                     function resetWheel()
                     {
                     theWheel.stopAnimation(false);  // Stop the animation, false as param so does not call callback function.
-                    theWheel.rotationAngle = 0;     // Re-set the wheel angle to 0 degrees.
-                    theWheel.draw();                // Call draw to render changes to the wheel.
+                        // Re-set the wheel angle to 0 degrees.
+                                   // Call draw to render changes to the wheel.
 
                     document.getElementById('pw1').className = "10";  // Remove all colours from the power level indicators.
                     document.getElementById('pw2').className = "10";
@@ -474,21 +476,23 @@ include_once "conexion.php";
                         var winningSegment = theWheel.getIndicatedSegment();
                         var winningSegmento = laRueda.getIndicatedSegment();
                         var total = winningSegment.text*winningSegmento.text;
-                       console.log(winningSegment.text)
+                       
                     
 
                     document.f1.f1t1.value = winningSegmento.text;
                     document.f1.f1t2.value = winningSegment.text;
+                    document.f1.f1t3.value = winningSegment.text*winningSegmento.text;
+
                         // Do basic alert of the segment text. You would probably want to do something more interesting with this information.
-                        
+                        document.getElementById("myCheck").click();
                     }
 
                     $('body').keyup(function(e) {
                     if(e.which == 13){
 
                     theWheel.stopAnimation(false);  // Stop the animation, false as param so does not call callback function.
-                    theWheel.rotationAngle = 0;     // Re-set the wheel angle to 0 degrees.
-                    theWheel.draw();                // Call draw to render changes to the wheel.
+                         // Re-set the wheel angle to 0 degrees.
+                                    // Call draw to render changes to the wheel.
 
                     document.getElementById('pw1').className = "10";  // Remove all colours from the power level indicators.
                     document.getElementById('pw2').className = "10";
@@ -542,13 +546,14 @@ include_once "conexion.php";
     document.getElementById("f1").reset();
   }
 </script>
-        <input type="text" name="f1t1" id="f1t1" style="position: absolute; z-index: 1; margin-top: -830px; margin-left: 550px;">
-        <input type="text" name="f1t2" id="f1t2" hidden> <br>
-        <input type="button" onclick="limpiarFormulario()" value="Limpiar formulario" style="position: absolute; z-index: 1; margin-top: -830px; margin-left: 550px;">
-        <button type="submit" id="boton" class="btn btn-primary" style="position: absolute; z-index: 0; margin-top: -120px; margin-left: -1100px;">Submit</button>
 
-</form>
 
+
+<?php
+
+include_once "modelprize.php";
+
+?>
 
 
         </body>
