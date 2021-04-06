@@ -5,7 +5,7 @@
   </button>
 
   <!-- The Modal -->
-  <div class="modal fade" id="myModal">
+  <div class="modal fade" id="myModal" ">
     <div class="modal-dialog">
       <div class="modal-content">
       
@@ -32,7 +32,7 @@
                         <input type="text" name="f1t3" id="f1t3">
                     </div>
 
-                    <input class="close" data-dismiss="modal" type="button" name="enviar" value="Enviar" href="javascript:;" onclick="Hola($('#f1t1').val(),$('#f1t2').val(),$('#f1t3').val());">
+                    <input id="boton" class="close" data-dismiss="modal" type="button" name="enviar" value="Enviar" href="javascript:;" onclick="Hola($('#f1t1').val(),$('#f1t2').val(),$('#f1t3').val());">
             </form>
             <!--<div id="resultado"></div> -->
         </div>

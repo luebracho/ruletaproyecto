@@ -263,6 +263,8 @@
 
             $('body').keyup(function(e) {
 		        if(e.which == 13){
+                    $('#boton').click();
+
 	
                 laRueda.detenerAnimacion(false);  // Stop the animation, false as param so does not call callback function.
                     // Re-set the wheel angle to 0 degrees.
@@ -489,6 +491,7 @@
 
                     $('body').keyup(function(e) {
                     if(e.which == 13){
+                    
 
                     theWheel.stopAnimation(false);  // Stop the animation, false as param so does not call callback function.
                          // Re-set the wheel angle to 0 degrees.
@@ -501,8 +504,13 @@
                     wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
                     
                     
+                    
                     }
+
                     });
+
+                   
+
 
               
 
