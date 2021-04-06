@@ -95,7 +95,7 @@
                                         </tr>
                                     </table>
                                     <br />
-                                    <button type="button" class="btn btn-danger" id="" alt="Spin" onClick="iniciarRueda();" hidden>Jugar</button>
+                                    <button type="button" class="btn btn-danger" id="spin_button" alt="Spin" onClick="iniciarRueda();" hidden>Jugar</button>
                                     
                                     <a href="#" onClick="reiniciarRueda(); return false;" hidden>Jugar de nuevo</a>
                                 </div>

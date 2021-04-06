@@ -32,7 +32,7 @@
                         <input type="text" name="f1t3" id="f1t3">
                     </div>
 
-                    <input type="button" name="enviar" value="Enviar" href="javascript:;" onclick="Hola($('#f1t1').val(),$('#f1t2').val(),$('#f1t3').val());">
+                    <input class="close" data-dismiss="modal" type="button" name="enviar" value="Enviar" href="javascript:;" onclick="Hola($('#f1t1').val(),$('#f1t2').val(),$('#f1t3').val());">
             </form>
             <!--<div id="resultado"></div> -->
         </div>
